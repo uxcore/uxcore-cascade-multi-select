@@ -70,7 +70,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 
 ## Props
 
-| 选项 | 描述 | 类型 | 必填  | 默认值 | 备注说明 |
+| 选项 | 描述 | 类型 | 必填 | 默认值 | 备注说明 |
 |---|---|---|---|---|---|
 | className | 自定义类名 | String | `false` | "" | |
 | prefixCls | 默认的类名前缀 | String | `false`| "uxcore-multi-cascade-select" | |
@@ -88,8 +88,8 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 
 ### Props.config
 
-| 选项 | 描述 | 类型 | 必填  | 默认值 | 备注说明 |
-|---|---|---|---|---|
+| 选项 | 描述 | 类型 | 必填 | 默认值 | 备注说明 |
+|---|---|---|---|---|---|
 | width | 指定当前列的宽度 | number | `false` | 200 | |
 | url | 请求数据的接口地址 | String | `false` | '' | 没有指定Props.options时，必填
 | checkAble | 当前列是否可选择 | bool | `false` | true | |
