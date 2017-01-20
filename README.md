@@ -74,28 +74,77 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 |---|---|---|---|---|
 | className | 自定义类名 | String | `false` | ""
 | prefixCls | 默认的类名前缀 | String | `false`| "uxcore-multi-cascade-select"
-| config | 每一列的配置项 | Array | `true` | []
+| config/options | 每一列的配置项/横向级联的数据 | Array | `true` | []，如不指定config,则必须指定options
 | value | 可由外部控制的值 | Array | `false` | null
 | defaultValue | 初始默认的值 | Array | `false` | []
 | placeholder | 占位符 | String | `false` | 'Please Select' or '请选择'
-| allowClear | 是否允许清空 | bool | `true` | true
+| allowClear | 是否允许清空 | bool | `false` | true
 | multiple | 是否启用多选 | bool | `false` | true
 | disabled | 是否禁用 | bool | `false` | false
 | readOnly | 只读模式 | bool | `false` | false
-| onConfirm | 确认按扭回调函数 | function | `false` | 注释 (1) |
+| onSelect | 选中选项的回调函数 | function | `false` | 注释 (1) |
 | beforeSearch | 请求接口前的参数兼容函数 | function | `false` | 注释 (2) |
 | afterSearch | 获取接口后的数据兼容函数 | function | `false` | 注释 (3) |
 | locale | zh-cn or en-us | String | `false` | 'zh-cn'
 
-### config 配置说明
+### Props.config
 
 | 选项 | 描述 | 类型 | 必填  | 默认值 |
 |---|---|---|---|---|
 | width | 指定当前列的宽度 | number | `false` | 200
 | url | 请求数据的接口地址 | String | `true` | ''
 | checkAble | 当前列是否可选择 | bool | `false` | false
-| beforeSearch | 请求接口前的参数兼容函数 | function | `false` | 注释 (2) |
-| afterSearch | 获取接口后的数据兼容函数 | function | `false` | 注释 (3) |
+| beforeSearch | 请求接口前的参数兼容函数 | function | `false` | 注释 (2)，如果每一列的beforeSearch函数都一样，可以定义在Props下的beforeSearch中 |
+| afterSearch | 获取接口后的数据兼容函数 | function | `false` | 注释 (3)，同上 |
+
+```javascript
+const config = [{
+  width: 200,
+  url: '/mock/query/firstLevel.json',
+  checkAble: false,
+  beforeSearch: (url, level, key) => {
+    return url + '?key=' + key;
+  },
+  afterSearch: (response, level) => {
+    const arr = [];
+    response.forEach(item => {
+      arr.push({
+        value: item.key,
+        label: item.name
+      });
+    });
+    return arr;
+  }
+}]
+```
+
+### Props.options
+
+```javascript
+const options = [{
+  value: 'zhejiang',
+  label: '浙江',
+  children: [{
+    value: 'hangzhou',
+    label: '杭州',
+    children: [{
+      value: 'xihu',
+      label: '西湖',
+    }],
+  }],
+}, {
+  value: 'jiangsu',
+  label: '江苏',
+  children: [{
+    value: 'nanjing',
+    label: '南京',
+    children: [{
+      value: 'zhonghuamen',
+      label: '中华门',
+    }],
+  }],
+}];
+```
 
 ### 注释
 
