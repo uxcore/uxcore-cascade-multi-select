@@ -85,6 +85,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | onSelect | 选中选项的回调函数 | function | `false` | | 注释 (1) |
 | beforeSearch | config下适用，请求接口前的参数兼容函数 | function | `false` | | 注释 (2) |
 | afterSearch | config下适用，获取接口后的数据兼容函数 | function | `false` |  | 注释 (3) |
+> options与config.url同时存在时，options优先
 
 ### Props.config
 
