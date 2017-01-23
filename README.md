@@ -76,6 +76,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | prefixCls | 默认的类名前缀 | String | `false`| "uxcore-multi-cascade-select" | |
 | config | 每一列的配置项 | Array | `true` | [] | |
 | options | 横向级联的数据 | Array | `false` | [] |Props.config中未指定url时，必填
+| cascadeSize | 级联层级数 | number | `false` | 3 | 未指定config时，默认3列深度
 | value | 可由外部控制的值 | Array | `false` | null | |
 | defaultValue | 初始默认的值 | Array | `false` | [] | |
 | noDataContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' | |
@@ -85,6 +86,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | onSelect | 选中选项的回调函数 | function | `false` | | 注释 (1) |
 | beforeSearch | config下适用，请求接口前的参数兼容函数 | function | `false` | | 注释 (2) |
 | afterSearch | config下适用，获取接口后的数据兼容函数 | function | `false` |  | 注释 (3) |
+
 > options与config.url同时存在时，options优先
 
 ### Props.config
