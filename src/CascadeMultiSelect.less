@@ -5,9 +5,7 @@
  * Copyright 2015-2016, Uxcore Team, Alinw.
  * All rights reserved.
  */
-
 @notificationPrefixCls: uxcore-cascade-multi-select;
-
 @list-item-back-color: #f5f5f5;
 
 .@{notificationPrefixCls} {
@@ -20,9 +18,10 @@
   .@{notificationPrefixCls}-content {
     float: left;
     padding: 14px 0;
-    height: 228px;
-    width: 148px;
+    height: 310px;
+    width: 150px;
     border-left: 1px solid @border-color;
+    overflow-y: auto;
     &:first-child {
       border-left: 0;
     }
@@ -30,11 +29,36 @@
       padding: 0 15px;
       height: 28px;
       line-height: 28px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      -ms-text-overflow: ellipsis;
+      -o-text-overflow: ellipsis;
+      overflow: hidden;
       &:hover {
         background-color: @list-item-back-color;
       }
       s {
         margin-right: 5px;
+      }
+      .@{notificationPrefixCls}-item-label {
+        span {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  .@{notificationPrefixCls}-result {
+    float: left;
+    padding: 20px 15px;
+    height: 310px;
+    width: 220px;
+    border-left: 1px solid @border-color;
+    background-color: @list-item-back-color;
+    .@{notificationPrefixCls}-result-title {
+      .@{notificationPrefixCls}-result-clean {
+        float: right;
+        cursor: pointer;
+        color: @brand-primary;
       }
     }
   }
