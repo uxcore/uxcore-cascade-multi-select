@@ -49,11 +49,76 @@ class CascadeMultiSelect extends React.Component {
     this.setState(this.state);
   }
 
+  // 设置结果tree
+  setResultTree() {
+    const { prefixCls } = this.props;
+    const { dataList } = this.state;
+    this.state.handleSelectNums = 0;
+    return (
+      <div className={classnames([`${prefixCls}-result-tree`])}>
+        {this.getTreeNode(dataList)}
+      </div>
+    );
+  }
+
+  // 获取选中的treeNode
+  getTreeNode(dataList) {
+    const arr = [];
+    if (dataList && dataList.length) {
+      dataList.forEach((item) => {
+        if (item.checked || item.halfChecked) {
+          this.state.handleSelectNums += 1;
+          arr.push(
+            <li
+              className={classnames('tree-node-ul-li-')}
+              title={item.label}
+              key={item.value}
+            >
+              {item.label}
+              {item.children ? this.getTreeNode(item.children) : null}
+            </li>
+          );
+        }
+      });
+    }
+    return (
+      <ul className={classnames('tree-node-ul')}>
+        {arr}
+      </ul>
+    );
+  }
+
+  getNums(dataList) {
+    if (dataList && dataList.length) {
+      dataList.forEach((item) => {
+        if (item.checked || item.halfChecked) {
+          this.handleSelectNums += 1;
+          if (item.children) {
+            this.getNums(item.children);
+          }
+        }
+      });
+    }
+  }
+
+  setResultNums() {
+    const { dataList } = this.state;
+    this.handleSelectNums = 0;
+    this.getNums(dataList);
+    if (!this.handleSelectNums) {
+      return null;
+    }
+    return (
+      <span>({this.handleSelectNums})</span>
+    );
+  }
+
   // 设置children checked
   setChildrenChecked(data, checked) {
     if (data && data.length) {
       data.forEach(item => {
         item.checked = checked;
+        item.halfChecked = false;
         if (item.children) {
           this.setChildrenChecked(item.children, checked);
         }
@@ -204,7 +269,7 @@ class CascadeMultiSelect extends React.Component {
         className={classnames([`${prefixCls}-result`])}
       >
         <div className={classnames([`${prefixCls}-result-title`])}>
-          已选择
+          已选择 {this.setResultNums()}
           <span
             className={classnames([`${prefixCls}-result-clean`])}
             onClick={() => {
@@ -212,6 +277,7 @@ class CascadeMultiSelect extends React.Component {
             }}
           >清空</span>
         </div>
+        {this.setResultTree()}
       </div>
     );
   }
