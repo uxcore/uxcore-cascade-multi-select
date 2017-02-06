@@ -18,45 +18,45 @@ const options = [
       label: '杭州杭州杭州杭州杭州杭州杭州杭州杭州杭州',
       children: [{
         value: 'xihu',
-        label: '西湖'
-      },{
+        label: '西湖',
+      }, {
         value: 'bingjiang',
-        label: '滨江'
+        label: '滨江',
       }],
-    },{
+    }, {
       value: 'ningbo',
       label: '宁波',
       children: [{
         value: 'zhoushan',
         label: '舟山',
       }],
-    },{
+    }, {
       value: 'yiwu',
       label: '义务',
       children: [{
         value: 'jinhua',
         label: '金华',
       }],
-    },{
+    }, {
       value: 'changxing',
       label: '长兴',
-      children: []
-    },{
+      children: [],
+    }, {
       value: 'jiaxing',
       label: '嘉兴',
-      children: []
-    },{
+      children: [],
+    }, {
       value: 'wenzhou',
       label: '温州',
-      children: []
-    },{
+      children: [],
+    }, {
       value: 'lishui',
       label: '丽水',
-      children: []
-    },{
+      children: [],
+    }, {
       value: 'linan',
       label: '临安',
-      children: []
+      children: [],
     }],
   }, {
     value: 'jiangsu',
@@ -69,7 +69,7 @@ const options = [
         label: '中华门',
       }],
     }],
-  },{
+  }, {
     value: 'anhui',
     label: '安徽',
     children: [{
@@ -91,7 +91,7 @@ const options = [
         label: '趵突泉',
       }],
     }],
-  }
+  },
 ];
 
 const options2 = [
@@ -193,12 +193,15 @@ class Demo extends React.Component {
         <div style={{ position: 'relative', margin: '15px', height: 350 }}>
           <CascadeMultiSelect
             options={options}
+            allowClear={false}
           />
         </div>
         <div style={{ position: 'relative', margin: '15px', height: 350 }}>
           <CascadeMultiSelect
             options={options2}
-            data={['xihu', 'ningbo', 'anhui']}
+            value={['xihu', 'ningbo', 'anhui']}
+            readOnly
+            locale={'en-us'}
           />
         </div>
       </div>

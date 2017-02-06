@@ -15,6 +15,10 @@
   z-index: 999;
   cursor: auto;
   border: 1px solid @border-color;
+
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
   .@{notificationPrefixCls}-content {
     float: left;
     padding: 14px 0;
@@ -35,10 +39,6 @@
       -ms-text-overflow: ellipsis;
       -o-text-overflow: ellipsis;
 
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      -moz-user-select: none;
-
       overflow: hidden;
       &:hover {
         background-color: @list-item-back-color;
@@ -51,6 +51,11 @@
           vertical-align: middle;
         }
       }
+    }
+    .@{notificationPrefixCls}-list-noData {
+      display: block;
+      margin-top: 7px;
+      margin-left: 21px;
     }
   }
   .@{notificationPrefixCls}-result {
