@@ -72,17 +72,17 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 
 | 选项 | 描述 | 类型 | 必填 | 默认值 | 备注说明 |
 |---|---|---|---|---|---|
-| prefixCls | 默认的类名前缀 | String | `false`| "kuma-multi-cascader" | |
-| className | 自定义类名 | String | `false` | "" | |
-| options | 横向级联的数据 | Array | `false` | [] |Props.config中未指定url时，必填
-| value | 可由外部控制的值 | Array | `false` | null | |
-| defaultValue | 初始默认的值 | Array | `false` | [] | |
-| cascadeSize | 级联层级数 | number | `false` | 3 | 未指定config时，默认3列深度
-| noDataContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' | |
+| prefixCls | 默认的类名前缀 | String | `false`| "kuma-multi-cascader" |
+| className | 自定义类名 | String | `false` | "" |
+| options | 横向级联的数据 | Array | `false` | [] |
+| value | 可由外部控制的值 | Array | `false` | null |
+| defaultValue | 初始默认的值 | Array | `false` | [] |
+| cascadeSize | 级联层级数 | number | `false` | 3 | 
+| noDataContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
 | allowClear | 是否允许清空 | bool | `false` | true | |
-| readOnly | 只读模式，可以查看所有选项，不可修改选中或清空 | bool | `false` | false | |
-| locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' | |
-| onSelect | 选中选项的回调函数 | function | `false` | | (res) => {} |
+| readOnly | 只读模式，可以查看所有选项，不可修改选中或清空 | bool | `false` | false |
+| locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
+| onSelect | 选中选项的回调函数 | function | `false` | (res) => {} |
 
 ### Props.options
 
