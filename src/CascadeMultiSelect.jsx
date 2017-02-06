@@ -28,13 +28,14 @@ class CascadeMultiSelect extends React.Component {
   }
 
   onTriggerNode(e, data) {
+    const { dataList } = this.state;
     if (window.event.cancelBubble) {
       window.event.cancelBubble = true;
     } else {
       e.stopPropagation();
     }
     data.expand = !data.expand;
-    this.setState(this.state);
+    this.setState({ dataList });
   }
 
   onCleanSelect() {
@@ -44,7 +45,7 @@ class CascadeMultiSelect extends React.Component {
     if (dataList) {
       this.cleanResult(dataList);
     }
-    this.setState(this.state);
+    this.setState({ dataList });
   }
 
   onItemClick(data, level) {
@@ -68,7 +69,7 @@ class CascadeMultiSelect extends React.Component {
     if (level) {
       this.eachBotherCheckState(item, level, item.checked);
     }
-    this.setState(this.state, () => {
+    this.setState({ dataList }, () => {
       const arr = [];
       this.getSelectResult(dataList, arr);
       this.props.onSelect(arr);
@@ -85,15 +86,14 @@ class CascadeMultiSelect extends React.Component {
         }
         const parentNode = this.getParentNode(dataList, data[i]);
         if (parentNode) {
-          const botherNodeList = parentNode.children;
-          const halfChecked = this.handleBotherNoChecked(botherNodeList);
+          const halfChecked = this.handleBotherNoChecked(parentNode.children);
           if (halfChecked) {
             parentNode.halfChecked = true;
           }
         }
       }
     }
-    this.setState(this.state);
+    this.setState({ dataList });
   }
 
   getSelectResult(dataList, arr) {
@@ -269,11 +269,11 @@ class CascadeMultiSelect extends React.Component {
     let halfChecked = false;
     if (listArray) {
       for (let i = 0, len = listArray.length; i < len; i += 1) {
-        if (listArray[i].checked !== checked) {
+        if (!!listArray[i].checked !== checked) {
           halfChecked = true;
           break;
         }
-        if (listArray[i].halfChecked) {
+        if (!!listArray[i].halfChecked) {
           halfChecked = true;
           break;
         }
@@ -296,7 +296,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   cleanResult(dataList) {
-    if (dataList) {
+    if (dataList && dataList.length) {
       dataList.forEach((item) => {
         item.checked = false;
         item.halfChecked = false;

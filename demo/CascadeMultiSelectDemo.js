@@ -190,11 +190,17 @@ class Demo extends React.Component {
   render() {
     return (
       <div>
+        <div style={{ marginLeft: 20 }}>
+        </div>
         <div style={{ position: 'relative', margin: '15px', height: 350 }}>
           <CascadeMultiSelect
             options={options}
-            allowClear={false}
           />
+        </div>
+        <div style={{ marginLeft: 20 }}>
+          <p>数据回填</p>
+          <p>readOnly模式</p>
+          <p>locale('en-us')</p>
         </div>
         <div style={{ position: 'relative', margin: '15px', height: 350 }}>
           <CascadeMultiSelect
