@@ -70,7 +70,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 
 ## Props
 
-| 选项 | 描述 | 类型 | 必填 | 默认值 | 备注说明 |
+| 选项 | 描述 | 类型 | 必填 | 默认值 |
 |---|---|---|---|---|---|
 | prefixCls | 默认的类名前缀 | String | `false`| "kuma-multi-cascader" |
 | className | 自定义类名 | String | `false` | "" |
