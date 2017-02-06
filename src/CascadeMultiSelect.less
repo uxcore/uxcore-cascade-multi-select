@@ -5,7 +5,7 @@
  * Copyright 2015-2016, Uxcore Team, Alinw.
  * All rights reserved.
  */
-@notificationPrefixCls: uxcore-cascade-multi-select;
+@notificationPrefixCls: kuma-multi-cascader;
 @list-item-back-color: #f5f5f5;
 
 .@{notificationPrefixCls} {
@@ -30,9 +30,15 @@
       height: 28px;
       line-height: 28px;
       white-space: nowrap;
+
       text-overflow: ellipsis;
       -ms-text-overflow: ellipsis;
       -o-text-overflow: ellipsis;
+
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      -moz-user-select: none;
+
       overflow: hidden;
       &:hover {
         background-color: @list-item-back-color;
@@ -64,13 +70,38 @@
       }
     }
     .@{notificationPrefixCls}-result-tree {
+      margin-left: -15px;
       height: 250px;
       overflow-x: hidden;
       overflow-y: auto;
       ul {
         margin-left: 15px;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -moz-user-select: none;
         li {
           line-height: 25px;
+          cursor: pointer;
+          .kuma-icon-triangle-down,
+          .kuma-icon-triangle-right {
+            margin-right: 5px;
+            color: #999;
+            vertical-align: middle;
+          }
+          .tree-node-ul-li-span {
+            display: inline-block;
+            width: 85%;
+            vertical-align: middle;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .tree-node-ul-li-all {
+            margin-left: 5px;
+            color: #999;
+          }
         }
       }
     }

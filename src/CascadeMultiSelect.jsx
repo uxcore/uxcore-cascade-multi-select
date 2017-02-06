@@ -17,7 +17,33 @@ class CascadeMultiSelect extends React.Component {
     };
   }
 
-  // li点击事件
+  componentDidMount() {
+    const { data } = this.props;
+    const { dataList } = this.state;
+    if (data && data.length) {
+      console.log(data);
+      this.setData(data, dataList, 0);
+    }
+  }
+
+  onTriggerNode(e, data) {
+    if (window.event.cancelBubble) {
+      window.event.cancelBubble = true;
+    } else {
+      e.stopPropagation();
+    }
+    data.expand = !data.expand;
+    this.setState(this.state);
+  }
+
+  onCleanSelect() {
+    const { dataList } = this.state;
+    if (dataList) {
+      this.cleanResult(dataList);
+    }
+    this.setState(this.state);
+  }
+
   onItemClick(data, level) {
     const { selectArray } = this.state;
     if (data.value !== selectArray[level]) {
@@ -27,8 +53,8 @@ class CascadeMultiSelect extends React.Component {
     this.setState({ selectArray });
   }
 
-  // checkbox 选中事件
   onItemChecked(item, level) {
+    const { dataList } = this.state;
     item.checked = !item.checked;
     item.halfChecked = false;
     if (item.children) {
@@ -37,45 +63,73 @@ class CascadeMultiSelect extends React.Component {
     if (level) {
       this.eachBotherCheckState(item, level, item.checked);
     }
-    this.setState(this.state);
+    this.setState(this.state, () => {
+      const arr = [];
+      this.getSelectResult(dataList, arr);
+      this.props.onSelect(arr);
+    });
   }
 
-  // 清空结果
-  onCleanSelect() {
-    const { dataList } = this.state;
-    if (dataList) {
-      this.cleanResult(dataList);
+  setData(data, dataList) {
+    if (dataList && dataList.length) {
+      for (let i = 0, len = data.length; i < len; i += 1) {
+        const item = this.getNodeData(dataList, data[i]);
+        item.checked = true;
+        if (item.children) {
+          this.setChildrenChecked(item.children, true);
+        }
+      }
     }
     this.setState(this.state);
   }
 
-  // 设置结果tree
-  setResultTree() {
-    const { prefixCls } = this.props;
-    const { dataList } = this.state;
-    this.state.handleSelectNums = 0;
-    return (
-      <div className={classnames([`${prefixCls}-result-tree`])}>
-        {this.getTreeNode(dataList)}
-      </div>
-    );
+  getSelectResult(dataList, arr) {
+    if (dataList && dataList.length) {
+      dataList.forEach((item) => {
+        if (item.checked) {
+          arr.push(item.value);
+        }
+        if (item.halfChecked) {
+          this.getSelectResult(item.children, arr);
+        }
+      });
+    }
   }
 
-  // 获取选中的treeNode
-  getTreeNode(dataList) {
+  getTreeNode(dataList, level) {
     const arr = [];
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
         if (item.checked || item.halfChecked) {
-          this.state.handleSelectNums += 1;
           arr.push(
             <li
-              className={classnames('tree-node-ul-li-')}
+              className={classnames({
+                'tree-node-ul-li-open': !item.expand,
+                'tree-node-ul-li-close': item.expand,
+              })}
               title={item.label}
               key={item.value}
+              onClick={(e) => {
+                this.onTriggerNode(e, item);
+              }}
             >
-              {item.label}
-              {item.children ? this.getTreeNode(item.children) : null}
+              {
+                item.children ? !item.expand ?
+                  <i className="kuma-icon kuma-icon-triangle-down"></i> :
+                  <i className="kuma-icon kuma-icon-triangle-right"></i> :
+                  <span style={{ width: 6, display: 'inline-block' }}></span>
+              }
+              <span className={'tree-node-ul-li-span'}>
+              {
+                item.label
+              }
+              {
+                !level && item.checked ? <span className="tree-node-ul-li-all">已全选</span> : ''
+              }
+              </span>
+              {
+                item.children && !item.expand ? this.getTreeNode(item.children, level + 1) : null
+              }
             </li>
           );
         }
@@ -85,6 +139,16 @@ class CascadeMultiSelect extends React.Component {
       <ul className={classnames('tree-node-ul')}>
         {arr}
       </ul>
+    );
+  }
+
+  setResultTree() {
+    const { prefixCls } = this.props;
+    const { dataList } = this.state;
+    return (
+      <div className={classnames([`${prefixCls}-result-tree`])}>
+        {this.getTreeNode(dataList, 0)}
+      </div>
     );
   }
 
@@ -113,10 +177,9 @@ class CascadeMultiSelect extends React.Component {
     );
   }
 
-  // 设置children checked
   setChildrenChecked(data, checked) {
     if (data && data.length) {
-      data.forEach(item => {
+      data.forEach((item) => {
         item.checked = checked;
         item.halfChecked = false;
         if (item.children) {
@@ -126,7 +189,6 @@ class CascadeMultiSelect extends React.Component {
     }
   }
 
-  // 获取指定key的children
   getChildrenNode(data, key) {
     let back = [];
     if (!key) { return []; }
@@ -145,7 +207,6 @@ class CascadeMultiSelect extends React.Component {
     return back;
   }
 
-  // 获取指定节点对象
   getNodeData(data, key) {
     let back = null;
     if (!key) { return null; }
@@ -163,7 +224,23 @@ class CascadeMultiSelect extends React.Component {
     return back;
   }
 
-  // 设置父节点选中状态
+  getParentNode(data, key, parentNode = null) {
+    let back = null;
+    if (!key) { return null; }
+    if (data && data.length) {
+      for (let i = 0, len = data.length; i < len; i +=1) {
+        if (data[i].value === key) {
+          return parentNode;
+        }
+        if (data[i].children) {
+          const item = this.getParentNode(data[i].children, key, data[i]);
+          back = item ? item : back;
+        }
+      }
+    }
+    return back;
+  }
+
   setFatherCheckState(halfChecked, level, checked) {
     const { dataList, selectArray } = this.state;
     const dataObj = this.getNodeData(dataList, selectArray[level - 1]);
@@ -174,7 +251,6 @@ class CascadeMultiSelect extends React.Component {
     }
   }
 
-  // 遍历兄弟节点
   eachBotherCheckState(data, level, checked) {
     const { dataList, selectArray } = this.state;
     const listArray = this.getChildrenNode(dataList, selectArray[level - 1]);
@@ -183,13 +259,17 @@ class CascadeMultiSelect extends React.Component {
       for (let i = 0, len = listArray.length; i < len; i += 1) {
         if (listArray[i].checked !== checked) {
           halfChecked = true;
+          break;
+        }
+        if (listArray[i].halfChecked) {
+          halfChecked = true;
+          break;
         }
       }
       this.setFatherCheckState(halfChecked, level, checked);
     }
   }
 
-  // 递归清空结果
   cleanResult(dataList) {
     if (dataList) {
       dataList.forEach((item) => {
@@ -261,7 +341,6 @@ class CascadeMultiSelect extends React.Component {
     });
   }
 
-  // 渲染结果列表
   renderResult() {
     const { prefixCls } = this.props;
     return (
@@ -306,20 +385,22 @@ class CascadeMultiSelect extends React.Component {
 
 CascadeMultiSelect.defaultProps = {
   className: '',
-  prefixCls: 'uxcore-cascade-multi-select',
+  prefixCls: 'kuma-multi-cascader',
   config: [],
   options: [],
   cascadeSize: 3,
+  data: [],
+  onSelect: (res) => { console.log(res); },
 };
 
-
-// http://facebook.github.io/react/docs/reusable-components.html
 CascadeMultiSelect.propTypes = {
   className: React.PropTypes.string,
   prefixCls: React.PropTypes.string,
   config: React.PropTypes.array,
   options: React.PropTypes.array,
   cascadeSize: React.PropTypes.number,
+  onSelect: React.PropTypes.func,
+  data: React.PropTypes.array,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';
