@@ -54,12 +54,7 @@ class CascadeMultiSelect extends React.Component {
     if (level) {
       this.eachBotherCheckState(item, level, item.checked);
     }
-    this.setState({ dataList }, () => {
-      const arr = [];
-      this.textArr = [];
-      this.getSelectResult(dataList, arr, this.textArr);
-      this.props.onSelect(arr, this.textArr);
-    });
+    this.setState({ dataList }, this.setSelectResult());
   }
 
   onCleanSelect() {
@@ -69,7 +64,7 @@ class CascadeMultiSelect extends React.Component {
     if (dataList) {
       this.cleanResult(dataList);
     }
-    this.setState({ dataList });
+    this.setState({ dataList }, this.setSelectResult());
   }
 
   onTriggerNode(e, data) {
@@ -191,6 +186,13 @@ class CascadeMultiSelect extends React.Component {
         {this.renderTreeNode(dataList, 0)}
       </div>
     );
+  }
+
+  setSelectResult() {
+    const arr = [];
+    this.textArr = [];
+    this.getSelectResult(this.state.dataList, arr, this.textArr);
+    this.props.onSelect(arr, this.textArr);
   }
 
   setFatherCheckState(halfChecked, level, checked) {
@@ -387,11 +389,8 @@ class CascadeMultiSelect extends React.Component {
   renderExpand(data) {
     let arr = [];
     if (data.children) {
-      if (!data.expand) {
-        arr = <i className="kuma-icon kuma-icon-triangle-down"></i>;
-      } else {
-        arr = <i className="kuma-icon kuma-icon-triangle-right"></i>;
-      }
+      arr = !data.expand ? <i className="kuma-icon kuma-icon-triangle-down"></i> :
+        <i className="kuma-icon kuma-icon-triangle-right"></i>;
     } else {
       arr = <span style={{ width: 15, display: 'inline-block' }}></span>;
     }
@@ -428,7 +427,7 @@ CascadeMultiSelect.defaultProps = {
   noDataContent: '',
   allowClear: true,
   locale: 'zh-cn',
-  onSelect: (resa, resb) => { console.log(resa, resb); },
+  onSelect: () => {},
 };
 
 CascadeMultiSelect.propTypes = {

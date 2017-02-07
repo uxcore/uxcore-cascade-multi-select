@@ -103,45 +103,45 @@ const options2 = [
       label: '杭州杭州杭州杭州杭州杭州杭州杭州杭州杭州',
       children: [{
         value: 'xihu',
-        label: '西湖'
-      },{
+        label: '西湖',
+      }, {
         value: 'bingjiang',
-        label: '滨江'
+        label: '滨江',
       }],
-    },{
+    }, {
       value: 'ningbo',
       label: '宁波',
       children: [{
         value: 'zhoushan',
         label: '舟山',
       }],
-    },{
+    }, {
       value: 'yiwu',
       label: '义务',
       children: [{
         value: 'jinhua',
         label: '金华',
       }],
-    },{
+    }, {
       value: 'changxing',
       label: '长兴',
-      children: []
-    },{
+      children: [],
+    }, {
       value: 'jiaxing',
       label: '嘉兴',
-      children: []
-    },{
+      children: [],
+    }, {
       value: 'wenzhou',
       label: '温州',
-      children: []
-    },{
+      children: [],
+    }, {
       value: 'lishui',
       label: '丽水',
-      children: []
-    },{
+      children: [],
+    }, {
       value: 'linan',
       label: '临安',
-      children: []
+      children: [],
     }],
   }, {
     value: 'jiangsu',
@@ -154,7 +154,7 @@ const options2 = [
         label: '中华门',
       }],
     }],
-  },{
+  }, {
     value: 'anhui',
     label: '安徽',
     children: [{
@@ -176,7 +176,25 @@ const options2 = [
         label: '趵突泉',
       }],
     }],
-  }
+  },
+];
+
+const option3 = [
+  {
+    value: 'anhui',
+    label: '安徽',
+    children: [{
+      value: 'hefei',
+      label: '合肥',
+    }],
+  }, {
+    value: 'shandong',
+    label: '山东',
+    children: [{
+      value: 'jinan',
+      label: '济南',
+    }],
+  },
 ];
 
 class Demo extends React.Component {
@@ -185,6 +203,8 @@ class Demo extends React.Component {
     super(props);
     this.state = {
       value2: ['xihu'],
+      inputVal: '',
+      showing: false,
     };
   }
 
@@ -196,14 +216,60 @@ class Demo extends React.Component {
     }, 3000);
   }
 
+  handleSelect(resa, resb) {
+    this.setState({
+      inputVal: resb.join(),
+    });
+  }
+
   render() {
+    const styleSheet = {
+      cascade3: {
+        position: 'relative',
+        zIndex: 1000,
+      },
+    };
+    const { showing } = this.state;
+    styleSheet.cascade3.display = showing ? 'block' : 'none';
     return (
       <div>
-        <div style={{ marginLeft: 20 }}>
+        <div style={{ margin: 15 }}>
+          包含input展示效果
+        </div>
+        <div style={{ margin: 15 }}>
+          <div>
+            <input
+              className="kuma-input"
+              value={this.state.inputVal}
+              onFocus={() => {
+                this.setState({
+                  showing: !showing,
+                });
+              }}
+            />
+          </div>
+          <div style={styleSheet.cascade3}>
+            <CascadeMultiSelect
+              options={option3}
+              cascadeSize={2}
+              onSelect={(resa, resb) => {
+                this.handleSelect(resa, resb);
+              }}
+              onClick={() => {
+                this.setState({
+                  showing: true,
+                });
+              }}
+            />
+          </div>
+        </div>
+        <div style={{ margin: 15 }}>
+          默认展示
         </div>
         <div style={{ position: 'relative', margin: '15px', height: 350 }}>
           <CascadeMultiSelect
             options={options}
+            onSelect={(resa, resb) => { console.log(resa, resb); }}
           />
         </div>
         <div style={{ marginLeft: 20 }}>
