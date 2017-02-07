@@ -27,10 +27,17 @@ class CascadeMultiSelect extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { value, options } = nextProps;
+    if (value && value.length) {
+      this.setData(value, options || this.state.dataList);
+    }
+  }
+
   onTriggerNode(e, data) {
     const { dataList } = this.state;
-    if (window.event.cancelBubble) {
-      window.event.cancelBubble = true;
+    if (e.cancelBubble) {
+      e.cancelBubble = true;
     } else {
       e.stopPropagation();
     }
@@ -71,20 +78,21 @@ class CascadeMultiSelect extends React.Component {
     }
     this.setState({ dataList }, () => {
       const arr = [];
-      this.getSelectResult(dataList, arr);
-      this.props.onSelect(arr);
+      this.textArr = [];
+      this.getSelectResult(dataList, arr, this.textArr);
+      this.props.onSelect(arr, this.textArr);
     });
   }
 
   setData(data, dataList) {
     if (dataList && dataList.length) {
       for (let i = 0, len = data.length; i < len; i += 1) {
-        const item = this.getNodeData(dataList, data[i]);
-        item.checked = true;
-        if (item.children) {
-          this.setChildrenChecked(item.children, true);
+        const treeNodeObj = this.getTreeNodeData(dataList, data[i]);
+        const { parentNode, itemNode } = treeNodeObj;
+        itemNode.checked = true;
+        if (itemNode.children) {
+          this.setChildrenChecked(itemNode.children, true);
         }
-        const parentNode = this.getParentNode(dataList, data[i]);
         if (parentNode) {
           const halfChecked = this.handleBotherNoChecked(parentNode.children);
           if (halfChecked) {
@@ -96,64 +104,18 @@ class CascadeMultiSelect extends React.Component {
     this.setState({ dataList });
   }
 
-  getSelectResult(dataList, arr) {
+  getSelectResult(dataList, arr, textArr) {
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
         if (item.checked) {
           arr.push(item.value);
+          textArr.push(item.label);
         }
         if (item.halfChecked) {
-          this.getSelectResult(item.children, arr);
+          this.getSelectResult(item.children, arr, textArr);
         }
       });
     }
-  }
-
-  getTreeNode(dataList, level) {
-    const arr = [];
-    if (dataList && dataList.length) {
-      dataList.forEach((item) => {
-        if (item.checked || item.halfChecked) {
-          arr.push(
-            <li
-              className={classnames({
-                'tree-node-ul-li-open': !item.expand,
-                'tree-node-ul-li-close': item.expand,
-              })}
-              title={item.label}
-              key={item.value}
-              onClick={(e) => {
-                this.onTriggerNode(e, item);
-              }}
-            >
-              {
-                item.children ? !item.expand ?
-                  <i className="kuma-icon kuma-icon-triangle-down"></i> :
-                  <i className="kuma-icon kuma-icon-triangle-right"></i> :
-                  <span style={{ width: 15, display: 'inline-block' }}></span>
-              }
-              <span className={'tree-node-ul-li-span'}>
-                {
-                  item.label
-                }
-                {
-                  !level && item.checked ?
-                    <span className="tree-node-ul-li-all">{i18n(this.props.locale).all}</span> : ''
-                }
-              </span>
-              {
-                item.children && !item.expand ? this.getTreeNode(item.children, level + 1) : null
-              }
-            </li>
-          );
-        }
-      });
-    }
-    return (
-      <ul className={classnames('tree-node-ul')}>
-        {arr}
-      </ul>
-    );
   }
 
   setResultTree() {
@@ -161,7 +123,7 @@ class CascadeMultiSelect extends React.Component {
     const { dataList } = this.state;
     return (
       <div className={classnames([`${prefixCls}-result-tree`])}>
-        {this.getTreeNode(dataList, 0)}
+        {this.renderTreeNode(dataList, 0)}
       </div>
     );
   }
@@ -201,52 +163,20 @@ class CascadeMultiSelect extends React.Component {
     }
   }
 
-  getNodeData(data, key) {
+  getTreeNodeData(dataList, key, parentNode = null) {
     let back = null;
     if (!key) { return null; }
-    if (data && data.length) {
-      for (let i = 0, len = data.length; i < len; i += 1) {
-        if (data[i].value === key) {
-          return data[i];
+    if (dataList && dataList.length) {
+      for (let i = 0, len = dataList.length; i < len; i += 1) {
+        if (dataList[i].value === key) {
+          return {
+            parentNode,
+            itemNode: dataList[i],
+          };
         }
-        if (data[i].children) {
-          const item = this.getNodeData(data[i].children, key);
+        if (dataList[i].children) {
+          const item = this.getTreeNodeData(dataList[i].children, key, dataList[i]);
           back = item || back;
-        }
-      }
-    }
-    return back;
-  }
-
-  getParentNode(data, key, parentNode = null) {
-    let back = null;
-    if (!key) { return null; }
-    if (data && data.length) {
-      for (let i = 0, len = data.length; i < len; i += 1) {
-        if (data[i].value === key) {
-          return parentNode;
-        }
-        if (data[i].children) {
-          const item = this.getParentNode(data[i].children, key, data[i]);
-          back = item || back;
-        }
-      }
-    }
-    return back;
-  }
-
-  getChildrenNode(data, key) {
-    let back = [];
-    if (!key) { return []; }
-    if (data && data.length) {
-      for (let i = 0, len = data.length; i < len; i += 1) {
-        const item = data[i];
-        if (item.value === key) {
-          return item.children;
-        }
-        if (item.children) {
-          const res = this.getChildrenNode(item.children, key);
-          back = res.length ? res : back;
         }
       }
     }
@@ -255,17 +185,19 @@ class CascadeMultiSelect extends React.Component {
 
   setFatherCheckState(halfChecked, level, checked) {
     const { dataList, selectArray } = this.state;
-    const dataObj = this.getNodeData(dataList, selectArray[level - 1]);
-    dataObj.checked = halfChecked ? false : checked;
-    dataObj.halfChecked = halfChecked;
+    const treeNodeObj = this.getTreeNodeData(dataList, selectArray[level - 1]);
+    const { itemNode } = treeNodeObj;
+    itemNode.checked = halfChecked ? false : checked;
+    itemNode.halfChecked = halfChecked;
     if (level - 1) {
-      this.eachBotherCheckState(dataObj, level - 1, checked);
+      this.eachBotherCheckState(itemNode, level - 1, checked);
     }
   }
 
   eachBotherCheckState(data, level, checked) {
     const { dataList, selectArray } = this.state;
-    const listArray = this.getChildrenNode(dataList, selectArray[level - 1]);
+    const treeNodeObj = this.getTreeNodeData(dataList, selectArray[level - 1]);
+    const listArray = treeNodeObj.itemNode.children;
     let halfChecked = false;
     if (listArray) {
       for (let i = 0, len = listArray.length; i < len; i += 1) {
@@ -307,12 +239,67 @@ class CascadeMultiSelect extends React.Component {
     }
   }
 
+  renderTreeNode(dataList, level) {
+    const arr = [];
+    if (dataList && dataList.length) {
+      dataList.forEach((item) => {
+        if (item.checked || item.halfChecked) {
+          arr.push(
+            <li
+              className={classnames({
+                'tree-node-ul-li-open': !item.expand,
+                'tree-node-ul-li-close': item.expand,
+              })}
+              title={item.label}
+              key={item.value}
+              onClick={(e) => {
+                this.onTriggerNode(e, item);
+              }}
+            >
+              {this.renderExpand(item)}
+              <span className={'tree-node-ul-li-span'}>
+                {item.label}
+                {
+                  !level && item.checked ?
+                    <span className="tree-node-ul-li-all">{i18n(this.props.locale).all}</span> : ''
+                }
+              </span>
+              {
+                item.children && !item.expand ? this.renderTreeNode(item.children, level + 1) : null
+              }
+            </li>
+          );
+        }
+      });
+    }
+    return (
+      <ul className={classnames('tree-node-ul')}>
+        {arr}
+      </ul>
+    );
+  }
+
+  renderExpand(data) {
+    let arr = [];
+    if (data.children) {
+      if (!data.expand) {
+        arr = <i className="kuma-icon kuma-icon-triangle-down"></i>;
+      } else {
+        arr = <i className="kuma-icon kuma-icon-triangle-right"></i>;
+      }
+    } else {
+      arr = <span style={{ width: 15, display: 'inline-block' }}></span>;
+    }
+    return arr;
+  }
+
   renderUlList(level) {
     const t = this;
     const { className, prefixCls, noDataContent, locale } = this.props;
     const { dataList, selectArray } = this.state;
     if (!dataList.length) { return null; }
-    const listArray = level ? t.getChildrenNode(dataList, selectArray[level - 1]) : dataList;
+    const treeNodeObj = t.getTreeNodeData(dataList, selectArray[level - 1]);
+    const listArray = level ? treeNodeObj.itemNode.children : dataList;
     const noDataText = noDataContent || i18n(locale).noData;
     return (
       <ul
@@ -333,9 +320,14 @@ class CascadeMultiSelect extends React.Component {
 
   renderListItems(dataList, level) {
     const t = this;
+    const arr = [];
     const { className, prefixCls } = this.props;
-    return dataList.map(item => {
-      return (
+    const { selectArray } = this.state;
+    dataList.forEach(item => {
+      if (!selectArray[level]) {
+        selectArray[level] = item.value;
+      }
+      arr.push(
         <li
           key={item.value}
           className={classnames({
@@ -369,6 +361,7 @@ class CascadeMultiSelect extends React.Component {
         </li>
       );
     });
+    return arr;
   }
 
   renderResult() {
@@ -398,11 +391,9 @@ class CascadeMultiSelect extends React.Component {
   render() {
     const { className, prefixCls, cascadeSize, config } = this.props;
     const depthSize = config.length || cascadeSize;
-    let arr = [];
+    const arr = [];
     for (let i = 0; i < depthSize; i += 1) {
-      arr.push(
-        this.renderUlList(i)
-      );
+      arr.push(this.renderUlList(i));
     }
     return (
       <div
@@ -428,7 +419,7 @@ CascadeMultiSelect.defaultProps = {
   noDataContent: '',
   allowClear: true,
   locale: 'zh-cn',
-  onSelect: (res) => { console.log(res); },
+  onSelect: (resa, resb) => { console.log(resa, resb); },
 };
 
 CascadeMultiSelect.propTypes = {
