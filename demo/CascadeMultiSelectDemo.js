@@ -184,7 +184,16 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      value2: ['xihu'],
     };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        value2: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
+      });
+    }, 3000);
   }
 
   render() {
@@ -198,14 +207,14 @@ class Demo extends React.Component {
           />
         </div>
         <div style={{ marginLeft: 20 }}>
-          <p>数据回填</p>
-          <p>readOnly模式</p>
-          <p>locale('en-us')</p>
+          <p>数据回填 (async)</p>
+          <p>readOnly模式 (不可修改选中与清空)</p>
+          <p>locale ('en-us')</p>
         </div>
         <div style={{ position: 'relative', margin: '15px', height: 350 }}>
           <CascadeMultiSelect
             options={options2}
-            value={['xihu', 'ningbo', 'anhui']}
+            value={this.state.value2}
             readOnly
             locale={'en-us'}
           />

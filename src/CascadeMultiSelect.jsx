@@ -21,9 +21,8 @@ class CascadeMultiSelect extends React.Component {
 
   componentDidMount() {
     const { value } = this.props;
-    const { dataList } = this.state;
     if (value && value.length) {
-      this.setData(value, dataList);
+      this.setData(value, this.state.dataList);
     }
   }
 
@@ -32,27 +31,6 @@ class CascadeMultiSelect extends React.Component {
     if (value && value.length) {
       this.setData(value, options || this.state.dataList);
     }
-  }
-
-  onTriggerNode(e, data) {
-    const { dataList } = this.state;
-    if (e.cancelBubble) {
-      e.cancelBubble = true;
-    } else {
-      e.stopPropagation();
-    }
-    data.expand = !data.expand;
-    this.setState({ dataList });
-  }
-
-  onCleanSelect() {
-    const { readOnly } = this.props;
-    const { dataList } = this.state;
-    if (readOnly) { return; }
-    if (dataList) {
-      this.cleanResult(dataList);
-    }
-    this.setState({ dataList });
   }
 
   onItemClick(data, level) {
@@ -84,8 +62,30 @@ class CascadeMultiSelect extends React.Component {
     });
   }
 
+  onCleanSelect() {
+    const { readOnly } = this.props;
+    const { dataList } = this.state;
+    if (readOnly) { return; }
+    if (dataList) {
+      this.cleanResult(dataList);
+    }
+    this.setState({ dataList });
+  }
+
+  onTriggerNode(e, data) {
+    const { dataList } = this.state;
+    if (e.cancelBubble) {
+      e.cancelBubble = true;
+    } else {
+      e.stopPropagation();
+    }
+    data.expand = !data.expand;
+    this.setState({ dataList });
+  }
+
   setData(data, dataList) {
     if (dataList && dataList.length) {
+      this.cleanResult(dataList);
       for (let i = 0, len = data.length; i < len; i += 1) {
         const treeNodeObj = this.getTreeNodeData(dataList, data[i]);
         const { parentNode, itemNode } = treeNodeObj;
@@ -94,14 +94,36 @@ class CascadeMultiSelect extends React.Component {
           this.setChildrenChecked(itemNode.children, true);
         }
         if (parentNode) {
-          const halfChecked = this.handleBotherNoChecked(parentNode.children);
-          if (halfChecked) {
-            parentNode.halfChecked = true;
-          }
+          this.setParentData(dataList, itemNode);
         }
       }
     }
     this.setState({ dataList });
+  }
+
+  setChildrenChecked(data, checked) {
+    if (data && data.length) {
+      data.forEach((item) => {
+        item.checked = checked;
+        item.halfChecked = false;
+        if (item.children) {
+          this.setChildrenChecked(item.children, checked);
+        }
+      });
+    }
+  }
+
+  setParentData(dataList, item) {
+    if (!item) { return; }
+    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const { parentNode } = treeNodeObj;
+    if (parentNode) {
+      const halfChecked = this.handleBotherNoChecked(parentNode.children);
+      if (halfChecked) {
+        parentNode.halfChecked = true;
+        this.setParentData(dataList, parentNode);
+      }
+    }
   }
 
   getSelectResult(dataList, arr, textArr) {
@@ -118,16 +140,6 @@ class CascadeMultiSelect extends React.Component {
     }
   }
 
-  setResultTree() {
-    const { prefixCls } = this.props;
-    const { dataList } = this.state;
-    return (
-      <div className={classnames([`${prefixCls}-result-tree`])}>
-        {this.renderTreeNode(dataList, 0)}
-      </div>
-    );
-  }
-
   getNums(dataList) {
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
@@ -136,28 +148,6 @@ class CascadeMultiSelect extends React.Component {
           if (item.children) {
             this.getNums(item.children);
           }
-        }
-      });
-    }
-  }
-
-  setResultNums() {
-    const { dataList } = this.state;
-    this.handleSelectNums = 0;
-    this.getNums(dataList);
-    if (!this.handleSelectNums) { return null; }
-    return (
-      <span>({this.handleSelectNums})</span>
-    );
-  }
-
-  setChildrenChecked(data, checked) {
-    if (data && data.length) {
-      data.forEach((item) => {
-        item.checked = checked;
-        item.halfChecked = false;
-        if (item.children) {
-          this.setChildrenChecked(item.children, checked);
         }
       });
     }
@@ -181,6 +171,26 @@ class CascadeMultiSelect extends React.Component {
       }
     }
     return back;
+  }
+
+  setResultNums() {
+    const { dataList } = this.state;
+    this.handleSelectNums = 0;
+    this.getNums(dataList);
+    if (!this.handleSelectNums) { return null; }
+    return (
+      <span>({this.handleSelectNums})</span>
+    );
+  }
+
+  setResultTree() {
+    const { prefixCls } = this.props;
+    const { dataList } = this.state;
+    return (
+      <div className={classnames([`${prefixCls}-result-tree`])}>
+        {this.renderTreeNode(dataList, 0)}
+      </div>
+    );
   }
 
   setFatherCheckState(halfChecked, level, checked) {
@@ -237,60 +247,6 @@ class CascadeMultiSelect extends React.Component {
         }
       });
     }
-  }
-
-  renderTreeNode(dataList, level) {
-    const arr = [];
-    if (dataList && dataList.length) {
-      dataList.forEach((item) => {
-        if (item.checked || item.halfChecked) {
-          arr.push(
-            <li
-              className={classnames({
-                'tree-node-ul-li-open': !item.expand,
-                'tree-node-ul-li-close': item.expand,
-              })}
-              title={item.label}
-              key={item.value}
-              onClick={(e) => {
-                this.onTriggerNode(e, item);
-              }}
-            >
-              {this.renderExpand(item)}
-              <span className={'tree-node-ul-li-span'}>
-                {item.label}
-                {
-                  !level && item.checked ?
-                    <span className="tree-node-ul-li-all">{i18n(this.props.locale).all}</span> : ''
-                }
-              </span>
-              {
-                item.children && !item.expand ? this.renderTreeNode(item.children, level + 1) : null
-              }
-            </li>
-          );
-        }
-      });
-    }
-    return (
-      <ul className={classnames('tree-node-ul')}>
-        {arr}
-      </ul>
-    );
-  }
-
-  renderExpand(data) {
-    let arr = [];
-    if (data.children) {
-      if (!data.expand) {
-        arr = <i className="kuma-icon kuma-icon-triangle-down"></i>;
-      } else {
-        arr = <i className="kuma-icon kuma-icon-triangle-right"></i>;
-      }
-    } else {
-      arr = <span style={{ width: 15, display: 'inline-block' }}></span>;
-    }
-    return arr;
   }
 
   renderUlList(level) {
@@ -388,11 +344,64 @@ class CascadeMultiSelect extends React.Component {
     );
   }
 
-  render() {
-    const { className, prefixCls, cascadeSize, config } = this.props;
-    const depthSize = config.length || cascadeSize;
+  renderTreeNode(dataList, level) {
     const arr = [];
-    for (let i = 0; i < depthSize; i += 1) {
+    if (dataList && dataList.length) {
+      dataList.forEach((item) => {
+        if (item.checked || item.halfChecked) {
+          arr.push(
+            <li
+              className={classnames({
+                'tree-node-ul-li-open': !item.expand,
+                'tree-node-ul-li-close': item.expand,
+              })}
+              title={item.label}
+              key={item.value}
+              onClick={(e) => {
+                this.onTriggerNode(e, item);
+              }}
+            >
+              {this.renderExpand(item)}
+              <span className={'tree-node-ul-li-span'}>
+                {item.label}
+                {
+                  !level && item.checked ?
+                    <span className="tree-node-ul-li-all">{i18n(this.props.locale).all}</span> : ''
+                }
+              </span>
+              {
+                item.children && !item.expand ? this.renderTreeNode(item.children, level + 1) : null
+              }
+            </li>
+          );
+        }
+      });
+    }
+    return (
+      <ul className={classnames('tree-node-ul')}>
+        {arr}
+      </ul>
+    );
+  }
+
+  renderExpand(data) {
+    let arr = [];
+    if (data.children) {
+      if (!data.expand) {
+        arr = <i className="kuma-icon kuma-icon-triangle-down"></i>;
+      } else {
+        arr = <i className="kuma-icon kuma-icon-triangle-right"></i>;
+      }
+    } else {
+      arr = <span style={{ width: 15, display: 'inline-block' }}></span>;
+    }
+    return arr;
+  }
+
+  render() {
+    const { className, prefixCls, cascadeSize } = this.props;
+    const arr = [];
+    for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));
     }
     return (
