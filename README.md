@@ -74,8 +74,8 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 |---|---|---|---|---|---|
 | prefixCls | 默认的类名前缀 | String | `false`| "kuma-multi-cascader" |
 | className | 自定义类名 | String | `false` | "" |
-| options | 横向级联的数据 | Array | `false` | [] |
-| value | 可由外部控制的值 | Array | `false` | null |
+| options | 横向级联的数据 | Array | `true` | [] |
+| value | 可由外部控制的值 | Array | `false` | [] |
 | defaultValue | 初始默认的值 | Array | `false` | [] |
 | cascadeSize | 级联层级数 | number | `false` | 3 | 
 | noDataContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
