@@ -12,35 +12,41 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 672px;
-  cursor: auto;
-  border: 1px solid @border-color;
 
+  width: 672px;
+
+  cursor: auto;
   -webkit-user-select: none;
-  -ms-user-select: none;
   -moz-user-select: none;
+  -ms-user-select: none;
+
+  border: 1px solid @border-color;
   .@{notificationPrefixCls}-content {
     float: left;
-    padding: 14px 0;
-    height: 310px;
-    width: 150px;
-    border-left: 1px solid @border-color;
     overflow-y: auto;
+
+    width: 150px;
+    height: 310px;
+    padding: 14px 0;
+
+    border-left: 1px solid @border-color;
     background-color: #fff;
     &:first-child {
       border-left: 0;
     }
     .@{notificationPrefixCls}-list-item {
-      padding: 0 15px;
-      height: 28px;
-      line-height: 28px;
-      white-space: nowrap;
+      overflow: hidden;
 
+      height: 28px;
+      padding: 0 15px;
+
+      white-space: nowrap;
       text-overflow: ellipsis;
       -ms-text-overflow: ellipsis;
-      -o-text-overflow: ellipsis;
 
-      overflow: hidden;
+      line-height: 28px;
+
+      -o-text-overflow: ellipsis;
       &:hover {
         background-color: @list-item-back-color;
       }
@@ -55,57 +61,72 @@
     }
     .@{notificationPrefixCls}-list-noData {
       display: block;
+
       margin-top: 7px;
       margin-left: 21px;
     }
   }
   .@{notificationPrefixCls}-result {
     float: left;
-    padding: 20px 15px;
-    height: 310px;
+
     width: 220px;
+    height: 310px;
+    padding: 20px 15px;
+
     border-left: 1px solid @border-color;
     background-color: @list-item-back-color;
     .@{notificationPrefixCls}-result-title {
       padding-bottom: 10px;
+
       color: #999;
       .@{notificationPrefixCls}-result-clean {
         float: right;
+
         cursor: pointer;
+
         color: @brand-primary;
       }
     }
     .@{notificationPrefixCls}-result-tree {
-      margin-left: -15px;
-      height: 250px;
       overflow-x: hidden;
       overflow-y: auto;
+
+      height: 250px;
+      margin-left: -15px;
       ul {
         margin-left: 15px;
+
         -webkit-user-select: none;
-        -ms-user-select: none;
         -moz-user-select: none;
+        -ms-user-select: none;
         li {
-          line-height: 25px;
           cursor: pointer;
+
+          line-height: 25px;
           .kuma-icon-triangle-down,
           .kuma-icon-triangle-right {
             margin-right: 5px;
-            color: #999;
+
             vertical-align: middle;
+
+            color: #999;
           }
           .tree-node-ul-li-span {
             display: inline-block;
-            width: 85%;
-            vertical-align: middle;
             overflow-x: hidden;
+
+            width: 85%;
+
+            vertical-align: middle;
+            white-space: nowrap;
             text-overflow: ellipsis;
             -ms-text-overflow: ellipsis;
+
             -o-text-overflow: ellipsis;
-            white-space: nowrap;
           }
           .tree-node-ul-li-all {
             margin-left: 10px;
+
             color: #999;
           }
         }
@@ -115,8 +136,10 @@
 }
 
 .@{notificationPrefixCls}-text-result {
-  margin-right: 30px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   overflow-x: hidden;
+
+  margin-right: 30px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
