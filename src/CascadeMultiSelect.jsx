@@ -40,6 +40,13 @@ class CascadeMultiSelect extends React.Component {
     this.CascadeMulti.onCleanSelect();
   }
 
+  onDropDownVisibleChange(visible) {
+    const { disabled } = this.props;
+    if (!disabled) {
+      this.setState({ showSubMenu: visible });
+    }
+  }
+
   getInputValue(value, dataList) {
     const arr = [];
     if (value && value.length) {
@@ -79,6 +86,29 @@ class CascadeMultiSelect extends React.Component {
     this.props.onSelect(resa, resb);
   }
 
+  renderInput() {
+    const { placeholder, locale } = this.props;
+    const { displayValue } = this.state;
+    return (
+      <div>
+        {
+          !displayValue.length ?
+            <div className="kuma-cascader-placeholder">
+              {placeholder || i18n(locale).placeholder}
+            </div> :
+            displayValue
+        }
+      </div>
+    );
+    // 计划改造成 input , 解决选项过多时换行问题
+    // const { prefixCls } = this.props;
+    // return (
+    //   <input
+    //     className={classnames('kuma-input',[`${prefixCls}-input`])}
+    //   />
+    // )
+  }
+
   renderCloseIcon() {
     const { disabled } = this.state;
     if (disabled) { return null; }
@@ -111,14 +141,7 @@ class CascadeMultiSelect extends React.Component {
       >
         <div className={`${prefixCls}-text`}>
           <div className={`${prefixCls}-trigger`}>
-            {
-              placeholderText && !displayValue.length ?
-                <div className={`${prefixCls}-placeholder`}>
-                  {placeholderText}
-                </div> :
-                null
-            }
-            {displayValue}
+            {this.renderInput()}
           </div>
         </div>
         <div
@@ -154,6 +177,9 @@ class CascadeMultiSelect extends React.Component {
       <Dropdown
         overlay={CascadeMultiComponent}
         trigger={['click']}
+        onVisibleChange={(visible) => {
+          this.onDropDownVisibleChange(visible);
+        }}
       >
         {this.renderContent()}
       </Dropdown>
