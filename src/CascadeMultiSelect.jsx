@@ -23,6 +23,7 @@ class CascadeMultiSelect extends React.Component {
       disabled: props.disabled,
       showSubMenu: false,
     };
+    this.separator = ' , ';
   }
 
   componentDidMount() {
@@ -46,7 +47,7 @@ class CascadeMultiSelect extends React.Component {
         arr.push(this.getValueLabel(dataList, value[i]));
       }
     }
-    return arr.join();
+    return arr.join(this.separator);
   }
 
   getValueLabel(dataList, key) {
@@ -73,7 +74,7 @@ class CascadeMultiSelect extends React.Component {
   handleSelect(resa, resb) {
     this.setState({
       value: resa,
-      displayValue: resb.join(),
+      displayValue: resb.join(this.separator),
     });
     this.props.onSelect(resa, resb);
   }

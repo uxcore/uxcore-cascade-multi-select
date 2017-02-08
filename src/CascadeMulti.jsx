@@ -310,9 +310,7 @@ class CascadeMulti extends React.Component {
                 'kuma-tree-checkbox-indeterminate': item.halfChecked,
                 'kuma-tree-checkbox-checked': item.checked && !item.halfChecked,
               })}
-              onClick={() => {
-                t.onItemChecked(item, level);
-              }}
+              onClick={() => { t.onItemChecked(item, level); }}
             />
             {item.label}
           </label>
@@ -325,9 +323,7 @@ class CascadeMulti extends React.Component {
   renderResult() {
     const { prefixCls, allowClear, locale } = this.props;
     return (
-      <div
-        className={classnames([`${prefixCls}-result`])}
-      >
+      <div className={classnames([`${prefixCls}-result`])}>
         <div className={classnames([`${prefixCls}-result-title`])}>
           {i18n(locale).selected} {this.setResultNums()}
           {
@@ -363,7 +359,9 @@ class CascadeMulti extends React.Component {
                 this.onTriggerNode(e, item);
               }}
             >
-              {this.renderExpand(item)}
+              {
+                this.renderExpand(item)
+              }
               <span className={'tree-node-ul-li-span'}>
                 {item.label}
                 {
