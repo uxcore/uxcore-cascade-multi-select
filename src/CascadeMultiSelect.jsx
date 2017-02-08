@@ -87,7 +87,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderInput() {
-    const { placeholder, locale } = this.props;
+    const { prefixCls, placeholder, locale } = this.props;
     const { displayValue } = this.state;
     return (
       <div>
@@ -96,17 +96,12 @@ class CascadeMultiSelect extends React.Component {
             <div className="kuma-cascader-placeholder">
               {placeholder || i18n(locale).placeholder}
             </div> :
-            displayValue
+            <div className={classnames([`${prefixCls}-text-result`])}>
+              {displayValue}
+            </div>
         }
       </div>
     );
-    // 计划改造成 input , 解决选项过多时换行问题
-    // const { prefixCls } = this.props;
-    // return (
-    //   <input
-    //     className={classnames('kuma-input',[`${prefixCls}-input`])}
-    //   />
-    // )
   }
 
   renderCloseIcon() {
