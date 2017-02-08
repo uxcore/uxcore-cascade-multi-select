@@ -173,7 +173,6 @@ class CascadeMulti extends React.Component {
     const { dataList } = this.state;
     this.handleSelectNums = 0;
     this.getNums(dataList);
-    if (!this.handleSelectNums) { return null; }
     return (
       <span>({this.handleSelectNums})</span>
     );

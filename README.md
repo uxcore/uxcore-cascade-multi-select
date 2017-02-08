@@ -72,17 +72,19 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 
 | 选项 | 描述 | 类型 | 必填 | 默认值 |
 |---|---|---|---|---|---|
-| prefixCls | 默认的类名前缀 | String | `false`| "kuma-multi-cascader" |
+| prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
 | className | 自定义类名 | String | `false` | "" |
 | options | 横向级联的数据 | Array | `true` | [] |
 | value | 可由外部控制的值 | Array | `false` | [] |
 | defaultValue | 初始默认的值 | Array | `false` | [] |
-| cascadeSize | 级联层级数 | number | `false` | 3 | 
+| cascadeSize | 级联层级数 | number | `false` | 3 |
+| placeholder | input占位符 | string | `false` | 'Please Select' 或 '请选择' |
 | noDataContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
-| allowClear | 是否允许清空 | bool | `false` | true | |
+| allowClear | 是否允许清空 | bool | `false` | true |
 | readOnly | 只读模式，可以查看所有选项，不可修改选中或清空 | bool | `false` | false |
+| disabled | 禁用模式，只能看到结果，不可展开面板 | bool | `false` | false |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
-| onSelect | 选中选项的回调函数 | function | `false` | (res) => {} |
+| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
 
 ### Props.options
 
@@ -112,3 +114,13 @@ const options = [{
   }],
 }];
 ```
+
+### onSelect
+
+```javascript
+(resa, resb) => {
+  resa: 选中选项的key列表
+  resb: 选中选项的label列表
+}
+```
+> 注：如果选项的子集全部选中，则返回该选项值
