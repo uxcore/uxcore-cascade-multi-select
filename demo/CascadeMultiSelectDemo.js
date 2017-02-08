@@ -9,25 +9,6 @@
 const React = require('react');
 const CascadeMultiSelect = require('../src');
 
-
-const options0 = [
-  {
-    value: 'anhui',
-    label: '安徽',
-    children: [{
-      value: 'hefei',
-      label: '合肥',
-    }],
-  }, {
-    value: 'shandong',
-    label: '山东',
-    children: [{
-      value: 'jinan',
-      label: '济南',
-    }],
-  },
-];
-
 const options = [
   {
     value: 'zhejiang',
@@ -121,7 +102,7 @@ const options = [
         label: '名称很长的选项展示效果0-0-0',
       }],
     }],
-  }
+  },
 ];
 
 const options2 = [
@@ -209,60 +190,53 @@ const options2 = [
   },
 ];
 
-class Demo extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div style={{ width: 300 }}>
-        <div style={{ margin: 15 }}>
-          <h3>基本</h3>
-        </div>
-        <div style={{ margin: 15 }}>
-          <CascadeMultiSelect
-            options={options}
-            onSelect={(resa, resb) => {
-              console.log(resa, resb);
-            }}
-          />
-        </div>
-        <div style={{ margin: 15 }}>
-          <h3>隐藏清空</h3>
-        </div>
-        <div style={{ position: 'relative', margin: 15 }}>
-          <CascadeMultiSelect
-            options={options}
-            allowClear={false}
-            value={['xihu']}
-          />
-        </div>
-        <div style={{ marginLeft: 20 }}>
-          <h3>禁用</h3>
-        </div>
-        <div style={{ position: 'relative', margin: 15 }}>
-          <CascadeMultiSelect
-            options={options2}
-            value={['xihu']}
-            disabled
-          />
-        </div>
-        <div style={{ marginLeft: 20 }}>
-          <h3>只读</h3>
-          <p>(不可修改选中与清空)</p>
-        </div>
-        <div style={{ position: 'relative', margin: 15 }}>
-          <CascadeMultiSelect
-            options={options2}
-            value={['bingjiang', 'ningbo', 'anhui', 'shandong']}
-            readOnly
-          />
-        </div>
+export default () => {
+  const arr = (
+    <div style={{ width: 300 }}>
+      <div style={{ margin: 15 }}>
+        <h3>基本</h3>
       </div>
-    );
-  }
-}
-
-module.exports = Demo;
+      <div style={{ margin: 15 }}>
+        <CascadeMultiSelect
+          options={options}
+          onSelect={(resa, resb) => {
+            console.log(resa, resb);
+          }}
+        />
+      </div>
+      <div style={{ margin: 15 }}>
+        <h3>隐藏清空</h3>
+      </div>
+      <div style={{ position: 'relative', margin: 15 }}>
+        <CascadeMultiSelect
+          options={options}
+          allowClear={false}
+          value={['xihu']}
+        />
+      </div>
+      <div style={{ marginLeft: 20 }}>
+        <h3>禁用</h3>
+        <p>(不可展开面板)</p>
+      </div>
+      <div style={{ position: 'relative', margin: 15 }}>
+        <CascadeMultiSelect
+          options={options2}
+          value={['xihu']}
+          disabled
+        />
+      </div>
+      <div style={{ marginLeft: 20 }}>
+        <h3>只读</h3>
+        <p>(不可修改选中与清空)</p>
+      </div>
+      <div style={{ position: 'relative', margin: 15 }}>
+        <CascadeMultiSelect
+          options={options2}
+          value={['bingjiang', 'ningbo', 'anhui', 'shandong']}
+          readOnly
+        />
+      </div>
+    </div>
+  );
+  return arr;
+};

@@ -15,7 +15,6 @@ const locale = {
   },
 };
 
-
 export default (key) => {
   if (locale[key]) {
     return locale[key];

@@ -80,7 +80,6 @@ class CascadeMultiSelect extends React.Component {
 
   handleSelect(resa, resb) {
     this.setState({
-      value: resa,
       displayValue: resb.join(this.separator),
     });
     this.props.onSelect(resa, resb);
@@ -107,9 +106,8 @@ class CascadeMultiSelect extends React.Component {
   renderCloseIcon() {
     const { disabled } = this.state;
     if (disabled) { return null; }
-    const prefixCls = 'kuma-cascader';
     return (
-      <div className={`${prefixCls}-close-wrap`}>
+      <div className={'kuma-cascader-close-wrap'}>
         <i
           className="kuma-icon kuma-icon-error"
           onClick={() => {
@@ -121,10 +119,9 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderContent() {
-    const { placeholder, className, locale } = this.props;
+    const { className } = this.props;
     const { displayValue, allowClear, disabled, showSubMenu } = this.state;
     const prefixCls = 'kuma-cascader';
-    const placeholderText = placeholder || i18n(locale).placeholder;
     return (
       <div
         className={classnames({
