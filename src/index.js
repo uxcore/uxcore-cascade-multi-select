@@ -5,5 +5,6 @@
  * Copyright 2015-2016, Uxcore Team, Alinw.
  * All rights reserved.
  */
+import CascadeMultiSelect from './CascadeMultiSelect.jsx';
 
-module.exports = require('./CascadeMultiSelect');
+export default CascadeMultiSelect;

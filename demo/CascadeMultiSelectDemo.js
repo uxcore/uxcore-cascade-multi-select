@@ -9,13 +9,32 @@
 const React = require('react');
 const CascadeMultiSelect = require('../src');
 
+
+const options0 = [
+  {
+    value: 'anhui',
+    label: '安徽',
+    children: [{
+      value: 'hefei',
+      label: '合肥',
+    }],
+  }, {
+    value: 'shandong',
+    label: '山东',
+    children: [{
+      value: 'jinan',
+      label: '济南',
+    }],
+  },
+];
+
 const options = [
   {
     value: 'zhejiang',
     label: '浙江',
     children: [{
       value: 'hangzhou',
-      label: '杭州杭州杭州杭州杭州杭州杭州杭州杭州杭州',
+      label: '杭州',
       children: [{
         value: 'xihu',
         label: '西湖',
@@ -32,7 +51,7 @@ const options = [
       }],
     }, {
       value: 'yiwu',
-      label: '义务',
+      label: '义乌',
       children: [{
         value: 'jinhua',
         label: '金华',
@@ -91,7 +110,18 @@ const options = [
         label: '趵突泉',
       }],
     }],
-  },
+  }, {
+    value: 'longname-0',
+    label: '名称很长的选项展示效果0',
+    children: [{
+      value: 'longname-0-0',
+      label: '名称很长的选项展示效果0-0',
+      children: [{
+        value: 'longname-0-0-0',
+        label: '名称很长的选项展示效果0-0-0',
+      }],
+    }],
+  }
 ];
 
 const options2 = [
@@ -100,7 +130,7 @@ const options2 = [
     label: '浙江',
     children: [{
       value: 'hangzhou',
-      label: '杭州杭州杭州杭州杭州杭州杭州杭州杭州杭州',
+      label: '杭州',
       children: [{
         value: 'xihu',
         label: '西湖',
@@ -117,7 +147,7 @@ const options2 = [
       }],
     }, {
       value: 'yiwu',
-      label: '义务',
+      label: '义乌',
       children: [{
         value: 'jinhua',
         label: '金华',
@@ -179,110 +209,55 @@ const options2 = [
   },
 ];
 
-const option3 = [
-  {
-    value: 'anhui',
-    label: '安徽',
-    children: [{
-      value: 'hefei',
-      label: '合肥',
-    }],
-  }, {
-    value: 'shandong',
-    label: '山东',
-    children: [{
-      value: 'jinan',
-      label: '济南',
-    }],
-  },
-];
-
 class Demo extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      value2: ['xihu'],
-      inputVal: '',
-      showing: false,
-    };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        value2: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
-      });
-    }, 3000);
-  }
-
-  handleSelect(resa, resb) {
-    this.setState({
-      inputVal: resb.join(),
-    });
   }
 
   render() {
-    const styleSheet = {
-      cascade3: {
-        position: 'relative',
-        zIndex: 1000,
-      },
-    };
-    const { showing } = this.state;
-    styleSheet.cascade3.display = showing ? 'block' : 'none';
     return (
       <div>
         <div style={{ margin: 15 }}>
-          包含input展示效果
+          <h3>基本</h3>
         </div>
         <div style={{ margin: 15 }}>
-          <div>
-            <input
-              className="kuma-input"
-              value={this.state.inputVal}
-              onFocus={() => {
-                this.setState({
-                  showing: !showing,
-                });
-              }}
-            />
-          </div>
-          <div style={styleSheet.cascade3}>
-            <CascadeMultiSelect
-              options={option3}
-              cascadeSize={2}
-              onSelect={(resa, resb) => {
-                this.handleSelect(resa, resb);
-              }}
-              onClick={() => {
-                this.setState({
-                  showing: true,
-                });
-              }}
-            />
-          </div>
-        </div>
-        <div style={{ margin: 15 }}>
-          默认展示
-        </div>
-        <div style={{ position: 'relative', margin: '15px', height: 350 }}>
           <CascadeMultiSelect
             options={options}
-            onSelect={(resa, resb) => { console.log(resa, resb); }}
+            onSelect={(resa, resb) => {
+              console.log(resa, resb);
+            }}
+          />
+        </div>
+        <div style={{ margin: 15 }}>
+          <h3>隐藏清空</h3>
+        </div>
+        <div style={{ position: 'relative', margin: 15 }}>
+          <CascadeMultiSelect
+            options={options}
+            allowClear={false}
+            value={['xihu']}
           />
         </div>
         <div style={{ marginLeft: 20 }}>
-          <p>数据回填 (async)</p>
-          <p>readOnly模式 (不可修改选中与清空)</p>
-          <p>locale ('en-us')</p>
+          <h3>禁用</h3>
         </div>
-        <div style={{ position: 'relative', margin: '15px', height: 350 }}>
+        <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
             options={options2}
-            value={this.state.value2}
+            value={['xihu']}
+            disabled
+          />
+        </div>
+        <div style={{ marginLeft: 20 }}>
+          <h3>只读</h3>
+          <p>(不可修改选中与清空)</p>
+        </div>
+        <div style={{ position: 'relative', margin: 15 }}>
+          <CascadeMultiSelect
+            options={options2}
+            value={['bingjiang', 'ningbo', 'anhui', 'shandong']}
             readOnly
-            locale={'en-us'}
           />
         </div>
       </div>
