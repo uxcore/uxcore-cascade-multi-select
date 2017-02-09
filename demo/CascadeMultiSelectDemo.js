@@ -9,233 +9,11 @@
 const React = require('react');
 const CascadeMultiSelect = require('../src');
 
-const options = [
-  {
-    value: 'zhejiang',
-    label: '浙江',
-    children: [{
-      value: 'hangzhou',
-      label: '杭州',
-      children: [{
-        value: 'xihu',
-        label: '西湖',
-      }, {
-        value: 'bingjiang',
-        label: '滨江',
-      }],
-    }, {
-      value: 'ningbo',
-      label: '宁波',
-      children: [{
-        value: 'zhoushan',
-        label: '舟山',
-      }],
-    }, {
-      value: 'yiwu',
-      label: '义乌',
-      children: [{
-        value: 'jinhua',
-        label: '金华',
-      }],
-    }, {
-      value: 'changxing',
-      label: '长兴',
-      children: [],
-    }, {
-      value: 'jiaxing',
-      label: '嘉兴',
-      children: [],
-    }, {
-      value: 'wenzhou',
-      label: '温州',
-      children: [],
-    }, {
-      value: 'lishui',
-      label: '丽水',
-      children: [],
-    }, {
-      value: 'linan',
-      label: '临安',
-      children: [],
-    }],
-  }, {
-    value: 'jiangsu',
-    label: '江苏',
-    children: [{
-      value: 'nanjing',
-      label: '南京',
-      children: [{
-        value: 'zhonghuamen',
-        label: '中华门',
-      }],
-    }],
-  }, {
-    value: 'anhui',
-    label: '安徽',
-    children: [{
-      value: 'hefei',
-      label: '合肥',
-      children: [{
-        value: 'dashushan',
-        label: '大蜀山',
-      }],
-    }],
-  }, {
-    value: 'shandong',
-    label: '山东',
-    children: [{
-      value: 'jinan',
-      label: '济南',
-      children: [{
-        value: 'baotuquan',
-        label: '趵突泉',
-      }],
-    }],
-  }, {
-    value: 'longname-0',
-    label: '名称很长的选项展示效果0',
-    children: [{
-      value: 'longname-0-0',
-      label: '名称很长的选项展示效果0-0',
-      children: [{
-        value: 'longname-0-0-0',
-        label: '名称很长的选项展示效果0-0-0',
-      }],
-    }],
-  },
-];
-
-const options2 = [
-  {
-    value: 'zhejiang',
-    label: '浙江',
-    children: [{
-      value: 'hangzhou',
-      label: '杭州',
-      children: [{
-        value: 'xihu',
-        label: '西湖',
-      }, {
-        value: 'bingjiang',
-        label: '滨江',
-      }],
-    }, {
-      value: 'ningbo',
-      label: '宁波',
-      children: [{
-        value: 'zhoushan',
-        label: '舟山',
-      }],
-    }, {
-      value: 'yiwu',
-      label: '义乌',
-      children: [{
-        value: 'jinhua',
-        label: '金华',
-      }],
-    }, {
-      value: 'changxing',
-      label: '长兴',
-      children: [],
-    }, {
-      value: 'jiaxing',
-      label: '嘉兴',
-      children: [],
-    }, {
-      value: 'wenzhou',
-      label: '温州',
-      children: [],
-    }, {
-      value: 'lishui',
-      label: '丽水',
-      children: [],
-    }, {
-      value: 'linan',
-      label: '临安',
-      children: [],
-    }],
-  }, {
-    value: 'jiangsu',
-    label: '江苏',
-    children: [{
-      value: 'nanjing',
-      label: '南京',
-      children: [{
-        value: 'zhonghuamen',
-        label: '中华门',
-      }],
-    }],
-  }, {
-    value: 'anhui',
-    label: '安徽',
-    children: [{
-      value: 'hefei',
-      label: '合肥',
-      children: [{
-        value: 'dashushan',
-        label: '大蜀山',
-      }],
-    }],
-  }, {
-    value: 'shandong',
-    label: '山东',
-    children: [{
-      value: 'jinan',
-      label: '济南',
-      children: [{
-        value: 'baotuquan',
-        label: '趵突泉',
-      }],
-    }],
-  },
-];
-
-const options3 = [
-  {
-    value: 'anhui',
-    label: '安徽',
-    children: [{
-      value: 'hefei',
-      label: '合肥',
-      children: [{
-        value: 'dashushan',
-        label: '大蜀山',
-        children: [{
-          value: 'shudingfengyun',
-          label: '蜀顶风云',
-        }, {
-          value: 'shanjianyunhai',
-          label: '山涧云海',
-        }],
-      }],
-    }],
-  }, {
-    value: 'zhejiang',
-    label: '浙江',
-    children: [{
-      value: 'hangzhou',
-      label: '杭州',
-      children: [{
-        value: 'xihu',
-        label: '西湖',
-        children: [{
-          value: 'santanyingyue',
-          label: '三潭印月',
-        }, {
-          value: 'duanqiaocanxue',
-          label: '断桥残月',
-        }, {
-          value: 'leifengxizhao',
-          label: '雷峰夕照',
-        }],
-      }],
-    }, {
-      value: 'ningbo',
-      label: '宁波',
-      children: [],
-    }],
-  },
-];
+import {
+  options,
+  options2,
+  options3,
+} from './const';
 
 class Demo extends React.Component {
 
@@ -245,16 +23,18 @@ class Demo extends React.Component {
       demo1: [],
       demo2: [],
       demo3: ['xihu'],
-      demo4: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
+      demo4: ['bingjiang', 'ningbo', 'jiangsu'],
       demo5: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
       demo6: ['xihu'],
+      asyncOptions6: options,
     };
   }
 
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        demo6: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
+        demo6: ['hangzhou', 'ningbo', 'anhui', 'shandong'],
+        asyncOptions6: options2,
       });
     }, 5000);
   }
@@ -312,6 +92,7 @@ class Demo extends React.Component {
         </div>
         <div style={{ marginLeft: 20 }}>
           <h3>禁选第二级</h3>
+          <p>(设置第二级 checkable: false)</p>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
@@ -328,11 +109,16 @@ class Demo extends React.Component {
         </div>
         <div style={{ marginLeft: 20 }}>
           <h3>数据异步</h3>
+          <p>(异步设置 options 和 value)</p>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
-            options={options2}
+            options={this.state.asyncOptions6}
             value={this.state.demo6}
+            onSelect={(resa, resb) => {
+              console.log(resa, resb);
+              this.setState({ demo6: resa });
+            }}
           />
         </div>
         <div style={{ marginLeft: 20 }}>

@@ -413,7 +413,7 @@ class CascadeMulti extends React.Component {
     const style = { width: 0 };
     for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));
-      style.width += parseInt(config[i] ? config[i].width : 150, 0);
+      style.width += parseInt(config[i] && config[i].width ? config[i].width : 150, 0);
     }
     style.width += resultPanelWidth + 2;
     return (
