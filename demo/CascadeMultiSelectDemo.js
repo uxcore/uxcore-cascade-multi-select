@@ -30,15 +30,6 @@ class Demo extends React.Component {
     };
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        demo6: ['hangzhou', 'ningbo', 'anhui', 'shandong'],
-        asyncOptions6: options2,
-      });
-    }, 5000);
-  }
-
   render() {
     return (
       <div style={{ width: 300 }}>
@@ -109,6 +100,21 @@ class Demo extends React.Component {
         </div>
         <div style={{ marginLeft: 20 }}>
           <h3>数据异步</h3>
+          <p>
+            （手动异步数据）
+          </p>
+          <p>
+            <button
+              type="button"
+              className="kuma-button kuma-button-secondary"
+              onClick={() => {
+                this.setState({
+                  demo6: ['hangzhou', 'ningbo', 'anhui', 'shandong'],
+                  asyncOptions6: options2,
+                });
+              }}
+            >async</button>
+          </p>
           <p>(异步设置 options 和 value)</p>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>

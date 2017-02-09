@@ -11,6 +11,7 @@ export const options = [
       }, {
         value: 'bingjiang',
         label: '滨江',
+        disabled: true,
       }],
     }, {
       value: 'ningbo',
