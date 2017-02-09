@@ -1,6 +1,6 @@
 /**
  * CascadeMultiSelect Component Demo for uxcore
- * @author eternalsky
+ * @author guyunxiang
  *
  * Copyright 2015-2016, Uxcore Team, Alinw.
  * All rights reserved.

@@ -94,7 +94,11 @@ class CascadeMulti extends React.Component {
         }
       }
     }
-    this.setState({ dataList }, this.setSelectResult());
+    this.setState({ dataList }, () => {
+      const arr = [];
+      this.textArr = [];
+      this.getSelectResult(this.state.dataList, arr, this.textArr);
+    });
   }
 
   setChildrenChecked(data, checked) {
@@ -257,7 +261,10 @@ class CascadeMulti extends React.Component {
     const { dataList, selectArray } = this.state;
     if (!dataList.length) { return null; }
     const treeNodeObj = t.getTreeNodeData(dataList, selectArray[level - 1]);
-    const listArray = level ? treeNodeObj.itemNode.children : dataList;
+    const childrenList = (treeNodeObj &&
+      treeNodeObj.itemNode && treeNodeObj.itemNode.children.length) ?
+      treeNodeObj.itemNode.children : [];
+    const listArray = level ? childrenList : dataList;
     const noDataText = noDataContent || i18n(locale).noData;
     return (
       <ul
@@ -279,8 +286,9 @@ class CascadeMulti extends React.Component {
   renderListItems(dataList, level) {
     const t = this;
     const arr = [];
-    const { className, prefixCls } = this.props;
+    const { className, prefixCls, config } = this.props;
     const { selectArray } = this.state;
+    const checkable = !(config[level] && config[level].checkable === false);
     dataList.forEach(item => {
       if (!selectArray[level]) {
         selectArray[level] = item.value;
@@ -303,15 +311,18 @@ class CascadeMulti extends React.Component {
               className: !!className,
             }, [`${prefixCls}-item-label`])}
           >
-            <s
-              className={classnames({
-                className: !!className,
-                'kuma-tree-checkbox': true,
-                'kuma-tree-checkbox-indeterminate': item.halfChecked,
-                'kuma-tree-checkbox-checked': item.checked && !item.halfChecked,
-              })}
-              onClick={() => { t.onItemChecked(item, level); }}
-            />
+            {
+              checkable ? <s
+                className={classnames({
+                  className: !!className,
+                  'kuma-tree-checkbox': true,
+                  'kuma-tree-checkbox-indeterminate': item.halfChecked,
+                  'kuma-tree-checkbox-checked': item.checked && !item.halfChecked,
+                })}
+                onClick={() => { t.onItemChecked(item, level); }}
+              /> :
+              null
+            }
             {item.label}
           </label>
         </li>
@@ -396,11 +407,14 @@ class CascadeMulti extends React.Component {
   }
 
   render() {
-    const { className, prefixCls, cascadeSize } = this.props;
+    const { className, prefixCls, cascadeSize, config, resultPanelWidth } = this.props;
     const arr = [];
+    const style = { width: 0 };
     for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));
+      style.width += parseInt(config[i] ? config[i].width : 150, 0);
     }
+    style.width += resultPanelWidth + 2;
     return (
       <div
         className={classnames({
@@ -409,6 +423,7 @@ class CascadeMulti extends React.Component {
         onClick={(e) => {
           e.stopPropagation();
         }}
+        style={style}
       >
         {arr}
         {this.renderResult()}
@@ -420,6 +435,7 @@ class CascadeMulti extends React.Component {
 CascadeMulti.defaultProps = {
   className: '',
   prefixCls: 'kuma-cascade-multi',
+  config: [],
   options: [],
   cascadeSize: 3,
   value: [],
@@ -427,12 +443,14 @@ CascadeMulti.defaultProps = {
   noDataContent: '',
   allowClear: true,
   locale: 'zh-cn',
+  resultPanelWidth: 220,
   onSelect: () => {},
 };
 
 CascadeMulti.propTypes = {
   className: React.PropTypes.string,
   prefixCls: React.PropTypes.string,
+  config: React.PropTypes.array,
   options: React.PropTypes.array,
   cascadeSize: React.PropTypes.number,
   value: React.PropTypes.array,
@@ -440,6 +458,7 @@ CascadeMulti.propTypes = {
   allowClear: React.PropTypes.bool,
   readOnly: React.PropTypes.bool,
   locale: React.PropTypes.string,
+  resultPanelWidth: React.PropTypes.number,
   onSelect: React.PropTypes.func,
 };
 

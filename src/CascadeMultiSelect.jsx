@@ -32,8 +32,11 @@ class CascadeMultiSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const oldValue = this.props.value;
     const { value, options } = nextProps;
-    this.setInputValue(value, options);
+    if (oldValue !== value) {
+      this.setInputValue(value, options);
+    }
   }
 
   onCleanSelect() {
@@ -182,6 +185,7 @@ class CascadeMultiSelect extends React.Component {
 CascadeMultiSelect.defaultProps = {
   className: '',
   prefixCls: 'kuma-cascade-multi',
+  config: [],
   options: [],
   cascadeSize: 3,
   value: [],
@@ -189,6 +193,7 @@ CascadeMultiSelect.defaultProps = {
   noDataContent: '',
   allowClear: true,
   locale: 'zh-cn',
+  resultPanelWidth: 220,
   onSelect: () => {},
 
   placeholder: '',
@@ -199,6 +204,7 @@ CascadeMultiSelect.defaultProps = {
 CascadeMultiSelect.propTypes = {
   className: React.PropTypes.string,
   prefixCls: React.PropTypes.string,
+  config: React.PropTypes.array,
   options: React.PropTypes.array,
   cascadeSize: React.PropTypes.number,
   value: React.PropTypes.array,
@@ -206,6 +212,7 @@ CascadeMultiSelect.propTypes = {
   allowClear: React.PropTypes.bool,
   readOnly: React.PropTypes.bool,
   locale: React.PropTypes.string,
+  resultPanelWidth: React.PropTypes.number,
   onSelect: React.PropTypes.func,
 
   placeholder: React.PropTypes.string,
