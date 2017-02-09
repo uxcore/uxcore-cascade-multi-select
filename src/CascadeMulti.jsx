@@ -289,7 +289,7 @@ class CascadeMulti extends React.Component {
     const { className, prefixCls, config } = this.props;
     const { selectArray } = this.state;
     const checkable = !(config[level] && config[level].checkable === false);
-    dataList.forEach(item => {
+    dataList.forEach((item) => {
       if (!selectArray[level]) {
         selectArray[level] = item.value;
       }
@@ -399,10 +399,10 @@ class CascadeMulti extends React.Component {
   renderExpand(data) {
     let arr = [];
     if (data.children) {
-      arr = !data.expand ? <i className="kuma-icon kuma-icon-triangle-down"></i> :
-        <i className="kuma-icon kuma-icon-triangle-right"></i>;
+      arr = !data.expand ? <i className="kuma-icon kuma-icon-triangle-down" /> :
+        <i className="kuma-icon kuma-icon-triangle-right" />;
     } else {
-      arr = <span style={{ width: 15, display: 'inline-block' }}></span>;
+      arr = <span style={{ width: 15, display: 'inline-block' }} />;
     }
     return arr;
   }

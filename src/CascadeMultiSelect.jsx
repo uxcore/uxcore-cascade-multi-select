@@ -160,7 +160,7 @@ class CascadeMultiSelect extends React.Component {
     const CascadeMultiComponent = (
       <div>
         <CascadeMulti
-          { ...this.props }
+          {...this.props}
           ref={(r) => { this.CascadeMulti = r; }}
           onSelect={(resa, resb) => {
             this.handleSelect(resa, resb);
