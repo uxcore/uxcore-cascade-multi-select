@@ -74,6 +74,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 |---|---|---|---|---|---|
 | prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
 | className | 自定义类名 | String | `false` | "" |
+| config | 配置项 | Array | `false` | [] |
 | options | 横向级联的数据 | Array | `true` | [] |
 | value | 可由外部控制的值 | Array | `false` | [] |
 | defaultValue | 初始默认的值 | Array | `false` | [] |
@@ -84,7 +85,42 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | readOnly | 只读模式，可以查看所有选项，不可修改选中或清空 | bool | `false` | false |
 | disabled | 禁用模式，只能看到结果，不可展开面板 | bool | `false` | false |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
+| resultPanelWidth | 结果面板的宽度 | number | `false` | 220 |
 | onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
+
+### Props.config
+
+** 示例 **
+```javascript
+// 三级横向级联多选
+const config = [{
+  // 可以为空
+}, {
+  // 设置第二级不可选
+  checkable: false,
+}, {
+  // 指定第三级宽度 220px
+  width: 200,
+}]
+```
+> 不传 config 时，默认每列宽 150px , checkable: true
+
+> 每一列的 config 可以只配置需要的 key, 不需要全部指定， 如上示例
+
+** 完整 config **
+```javascript
+// 三级横向级联多选
+const config = [{
+  width: 150,
+  checkable: true,
+}, {
+  width: 150,
+  checkable: true,
+}, {
+  width: 150,
+  checkable: true,
+}]
+```
 
 ### Props.options
 
