@@ -201,11 +201,11 @@ const options3 = [
         value: 'dashushan',
         label: '大蜀山',
         children: [{
-          value: 'shanjiaoxia',
-          label: '山脚下',
+          value: 'shudingfengyun',
+          label: '蜀顶风云',
         }, {
-          value: 'shangdingshang',
-          label: '山顶上',
+          value: 'shanjianyunhai',
+          label: '山涧云海',
         }],
       }],
     }],

@@ -300,6 +300,7 @@ class CascadeMulti extends React.Component {
             className: !!className,
             [`${prefixCls}-list-item`]: !!prefixCls,
             [`${prefixCls}-checked`]: item.checked && !item.disabled,
+            [`${prefixCls}-list-item-active`]: selectArray[level] === item.value,
           })}
           title={item.label}
           onClick={() => {
