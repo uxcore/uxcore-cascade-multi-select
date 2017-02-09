@@ -27,4 +27,4 @@ spm_modules
 dist
 build
 assets/**/*.css
-.vscode/
+.vscode
