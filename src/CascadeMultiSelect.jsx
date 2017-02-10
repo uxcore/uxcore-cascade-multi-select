@@ -65,7 +65,9 @@ class CascadeMultiSelect extends React.Component {
     if (dataList && dataList.length) {
       for (let i = 0; i < dataList.length; i += 1) {
         if (dataList[i].value === key) {
-          return dataList[i].label;
+          return dataList[i].children && dataList[i].children.length ?
+            `${dataList[i].label} (${i18n(this.props.locale).all})` :
+            dataList[i].label;
         }
         if (dataList[i].children) {
           const res = this.getValueLabel(dataList[i].children, key);
@@ -90,7 +92,7 @@ class CascadeMultiSelect extends React.Component {
 
   renderInput() {
     const { prefixCls, placeholder, locale } = this.props;
-    const { displayValue } = this.state;
+    const { displayValue, disabled } = this.state;
     return (
       <div>
         {
@@ -99,7 +101,14 @@ class CascadeMultiSelect extends React.Component {
               {placeholder || i18n(locale).placeholder}
             </div> :
             <div className={classnames([`${prefixCls}-text-result`])}>
-              {displayValue}
+              <input
+                className={classnames({
+                  [`${prefixCls}-text-result-input`]: true,
+                  [`${prefixCls}-text-result-input-disabled`]: disabled,
+                })}
+                value={displayValue}
+                onChange={() => {}}
+              />
             </div>
         }
       </div>

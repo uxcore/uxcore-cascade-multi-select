@@ -115,12 +115,20 @@ class CascadeMulti extends React.Component {
     let handleCheckedState = false;
     if (botherList && botherList.length) {
       for (let i = 0, len = botherList.length; i < len; i += 1) {
-        if (
-          botherList[i].checked === state ||
-          botherList[i].halfChecked === !state
-        ) {
-          handleCheckedState = true;
-          break;
+        // 查询是否存在选中
+        if (state) {
+          // 要么选中，要么半选
+          if (botherList[i].checked || botherList[i].halfChecked) {
+            handleCheckedState = true;
+            break;
+          }
+        } else {
+          // 查询是否存在未选中
+          // 既不是选中，也不是半选
+          if (!botherList[i].checked && !botherList[i].halfChecked) {
+            handleCheckedState = true;
+            break;
+          }
         }
       }
     }
@@ -244,8 +252,13 @@ class CascadeMulti extends React.Component {
     const { parentNode } = treeNodeObj;
     if (parentNode) {
       const halfChecked = this.getBotherCheckedState(parentNode.children, !checked);
-      parentNode.checked = !halfChecked;
-      parentNode.halfChecked = halfChecked;
+      if (halfChecked) {
+        parentNode.checked = !halfChecked;
+        parentNode.halfChecked = halfChecked;
+      } else {
+        parentNode.checked = checked;
+        parentNode.halfChecked = !checked;
+      }
       this.setFatherCheckState(parentNode, checked);
     }
   }
@@ -424,7 +437,7 @@ class CascadeMulti extends React.Component {
    * 渲染已选择结果 TreeListNode
    */
   renderTreeListNode(dataList, level) {
-    const { resultPanelWidth } = this.props;
+    const { resultPanelWidth, cascadeSize } = this.props;
     const arr = [];
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
@@ -434,7 +447,7 @@ class CascadeMulti extends React.Component {
           // 86 = marginLeft（15） + 箭头icon占位宽度（21） + "删除"按钮的宽度（30） + marginRight（20）
           style.maxWidth = resultPanelWidth - 86 - (level * 15);
           // 56 = "已选择"文字宽度
-          style.maxWidth -= !level && item.checked ? 56 : 0;
+          style.maxWidth -= level < cascadeSize - 1 && item.checked ? 56 : 0;
           arr.push(
             <li
               className={classnames('tree-node-ul-li', {
@@ -461,9 +474,9 @@ class CascadeMulti extends React.Component {
                   </span>
                 }
                 {
-                  !level && item.checked ?
+                  level < cascadeSize - 1 && item.checked ?
                     <span className="tree-node-ul-li-all">
-                      {i18n(this.props.locale).all}
+                      {i18n(this.props.locale).haveAll}
                     </span> :
                     null
                 }
