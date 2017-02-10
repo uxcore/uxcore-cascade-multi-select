@@ -34,6 +34,9 @@ class CascadeMulti extends React.Component {
     }
   }
 
+  /**
+   * 选项列表点击事件
+   */
   onItemClick(data, level) {
     const { selectArray } = this.state;
     if (data.value !== selectArray[level]) {
@@ -43,89 +46,93 @@ class CascadeMulti extends React.Component {
     this.setState({ selectArray });
   }
 
+  /**
+   * 选中/取消选项事件
+   */
   onItemChecked(item, level) {
     const { readOnly } = this.props;
     const { dataList } = this.state;
     if (readOnly) { return; }
     item.checked = !item.checked;
     item.halfChecked = false;
+    // 设置子集全部选中
     if (item.children) {
       this.setChildrenChecked(item.children, item.checked);
     }
+    // 设置父级选中状态
     if (level) {
-      this.eachBotherCheckState(item, level, item.checked);
+      this.setFatherCheckState(item, item.checked);
     }
     this.setState({ dataList }, this.setSelectResult());
   }
 
+  /**
+   * 清空结果事件
+   */
   onCleanSelect() {
     const { readOnly } = this.props;
     const { dataList } = this.state;
     if (readOnly) { return; }
     if (dataList) {
-      this.cleanResult(dataList);
+      this.setCleanResult(dataList);
     }
     this.setState({ dataList }, this.setSelectResult());
   }
 
-  onTriggerNode(e, data) {
+  /**
+   * 展开/收起结果列
+   */
+  onTriggerNode(data) {
     const { dataList } = this.state;
-    if (e.cancelBubble) {
-      e.cancelBubble = true;
-    } else {
-      e.stopPropagation();
-    }
     data.expand = !data.expand;
     this.setState({ dataList });
   }
 
-  setData(data, dataList) {
-    if (dataList && dataList.length) {
-      this.cleanResult(dataList);
-      for (let i = 0, len = data.length; i < len; i += 1) {
-        const treeNodeObj = this.getTreeNodeData(dataList, data[i]);
-        const { parentNode, itemNode } = treeNodeObj;
-        itemNode.checked = true;
-        if (itemNode.children) {
-          this.setChildrenChecked(itemNode.children, true);
-        }
-        if (parentNode) {
-          this.setParentData(dataList, itemNode);
+  /**
+   * 删除选项事件
+   */
+  onDeleteItem(item, level) {
+    const { readOnly } = this.props;
+    if (readOnly) { return; }
+    item.checked = false;
+    item.halfChecked = false;
+    if (item.children) {
+      this.setChildrenChecked(item.children, false);
+    }
+    if (level) {
+      this.setFatherCheckState(item, false);
+    }
+    this.setSelectResult();
+  }
+
+  /**
+   * 获取兄弟节点指定选中状态
+   * @param botherList 兄弟节点列表
+   * @param state 查询的选中状态
+   * @return 兄弟节点中包含对应状态结果 boolean
+   */
+  getBotherCheckedState(botherList, state) {
+    let handleCheckedState = false;
+    if (botherList && botherList.length) {
+      for (let i = 0, len = botherList.length; i < len; i += 1) {
+        if (
+          botherList[i].checked === state ||
+          botherList[i].halfChecked === !state
+        ) {
+          handleCheckedState = true;
+          break;
         }
       }
     }
-    this.setState({ dataList }, () => {
-      const arr = [];
-      this.textArr = [];
-      this.getSelectResult(this.state.dataList, arr, this.textArr);
-    });
+    return handleCheckedState;
   }
 
-  setChildrenChecked(data, checked) {
-    if (data && data.length) {
-      data.forEach((item) => {
-        item.checked = checked;
-        item.halfChecked = false;
-        if (item.children) {
-          this.setChildrenChecked(item.children, checked);
-        }
-      });
-    }
-  }
-
-  setParentData(dataList, item) {
-    if (!item) { return; }
-    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
-    const { parentNode } = treeNodeObj;
-    if (parentNode) {
-      const halfChecked = this.handleBotherNoChecked(parentNode.children);
-      if (halfChecked) {
-        parentNode.halfChecked = true;
-        this.setParentData(dataList, parentNode);
-      }
-    }
-  }
-
+  /**
+   * 获取选中的结果
+   * @param dataList 组件选项列表
+   * @param arr 存放结果 value 的数组
+   * @param textArr 存放结果 label 的数组
+   */
   getSelectResult(dataList, arr, textArr) {
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
@@ -140,6 +147,9 @@ class CascadeMulti extends React.Component {
     }
   }
 
+  /**
+   * 获取选中的数量
+   */
   getNums(dataList) {
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
@@ -153,6 +163,12 @@ class CascadeMulti extends React.Component {
     }
   }
 
+  /**
+   * 根据传入的 key 获取其节点，父节点
+   * @param dataList 组件的 options
+   * @param key 要查询的 item.value
+   * @param parentNode 父节点（方法自用）
+   */
   getTreeNodeData(dataList, key, parentNode = null) {
     let back = null;
     if (!key) { return null; }
@@ -173,25 +189,70 @@ class CascadeMulti extends React.Component {
     return back;
   }
 
-  setResultNums() {
-    const { dataList } = this.state;
-    this.handleSelectNums = 0;
-    this.getNums(dataList);
-    return (
-      <span>({this.handleSelectNums})</span>
-    );
+  /**
+   * 外部设置组件的值
+   * @param value 设置的结果
+   * @param options 选项列表
+   */
+  setData(value, options) {
+    if (options && options.length) {
+      this.setCleanResult(options);
+      for (let i = 0, len = value.length; i < len; i += 1) {
+        const treeNodeObj = this.getTreeNodeData(options, value[i]);
+        const { parentNode, itemNode } = treeNodeObj;
+        itemNode.checked = true;
+        if (itemNode.children) {
+          this.setChildrenChecked(itemNode.children, true);
+        }
+        if (parentNode) {
+          this.setFatherCheckState(itemNode, true);
+        }
+      }
+    }
+    this.setState({ options }, () => {
+      const arr = [];
+      this.textArr = [];
+      this.getSelectResult(this.state.dataList, arr, this.textArr);
+    });
   }
 
-  setResultTree() {
-    const { prefixCls } = this.props;
-    const { dataList } = this.state;
-    return (
-      <div className={classnames([`${prefixCls}-result-tree`])}>
-        {this.renderTreeNode(dataList, 0)}
-      </div>
-    );
+  /**
+   * 设置children选中状态
+   * @param childrenList 子集
+   * @param checked 设置的状态
+   */
+  setChildrenChecked(childrenList, checked) {
+    if (childrenList && childrenList.length) {
+      childrenList.forEach((item) => {
+        item.checked = checked;
+        item.halfChecked = false;
+        if (item.children) {
+          this.setChildrenChecked(item.children, checked);
+        }
+      });
+    }
   }
 
+  /**
+   * 设置父亲节点的选中/半选中状态
+   * @param item 当前节点
+   * @param checked 设置状态
+   */
+  setFatherCheckState(item, checked) {
+    const { dataList } = this.state;
+    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const { parentNode } = treeNodeObj;
+    if (parentNode) {
+      const halfChecked = this.getBotherCheckedState(parentNode.children, !checked);
+      parentNode.checked = !halfChecked;
+      parentNode.halfChecked = halfChecked;
+      this.setFatherCheckState(parentNode, checked);
+    }
+  }
+
+  /**
+   * 设置选中的结果
+   */
   setSelectResult() {
     const arr = [];
     this.textArr = [];
@@ -199,71 +260,35 @@ class CascadeMulti extends React.Component {
     this.props.onSelect(arr, this.textArr);
   }
 
-  setFatherCheckState(halfChecked, level, checked) {
-    const { dataList, selectArray } = this.state;
-    const treeNodeObj = this.getTreeNodeData(dataList, selectArray[level - 1]);
-    const { itemNode } = treeNodeObj;
-    itemNode.checked = halfChecked ? false : checked;
-    itemNode.halfChecked = halfChecked;
-    if (level - 1) {
-      this.eachBotherCheckState(itemNode, level - 1, checked);
-    }
-  }
-
-  eachBotherCheckState(data, level, checked) {
-    const { dataList, selectArray } = this.state;
-    const treeNodeObj = this.getTreeNodeData(dataList, selectArray[level - 1]);
-    const listArray = treeNodeObj.itemNode.children;
-    let halfChecked = false;
-    if (listArray) {
-      for (let i = 0, len = listArray.length; i < len; i += 1) {
-        if (!!listArray[i].checked !== checked) {
-          halfChecked = true;
-          break;
-        }
-        if (!!listArray[i].halfChecked) {
-          halfChecked = true;
-          break;
-        }
-      }
-      this.setFatherCheckState(halfChecked, level, checked);
-    }
-  }
-
-  handleBotherNoChecked(botherList) {
-    let halfChecked = false;
-    if (botherList && botherList.length) {
-      for (let i = 0, len = botherList.length; i < len; i += 1) {
-        if (!botherList[i].checked) {
-          halfChecked = true;
-          break;
-        }
-      }
-    }
-    return halfChecked;
-  }
-
-  cleanResult(dataList) {
+  /**
+   * 清空
+   */
+  setCleanResult(dataList) {
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
         item.checked = false;
         item.halfChecked = false;
         if (item.children) {
-          this.cleanResult(item.children);
+          this.setCleanResult(item.children);
         }
       });
     }
   }
 
+  /**
+   * 渲染对应级的选项面板
+   */
   renderUlList(level) {
     const t = this;
     const { className, prefixCls, noDataContent, locale } = this.props;
     const { dataList, selectArray } = this.state;
     if (!dataList.length) { return null; }
     const treeNodeObj = t.getTreeNodeData(dataList, selectArray[level - 1]);
-    const childrenList = (treeNodeObj &&
-      treeNodeObj.itemNode && treeNodeObj.itemNode.children.length) ?
-      treeNodeObj.itemNode.children : [];
+    const childrenList = (
+      treeNodeObj &&
+      treeNodeObj.itemNode &&
+      treeNodeObj.itemNode.children.length
+    ) ? treeNodeObj.itemNode.children : [];
     const listArray = level ? childrenList : dataList;
     const noDataText = noDataContent || i18n(locale).noData;
     return (
@@ -271,8 +296,9 @@ class CascadeMulti extends React.Component {
         key={level}
         className={classnames({
           className: !!className,
+          'use-svg': true,
           [`${prefixCls}-content`]: true,
-        }, 'use-svg')}
+        })}
       >
         {
           selectArray[level - 1] && !listArray.length ?
@@ -283,13 +309,17 @@ class CascadeMulti extends React.Component {
     );
   }
 
+  /**
+   * 渲染对应级的 ListItem
+   */
   renderListItems(dataList, level) {
-    const t = this;
-    const arr = [];
     const { className, prefixCls, config } = this.props;
     const { selectArray } = this.state;
+    const arr = [];
+    // 设置当前级是否开启 checkbox
     const checkable = !(config[level] && config[level].checkable === false);
     dataList.forEach((item) => {
+      // 默认选择第一项
       if (!selectArray[level]) {
         selectArray[level] = item.value;
       }
@@ -303,9 +333,7 @@ class CascadeMulti extends React.Component {
             [`${prefixCls}-list-item-active`]: selectArray[level] === item.value,
           })}
           title={item.label}
-          onClick={() => {
-            t.onItemClick(item, level);
-          }}
+          onClick={() => { this.onItemClick(item, level); }}
         >
           <label
             className={classnames({
@@ -320,7 +348,7 @@ class CascadeMulti extends React.Component {
                   'kuma-tree-checkbox-indeterminate': item.halfChecked,
                   'kuma-tree-checkbox-checked': item.checked && !item.halfChecked,
                 })}
-                onClick={() => { t.onItemChecked(item, level); }}
+                onClick={() => { this.onItemChecked(item, level); }}
               /> :
               null
             }
@@ -332,12 +360,18 @@ class CascadeMulti extends React.Component {
     return arr;
   }
 
+  /**
+   * 渲染结果面板
+   */
   renderResult() {
-    const { prefixCls, allowClear, locale } = this.props;
+    const { prefixCls, allowClear, locale, resultPanelWidth } = this.props;
     return (
-      <div className={classnames([`${prefixCls}-result`])}>
+      <div
+        className={classnames([`${prefixCls}-result`])}
+        style={{ width: resultPanelWidth }}
+      >
         <div className={classnames([`${prefixCls}-result-title`])}>
-          {i18n(locale).selected} {this.setResultNums()}
+          {i18n(locale).selected} {this.renderResultNums()}
           {
             allowClear ?
               <span
@@ -349,40 +383,106 @@ class CascadeMulti extends React.Component {
               null
           }
         </div>
-        {this.setResultTree()}
+        {this.renderResultTree()}
       </div>
     );
   }
 
-  renderTreeNode(dataList, level) {
+  /**
+   * 渲染已选中节点数量
+   */
+  renderResultNums() {
+    const { dataList } = this.state;
+    this.handleSelectNums = 0;
+    this.getNums(dataList);
+    return (
+      <span>({this.handleSelectNums})</span>
+    );
+  }
+
+  /**
+   * 渲染已选择结果 TreeList
+   */
+  renderResultTree() {
+    const { prefixCls } = this.props;
+    const { dataList } = this.state;
+    const style = {};
+    if (this.handleSelectNums < 10) {
+      style.marginRight = 2;
+    }
+    return (
+      <div
+        className={classnames([`${prefixCls}-result-tree`])}
+        style={style}
+      >
+        {this.renderTreeListNode(dataList, 0)}
+      </div>
+    );
+  }
+
+  /**
+   * 渲染已选择结果 TreeListNode
+   */
+  renderTreeListNode(dataList, level) {
+    const { resultPanelWidth } = this.props;
     const arr = [];
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
         if (item.checked || item.halfChecked) {
+          // 设置 label 的宽度
+          const style = {};
+          // 86 = marginLeft（15） + 箭头icon占位宽度（21） + "删除"按钮的宽度（30） + marginRight（20）
+          style.maxWidth = resultPanelWidth - 86 - (level * 15);
+          // 56 = "已选择"文字宽度
+          style.maxWidth -= !level && item.checked ? 56 : 0;
           arr.push(
             <li
-              className={classnames({
+              className={classnames('tree-node-ul-li', {
                 'tree-node-ul-li-open': !item.expand,
                 'tree-node-ul-li-close': item.expand,
               })}
               title={item.label}
               key={item.value}
               onClick={(e) => {
-                this.onTriggerNode(e, item);
+                e.stopPropagation();
+                this.onTriggerNode(item);
               }}
             >
               {
                 this.renderExpand(item)
               }
-              <span className={'tree-node-ul-li-span'}>
-                {item.label}
+              <span className={classnames('tree-node-ul-li-span')}>
+                {
+                  <span
+                    className="tree-node-ul-li-span-label"
+                    style={style}
+                  >
+                    {item.label}
+                  </span>
+                }
                 {
                   !level && item.checked ?
-                    <span className="tree-node-ul-li-all">{i18n(this.props.locale).all}</span> : ''
+                    <span className="tree-node-ul-li-all">
+                      {i18n(this.props.locale).all}
+                    </span> :
+                    null
+                }
+                {
+                  <span
+                    className="tree-node-ul-li-del"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      this.onDeleteItem(item, level);
+                    }}
+                  >
+                    {i18n(this.props.locale).delete}
+                  </span>
                 }
               </span>
               {
-                item.children && !item.expand ? this.renderTreeNode(item.children, level + 1) : null
+                item.children && !item.expand ?
+                  this.renderTreeListNode(item.children, level + 1) :
+                  null
               }
             </li>
           );
@@ -396,13 +496,17 @@ class CascadeMulti extends React.Component {
     );
   }
 
-  renderExpand(data) {
+  /**
+   * 渲染结果列表展开/收缩按钮
+   */
+  renderExpand(item) {
     let arr = [];
-    if (data.children) {
-      arr = !data.expand ? <i className="kuma-icon kuma-icon-triangle-down" /> :
+    if (item.children) {
+      arr = !item.expand ? <i className="kuma-icon kuma-icon-triangle-down" /> :
         <i className="kuma-icon kuma-icon-triangle-right" />;
     } else {
-      arr = <span style={{ width: 15, display: 'inline-block' }} />;
+      // 21 = kuma-icon的占位宽度
+      arr = <span style={{ width: 21, display: 'inline-block' }} />;
     }
     return arr;
   }
@@ -413,18 +517,20 @@ class CascadeMulti extends React.Component {
     const style = { width: 0 };
     for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));
+      // 设置选项列表的面板宽度
       style.width += parseInt(config[i] && config[i].width ? config[i].width : 150, 0);
     }
+    // 设置结果列表面板宽度
     style.width += resultPanelWidth + 2;
     return (
       <div
         className={classnames({
           className: !!className,
         }, [`${prefixCls}`])}
+        style={style}
         onClick={(e) => {
           e.stopPropagation();
         }}
-        style={style}
       >
         {arr}
         {this.renderResult()}

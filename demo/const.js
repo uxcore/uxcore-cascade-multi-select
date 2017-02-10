@@ -11,7 +11,6 @@ export const options = [
       }, {
         value: 'bingjiang',
         label: '滨江',
-        disabled: true,
       }],
     }, {
       value: 'ningbo',
@@ -238,6 +237,9 @@ export const options3 = [
         }, {
           value: 'leifengxizhao',
           label: '雷峰夕照',
+        }, {
+          value: 'pinghuqiuyue',
+          label: '平湖秋月',
         }],
       }],
     }, {

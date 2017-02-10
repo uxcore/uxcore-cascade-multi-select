@@ -5,6 +5,7 @@ const locale = {
     clean: '清空',
     all: '已全选',
     placeholder: '请选择',
+    delete: '删除',
   },
   'en-us': {
     noData: 'No Data',
@@ -12,6 +13,7 @@ const locale = {
     clean: 'Clean',
     all: 'Have All',
     placeholder: 'Please Select',
+    delete: 'Delete',
   },
 };
 

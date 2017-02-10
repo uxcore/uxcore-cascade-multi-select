@@ -135,6 +135,7 @@ class Demo extends React.Component {
             options={options3}
             value={this.state.demo7}
             cascadeSize={4}
+            resultPanelWidth={250}
           />
         </div>
       </div>
