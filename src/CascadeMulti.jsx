@@ -106,36 +106,6 @@ class CascadeMulti extends React.Component {
   }
 
   /**
-   * 获取兄弟节点指定选中状态
-   * @param botherList 兄弟节点列表
-   * @param state 查询的选中状态
-   * @return 兄弟节点中包含对应状态结果 boolean
-   */
-  getBotherCheckedState(botherList, state) {
-    let handleCheckedState = false;
-    if (botherList && botherList.length) {
-      for (let i = 0, len = botherList.length; i < len; i += 1) {
-        // 查询是否存在选中
-        if (state) {
-          // 要么选中，要么半选
-          if (botherList[i].checked || botherList[i].halfChecked) {
-            handleCheckedState = true;
-            break;
-          }
-        } else {
-          // 查询是否存在未选中
-          // 既不是选中，也不是半选
-          if (!botherList[i].checked && !botherList[i].halfChecked) {
-            handleCheckedState = true;
-            break;
-          }
-        }
-      }
-    }
-    return handleCheckedState;
-  }
-
-  /**
    * 获取选中的结果
    * @param dataList 组件选项列表
    * @param arr 存放结果 value 的数组
@@ -198,7 +168,37 @@ class CascadeMulti extends React.Component {
   }
 
   /**
-   * 外部设置组件的值
+   * 获取兄弟节点指定选中状态
+   * @param botherList 兄弟节点列表
+   * @param state 查询的选中状态
+   * @return 兄弟节点中包含对应状态结果 boolean
+   */
+  getBotherCheckedState(botherList, state) {
+    let handleCheckedState = false;
+    if (botherList && botherList.length) {
+      for (let i = 0, len = botherList.length; i < len; i += 1) {
+        // 查询是否存在选中
+        if (state) {
+          // 要么选中，要么半选
+          if (botherList[i].checked || botherList[i].halfChecked) {
+            handleCheckedState = true;
+            break;
+          }
+        } else {
+          // 查询是否存在未选中
+          // 既不是选中，也不是半选
+          if (!botherList[i].checked && !botherList[i].halfChecked) {
+            handleCheckedState = true;
+            break;
+          }
+        }
+      }
+    }
+    return handleCheckedState;
+  }
+
+  /**
+   * 外部设置组件的 value
    * @param value 设置的结果
    * @param options 选项列表
    */
@@ -225,7 +225,7 @@ class CascadeMulti extends React.Component {
   }
 
   /**
-   * 设置children选中状态
+   * 设置children选中/取消状态
    * @param childrenList 子集
    * @param checked 设置的状态
    */
@@ -550,6 +550,7 @@ class CascadeMulti extends React.Component {
       </div>
     );
   }
+
 }
 
 CascadeMulti.defaultProps = {
