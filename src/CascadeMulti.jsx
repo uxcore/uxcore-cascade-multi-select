@@ -20,17 +20,16 @@ class CascadeMulti extends React.Component {
   }
 
   componentDidMount() {
-    const { value } = this.props;
+    const { value, options } = this.props;
     if (value) {
-      this.setData(value, this.state.dataList);
+      this.setData(value, options);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const oldValue = this.props.value;
     const { value, options } = nextProps;
-    if (value !== oldValue) {
-      this.setData(value, options || this.state.dataList);
+    if (value) {
+      this.setData(value, options);
     }
   }
 
@@ -204,11 +203,11 @@ class CascadeMulti extends React.Component {
    * @param value 设置的结果
    * @param options 选项列表
    */
-  setData(value, options) {
-    if (options && options.length) {
-      this.setCleanResult(options);
+  setData(value, dataList) {
+    if (dataList && dataList.length) {
+      this.setCleanResult(dataList);
       for (let i = 0, len = value.length; i < len; i += 1) {
-        const treeNodeObj = this.getTreeNodeData(options, value[i]);
+        const treeNodeObj = this.getTreeNodeData(dataList, value[i]);
         const { parentNode, itemNode } = treeNodeObj;
         itemNode.checked = true;
         if (itemNode.children) {
@@ -219,7 +218,7 @@ class CascadeMulti extends React.Component {
         }
       }
     }
-    this.setState({ options }, () => {
+    this.setState({ dataList }, () => {
       const arr = [];
       this.textArr = [];
       this.getSelectResult(this.state.dataList, arr, this.textArr);
