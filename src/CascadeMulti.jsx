@@ -179,15 +179,17 @@ class CascadeMulti extends React.Component {
       for (let i = 0, len = botherList.length; i < len; i += 1) {
         // 查询是否存在选中
         if (state) {
-          // 要么选中，要么半选
           if (botherList[i].checked || botherList[i].halfChecked) {
             handleCheckedState = true;
             break;
           }
         } else {
           // 查询是否存在未选中
-          // 既不是选中，也不是半选
-          if (!botherList[i].checked && !botherList[i].halfChecked) {
+          // 要么未选中，要么半选中状态
+          if (
+            !botherList[i].checked && !botherList[i].halfChecked ||
+            !botherList[i].checked && botherList[i].halfChecked
+          ) {
             handleCheckedState = true;
             break;
           }
@@ -257,7 +259,7 @@ class CascadeMulti extends React.Component {
         parentNode.halfChecked = halfChecked;
       } else {
         parentNode.checked = checked;
-        parentNode.halfChecked = !checked;
+        parentNode.halfChecked = false;
       }
       this.setFatherCheckState(parentNode, checked);
     }

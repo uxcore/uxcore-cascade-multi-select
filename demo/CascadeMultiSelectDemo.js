@@ -82,14 +82,14 @@ class Demo extends React.Component {
           />
         </div>
         <div style={{ marginLeft: 20 }}>
-          <h3>禁选第二级</h3>
-          <p>(设置第二级 checkable: false)</p>
+          <h3>禁选前两级</h3>
+          <p>(设置前两级 checkable: false)</p>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
             config={
               [{
-                checkable: true,
+                checkable: false,
               }, {
                 checkable: false,
               }, {}]
