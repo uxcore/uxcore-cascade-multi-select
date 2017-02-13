@@ -87,6 +87,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
 | resultPanelWidth | 结果面板的宽度 | number | `false` | 220 |
 | onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
+| onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 
 ### Props.config
 
