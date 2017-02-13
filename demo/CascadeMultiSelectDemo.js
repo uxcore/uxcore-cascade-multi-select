@@ -26,6 +26,7 @@ class Demo extends React.Component {
       demo4: ['bingjiang', 'ningbo', 'jiangsu'],
       demo5: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
       demo6: ['xihu'],
+      demo7: [],
       asyncOptions6: options,
     };
   }
@@ -113,17 +114,38 @@ class Demo extends React.Component {
                   asyncOptions6: options2,
                 });
               }}
-            >async</button>
+            >
+              async
+            </button>
+            &nbsp;
+            <button
+              type="button"
+              className="kuma-button kuma-button-secondary"
+              onClick={() => {
+                this.setState({
+                  demo6: ['xihu'],
+                  asyncOptions6: options,
+                });
+              }}
+            >init</button>
           </p>
-          <p>(异步设置 options 和 value)</p>
+          <p>点击async更新options和value</p>
+          <p>点击浙江/杭州/长兴，添加长兴的子集(原没有数据)</p>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
             options={this.state.asyncOptions6}
             value={this.state.demo6}
-            onSelect={(resa, resb) => {
-              console.log(resa, resb);
+            onSelect={(resa) => {
               this.setState({ demo6: resa });
+            }}
+            onItemClick={(item) => {
+              console.log('onItemClick', item);
+              if (item.value === 'changxing') {
+                this.setState({
+                  asyncOptions6: options2,
+                });
+              }
             }}
           />
         </div>
@@ -136,6 +158,9 @@ class Demo extends React.Component {
             value={this.state.demo7}
             cascadeSize={4}
             resultPanelWidth={250}
+            onSelect={(resa) => {
+              console.log(resa);
+            }}
           />
         </div>
       </div>

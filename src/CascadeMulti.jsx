@@ -28,6 +28,12 @@ class CascadeMulti extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { value, options } = nextProps;
+    if (
+      value === this.props.value &&
+      options === this.props.options
+    ) {
+      return;
+    }
     if (value) {
       this.setData(value, options);
     }
@@ -42,6 +48,13 @@ class CascadeMulti extends React.Component {
       selectArray.splice(level + 1);
     }
     selectArray[level] = data.value;
+    if (this.props.onItemClick) {
+      this.props.onItemClick({
+        value: data.value,
+        label: data.label,
+        children: data.children,
+      });
+    }
     this.setState({ selectArray });
   }
 
@@ -203,22 +216,27 @@ class CascadeMulti extends React.Component {
    * @param value 设置的结果
    * @param options 选项列表
    */
-  setData(value, dataList) {
-    if (dataList && dataList.length) {
-      this.setCleanResult(dataList);
+  setData(value, options) {
+    if (options && options.length) {
+      this.setCleanResult(options);
       for (let i = 0, len = value.length; i < len; i += 1) {
-        const treeNodeObj = this.getTreeNodeData(dataList, value[i]);
+        const treeNodeObj = this.getTreeNodeData(options, value[i]);
         const { parentNode, itemNode } = treeNodeObj;
         itemNode.checked = true;
         if (itemNode.children) {
           this.setChildrenChecked(itemNode.children, true);
         }
         if (parentNode) {
-          this.setFatherCheckState(itemNode, true);
+          this.setFatherCheckState(itemNode, true, options);
         }
       }
     }
-    this.setState({ dataList }, () => {
+    this.setState({ dataList: options }, () => {
+      if (!this.dataErrorState) {
+        this.checkNoDataError();
+      } else {
+        this.dataErrorState = false;
+      }
       const arr = [];
       this.textArr = [];
       this.getSelectResult(this.state.dataList, arr, this.textArr);
@@ -247,8 +265,7 @@ class CascadeMulti extends React.Component {
    * @param item 当前节点
    * @param checked 设置状态
    */
-  setFatherCheckState(item, checked) {
-    const { dataList } = this.state;
+  setFatherCheckState(item, checked, dataList = this.state.dataList) {
     const treeNodeObj = this.getTreeNodeData(dataList, item.value);
     const { parentNode } = treeNodeObj;
     if (parentNode) {
@@ -286,6 +303,34 @@ class CascadeMulti extends React.Component {
           this.setCleanResult(item.children);
         }
       });
+    }
+  }
+
+  /**
+   * 检查数据是否异常
+   * 某些异步情况下设置了value，第一级却没有check的情况
+   * 重新setData修复数据异常
+   */
+  checkNoDataError() {
+    const { dataList } = this.state;
+    const { value } = this.props;
+    let sum = 0;
+    for (let i = 0; i < dataList.length; i++) {
+      if (!dataList[i].checked && !dataList[i].halfChecked) {
+        sum += 1;
+      }
+    }
+    if (value && value.length) {
+      if (sum === dataList.length) {
+        this.dataErrorState = true;
+      } else {
+        this.dataErrorState = false;
+      }
+    }
+    if (this.dataErrorState) {
+      console.debug('found data exception, repairing data ...');
+      this.setData(value, dataList);
+      console.debug('success.');
     }
   }
 
@@ -582,6 +627,7 @@ CascadeMulti.propTypes = {
   locale: React.PropTypes.string,
   resultPanelWidth: React.PropTypes.number,
   onSelect: React.PropTypes.func,
+  onItemClick: React.PropTypes.func,
 };
 
 CascadeMulti.displayName = 'CascadeMulti';

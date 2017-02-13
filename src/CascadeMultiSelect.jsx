@@ -84,8 +84,9 @@ class CascadeMultiSelect extends React.Component {
   }
 
   handleSelect(resa, resb) {
+    const { options } = this.props;
     this.setState({
-      displayValue: resb.join(this.separator),
+      displayValue: this.getInputValue(resa, options),
     });
     this.props.onSelect(resa, resb);
   }

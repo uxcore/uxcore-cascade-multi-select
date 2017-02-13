@@ -134,7 +134,13 @@ export const options2 = [
     }, {
       value: 'changxing',
       label: '长兴',
-      children: [],
+      children: [{
+        value: 'changxingnan',
+        label: '长兴南',
+      }, {
+        value: 'changxingbei',
+        label: '长兴北',
+      }],
     }, {
       value: 'jiaxing',
       label: '嘉兴',
