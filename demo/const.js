@@ -37,7 +37,6 @@ export const options = [
     }, {
       value: 'wenzhou',
       label: '温州',
-      children: [],
     }, {
       value: 'lishui',
       label: '丽水',

@@ -80,12 +80,10 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | defaultValue | 初始默认的值 | Array | `false` | [] |
 | cascadeSize | 级联层级数 | number | `false` | 3 |
 | placeholder | input占位符 | string | `false` | 'Please Select' 或 '请选择' |
-| noDataContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
+| notFoundContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
 | allowClear | 是否允许清空 | bool | `false` | true |
-| readOnly | 只读模式，可以查看所有选项，不可修改选中或清空 | bool | `false` | false |
 | disabled | 禁用模式，只能看到结果，不可展开面板 | bool | `false` | false |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
-| resultPanelWidth | 结果面板的宽度 | number | `false` | 220 |
 | onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 
@@ -100,11 +98,9 @@ const config = [{
   // 设置第二级不可选
   checkable: false,
 }, {
-  // 指定第三级宽度 220px
-  width: 200,
 }]
 ```
-> 不传 config 时，默认每列宽 150px , checkable: true
+> 不传 config 时，checkable: true
 
 > 每一列的 config 可以只配置需要的 key, 不需要全部指定， 如上示例
 
@@ -112,18 +108,21 @@ const config = [{
 ```javascript
 // 三级横向级联多选
 const config = [{
-  width: 150,
   checkable: true,
 }, {
-  width: 150,
   checkable: true,
 }, {
-  width: 150,
   checkable: true,
 }]
 ```
 
 ### Props.options
+
+| 选项 | 描述 | 类型 | 必填 | 默认值 |
+|---|---|---|---|---|---|
+| value | 选项的值 | String | `true`| "" |
+| label | 选项的名称 | String | `true` | "" |
+| children | 选项的子项集 | Array | `false` | [] |
 
 ** 示例 **
 ```javascript
@@ -150,6 +149,20 @@ const options = [{
     }],
   }],
 }];
+```
+
+### Props.value
+
+```javascript
+const value = ['xihu', 'bingjiang'];
+```
+
+** 示例 **
+```javascript
+<CascadeMultiSelect
+  options={options}
+  value={['xihu', 'nanjing']}
+/>
 ```
 
 ### onSelect

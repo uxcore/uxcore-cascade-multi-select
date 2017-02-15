@@ -62,9 +62,7 @@ class CascadeMulti extends React.Component {
    * 选中/取消选项事件
    */
   onItemChecked(item, level) {
-    const { readOnly } = this.props;
     const { dataList } = this.state;
-    if (readOnly) { return; }
     item.checked = !item.checked;
     item.halfChecked = false;
     // 设置子集全部选中
@@ -82,9 +80,7 @@ class CascadeMulti extends React.Component {
    * 清空结果事件
    */
   onCleanSelect() {
-    const { readOnly } = this.props;
     const { dataList } = this.state;
-    if (readOnly) { return; }
     if (dataList) {
       this.setCleanResult(dataList);
     }
@@ -104,8 +100,6 @@ class CascadeMulti extends React.Component {
    * 删除选项事件
    */
   onDeleteItem(item, level) {
-    const { readOnly } = this.props;
-    if (readOnly) { return; }
     item.checked = false;
     item.halfChecked = false;
     if (item.children) {
@@ -307,6 +301,27 @@ class CascadeMulti extends React.Component {
   }
 
   /**
+   * 设置组件宽度样式，兼容名称过长时显示效果等
+   */
+  setPanelWidth() {
+    const { cascadeSize } = this.props;
+    const style = {};
+    const reg = /[0-9]+/g;
+    const width = this.refUls ?
+      getComputedStyle(this.refUls).width.match(reg)[0] :
+      150;
+    const resultPanelWidth = this.refResultPanel ?
+      getComputedStyle(this.refResultPanel).width.match(reg)[0] : 220;
+    style.width = 0;
+    for (let i = 0; i < cascadeSize; i += 1) {
+      style.width += parseInt(width, 0);
+    }
+    style.width += parseInt(resultPanelWidth, 0) + 2;
+    this.resultPanelWidth = parseInt(resultPanelWidth, 0);
+    return style;
+  }
+
+  /**
    * 检查数据是否异常
    * 某些异步情况下设置了value，第一级却没有check的情况
    * 重新setData修复数据异常
@@ -339,17 +354,18 @@ class CascadeMulti extends React.Component {
    */
   renderUlList(level) {
     const t = this;
-    const { className, prefixCls, noDataContent, locale } = this.props;
+    const { className, prefixCls, notFoundContent, locale } = this.props;
     const { dataList, selectArray } = this.state;
     if (!dataList.length) { return null; }
     const treeNodeObj = t.getTreeNodeData(dataList, selectArray[level - 1]);
     const childrenList = (
       treeNodeObj &&
       treeNodeObj.itemNode &&
+      treeNodeObj.itemNode.children &&
       treeNodeObj.itemNode.children.length
     ) ? treeNodeObj.itemNode.children : [];
     const listArray = level ? childrenList : dataList;
-    const noDataText = noDataContent || i18n(locale).noData;
+    const noDataText = notFoundContent || i18n(locale).noData;
     return (
       <ul
         key={level}
@@ -358,6 +374,7 @@ class CascadeMulti extends React.Component {
           'use-svg': true,
           [`${prefixCls}-content`]: true,
         })}
+        ref={(r) => { this.refUls = r; }}
       >
         {
           selectArray[level - 1] && !listArray.length ?
@@ -423,11 +440,11 @@ class CascadeMulti extends React.Component {
    * 渲染结果面板
    */
   renderResult() {
-    const { prefixCls, allowClear, locale, resultPanelWidth } = this.props;
+    const { prefixCls, allowClear, locale } = this.props;
     return (
       <div
         className={classnames([`${prefixCls}-result`])}
-        style={{ width: resultPanelWidth }}
+        ref={(r) => { this.refResultPanel = r; }}
       >
         <div className={classnames([`${prefixCls}-result-title`])}>
           {i18n(locale).selected} {this.renderResultNums()}
@@ -483,15 +500,15 @@ class CascadeMulti extends React.Component {
    * 渲染已选择结果 TreeListNode
    */
   renderTreeListNode(dataList, level) {
-    const { resultPanelWidth, cascadeSize } = this.props;
+    const { cascadeSize } = this.props;
     const arr = [];
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
         if (item.checked || item.halfChecked) {
           // 设置 label 的宽度
-          const style = {};
+          const style = { maxWidth: 0 };
           // 86 = marginLeft（15） + 箭头icon占位宽度（21） + "删除"按钮的宽度（30） + marginRight（20）
-          style.maxWidth = resultPanelWidth - 86 - (level * 15);
+          style.maxWidth = this.resultPanelWidth - 86 - (level * 15);
           // 56 = "已选择"文字宽度
           style.maxWidth -= level < cascadeSize - 1 && item.checked ? 56 : 0;
           arr.push(
@@ -549,7 +566,9 @@ class CascadeMulti extends React.Component {
       });
     }
     return (
-      <ul className={classnames('tree-node-ul')}>
+      <ul
+        className={classnames('tree-node-ul')}
+      >
         {arr}
       </ul>
     );
@@ -571,25 +590,20 @@ class CascadeMulti extends React.Component {
   }
 
   render() {
-    const { className, prefixCls, cascadeSize, config, resultPanelWidth } = this.props;
+    const { className, prefixCls, cascadeSize } = this.props;
     const arr = [];
-    const style = { width: 0 };
     for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));
-      // 设置选项列表的面板宽度
-      style.width += parseInt(config[i] && config[i].width ? config[i].width : 150, 0);
     }
-    // 设置结果列表面板宽度
-    style.width += resultPanelWidth + 2;
     return (
       <div
         className={classnames({
           className: !!className,
         }, [`${prefixCls}`])}
-        style={style}
         onClick={(e) => {
           e.stopPropagation();
         }}
+        style={this.setPanelWidth()}
       >
         {arr}
         {this.renderResult()}
@@ -606,11 +620,9 @@ CascadeMulti.defaultProps = {
   options: [],
   cascadeSize: 3,
   value: [],
-  readOnly: false,
-  noDataContent: '',
+  notFoundContent: '',
   allowClear: true,
   locale: 'zh-cn',
-  resultPanelWidth: 220,
   onSelect: () => {},
 };
 
@@ -621,11 +633,9 @@ CascadeMulti.propTypes = {
   options: React.PropTypes.array,
   cascadeSize: React.PropTypes.number,
   value: React.PropTypes.array,
-  noDataContent: React.PropTypes.string,
+  notFoundContent: React.PropTypes.string,
   allowClear: React.PropTypes.bool,
-  readOnly: React.PropTypes.bool,
   locale: React.PropTypes.string,
-  resultPanelWidth: React.PropTypes.number,
   onSelect: React.PropTypes.func,
   onItemClick: React.PropTypes.func,
 };
