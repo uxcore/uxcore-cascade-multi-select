@@ -8,7 +8,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
-import CascadeMulti from './CascadeMulti.jsx';
+import CascadeMulti from './CascadeMulti';
 import i18n from './locale';
 
 class CascadeMultiSelect extends React.Component {
