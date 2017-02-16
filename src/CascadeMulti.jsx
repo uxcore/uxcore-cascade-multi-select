@@ -7,6 +7,7 @@
  */
 import React from 'react';
 import classnames from 'classnames';
+import deepcopy from 'deepcopy';
 import i18n from './locale';
 
 class CascadeMulti extends React.Component {
@@ -61,18 +62,19 @@ class CascadeMulti extends React.Component {
   /**
    * 选中/取消选项事件
    */
-  onItemChecked(data, level) {
+  onItemChecked(item, level) {
     const { dataList } = this.state;
-    const item = data;
-    item.checked = !item.checked;
-    item.halfChecked = false;
+    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const { itemNode } = treeNodeObj;
+    itemNode.checked = !itemNode.checked;
+    itemNode.halfChecked = false;
     // 设置子集全部选中
-    if (item.children) {
-      this.setChildrenChecked(item.children, item.checked);
+    if (itemNode.children) {
+      itemNode.children = this.setChildrenChecked(itemNode.children, itemNode.checked);
     }
     // 设置父级选中状态
     if (level) {
-      this.setFatherCheckState(item, item.checked);
+      this.setFatherCheckState(itemNode, itemNode.checked);
     }
     this.setState({ dataList }, this.setSelectResult());
   }
@@ -82,34 +84,36 @@ class CascadeMulti extends React.Component {
    */
   onCleanSelect() {
     const { dataList } = this.state;
-    if (dataList) {
-      this.setCleanResult(dataList);
-    }
-    this.setState({ dataList }, this.setSelectResult());
+    this.setState({
+      dataList: this.setCleanResult(dataList),
+    }, this.props.onSelect([], []));
   }
 
   /**
    * 展开/收起结果列
    */
-  onTriggerNode(data) {
+  onTriggerNode(item) {
     const { dataList } = this.state;
-    const item = data;
-    item.expand = !item.expand;
+    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const { itemNode } = treeNodeObj;
+    itemNode.expand = !itemNode.expand;
     this.setState({ dataList });
   }
 
   /**
    * 删除选项事件
    */
-  onDeleteItem(data, level) {
-    const item = data;
-    item.checked = false;
-    item.halfChecked = false;
-    if (item.children) {
-      this.setChildrenChecked(item.children, false);
+  onDeleteItem(item, level) {
+    const { dataList } = this.state;
+    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const { itemNode } = treeNodeObj;
+    itemNode.checked = false;
+    itemNode.halfChecked = false;
+    if (itemNode.children) {
+      itemNode.children = this.setChildrenChecked(itemNode.children, false);
     }
     if (level) {
-      this.setFatherCheckState(item, false);
+      this.setFatherCheckState(itemNode, false);
     }
     this.setSelectResult();
   }
@@ -214,21 +218,22 @@ class CascadeMulti extends React.Component {
    * @param options 选项列表
    */
   setData(value, options) {
-    if (options && options.length) {
-      this.setCleanResult(options);
+    let dataList = deepcopy(options);
+    if (dataList && dataList.length) {
+      dataList = this.setCleanResult(dataList);
       for (let i = 0, len = value.length; i < len; i += 1) {
-        const treeNodeObj = this.getTreeNodeData(options, value[i]);
+        const treeNodeObj = this.getTreeNodeData(dataList, value[i]);
         const { parentNode, itemNode } = treeNodeObj;
         itemNode.checked = true;
         if (itemNode.children) {
-          this.setChildrenChecked(itemNode.children, true);
+          itemNode.children = this.setChildrenChecked(itemNode.children, true);
         }
         if (parentNode) {
-          this.setFatherCheckState(itemNode, true, options);
+          this.setFatherCheckState(itemNode, true, dataList);
         }
       }
     }
-    this.setState({ dataList: options }, () => {
+    this.setState({ dataList }, () => {
       const arr = [];
       this.textArr = [];
       this.getSelectResult(this.state.dataList, arr, this.textArr);
@@ -240,17 +245,19 @@ class CascadeMulti extends React.Component {
    * @param childrenList 子集
    * @param checked 设置的状态
    */
-  setChildrenChecked(childrenList, checked) {
+  setChildrenChecked(dataList, checked) {
+    const childrenList = deepcopy(dataList);
     if (childrenList && childrenList.length) {
-      childrenList.forEach((data) => {
-        const item = data;
+      for (let i = 0; i < childrenList.length; i++) {
+        const item = childrenList[i];
         item.checked = checked;
         item.halfChecked = false;
         if (item.children) {
-          this.setChildrenChecked(item.children, checked);
+          item.children = this.setChildrenChecked(item.children, checked);
         }
-      });
+      }
     }
+    return childrenList;
   }
 
   /**
@@ -288,16 +295,18 @@ class CascadeMulti extends React.Component {
    * 清空
    */
   setCleanResult(dataList) {
-    if (dataList && dataList.length) {
-      dataList.forEach((data) => {
-        const item = data;
+    const listArray = deepcopy(dataList);
+    if (listArray && listArray.length) {
+      for (let i = 0; i < listArray.length; i++) {
+        const item = listArray[i];
         item.checked = false;
         item.halfChecked = false;
         if (item.children) {
-          this.setCleanResult(item.children);
+          item.children = this.setCleanResult(item.children);
         }
-      });
+      }
     }
+    return listArray;
   }
 
   /**

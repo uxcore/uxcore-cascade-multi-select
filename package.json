@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "classnames": "^2.1.2",
+    "deepcopy": "^0.6.3",
     "object-assign": "^4.0.0",
     "uxcore-dropdown": "^0.4.1"
   },

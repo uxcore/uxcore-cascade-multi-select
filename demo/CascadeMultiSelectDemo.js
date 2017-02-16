@@ -54,7 +54,6 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             options={options}
             allowClear={false}
-            value={this.state.demo2}
             onSelect={(resa) => {
               this.setState({ demo2: resa });
             }}
