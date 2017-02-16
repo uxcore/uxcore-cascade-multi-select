@@ -7,7 +7,7 @@
  */
 import React from 'react';
 import classnames from 'classnames';
-import deepcopy from 'deepcopy';
+import deepcopy from 'lodash/cloneDeep';
 import i18n from './locale';
 
 class CascadeMulti extends React.Component {
