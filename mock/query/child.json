@@ -1,0 +1,34 @@
+{
+    "content": [{
+        "value": "测试二级类目",
+        "key": "TEST00",
+        "parentName": "TEST",
+        "leaf": false,
+        "fullNamePath": "0\/TEST\/TEST00"
+    }, {
+        "value": "测试二级类目超长名称样式测试，二级类目超长名称样式测试",
+        "key": "TEST01",
+        "parentName": "TEST",
+        "leaf": false,
+        "fullNamePath": "0\/TEST\/TEST01"
+    }, {
+        "value": "测试二级类目超长名称样式测试，二级类目超长名称样式测试",
+        "key": "TEST02",
+        "parentName": "TEST",
+        "leaf": false,
+        "fullNamePath": "0\/TEST\/TEST02"
+    }, {
+        "value": "测试二级类目超长名称样式测试，二级类目超长名称样式测试",
+        "key": "TEST03",
+        "parentName": "TEST",
+        "leaf": false,
+        "fullNamePath": "0\/TEST\/TEST03"
+    }, {
+        "value": "测试二级类目超长名称样式测试，二级类目超长名称样式测试",
+        "key": "TEST04",
+        "parentName": "TEST",
+        "leaf": false,
+        "fullNamePath": "0\/TEST\/TEST04"
+    }],
+  "hasError": false
+}
