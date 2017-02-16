@@ -72,17 +72,6 @@ class Demo extends React.Component {
           />
         </div>
         <div style={{ marginLeft: 20 }}>
-          <h3>只读</h3>
-          <p>(不可修改选中与清空)</p>
-        </div>
-        <div style={{ position: 'relative', margin: 15 }}>
-          <CascadeMultiSelect
-            options={options2}
-            value={this.state.demo4}
-            readOnly
-          />
-        </div>
-        <div style={{ marginLeft: 20 }}>
           <h3>禁选前两级</h3>
           <p>(设置前两级 checkable: false)</p>
         </div>

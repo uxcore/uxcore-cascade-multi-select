@@ -8,7 +8,6 @@
   },
   "rules": {
     "import/no-extraneous-dependencies": "off",
-    "react/jsx-no-bind": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "react/jsx-no-bind": "off"
   }
 }

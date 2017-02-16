@@ -61,8 +61,9 @@ class CascadeMulti extends React.Component {
   /**
    * 选中/取消选项事件
    */
-  onItemChecked(item, level) {
+  onItemChecked(data, level) {
     const { dataList } = this.state;
+    const item = data;
     item.checked = !item.checked;
     item.halfChecked = false;
     // 设置子集全部选中
@@ -92,14 +93,16 @@ class CascadeMulti extends React.Component {
    */
   onTriggerNode(data) {
     const { dataList } = this.state;
-    data.expand = !data.expand;
+    const item = data;
+    item.expand = !item.expand;
     this.setState({ dataList });
   }
 
   /**
    * 删除选项事件
    */
-  onDeleteItem(item, level) {
+  onDeleteItem(data, level) {
+    const item = data;
     item.checked = false;
     item.halfChecked = false;
     if (item.children) {
@@ -226,11 +229,6 @@ class CascadeMulti extends React.Component {
       }
     }
     this.setState({ dataList: options }, () => {
-      if (!this.dataErrorState) {
-        this.checkNoDataError();
-      } else {
-        this.dataErrorState = false;
-      }
       const arr = [];
       this.textArr = [];
       this.getSelectResult(this.state.dataList, arr, this.textArr);
@@ -244,7 +242,8 @@ class CascadeMulti extends React.Component {
    */
   setChildrenChecked(childrenList, checked) {
     if (childrenList && childrenList.length) {
-      childrenList.forEach((item) => {
+      childrenList.forEach((data) => {
+        const item = data;
         item.checked = checked;
         item.halfChecked = false;
         if (item.children) {
@@ -271,7 +270,7 @@ class CascadeMulti extends React.Component {
         parentNode.checked = checked;
         parentNode.halfChecked = false;
       }
-      this.setFatherCheckState(parentNode, checked);
+      this.setFatherCheckState(parentNode, checked, dataList);
     }
   }
 
@@ -290,7 +289,8 @@ class CascadeMulti extends React.Component {
    */
   setCleanResult(dataList) {
     if (dataList && dataList.length) {
-      dataList.forEach((item) => {
+      dataList.forEach((data) => {
+        const item = data;
         item.checked = false;
         item.halfChecked = false;
         if (item.children) {
@@ -319,34 +319,6 @@ class CascadeMulti extends React.Component {
     style.width += parseInt(resultPanelWidth, 0) + 2;
     this.resultPanelWidth = parseInt(resultPanelWidth, 0);
     return style;
-  }
-
-  /**
-   * 检查数据是否异常
-   * 某些异步情况下设置了value，第一级却没有check的情况
-   * 重新setData修复数据异常
-   */
-  checkNoDataError() {
-    const { dataList } = this.state;
-    const { value } = this.props;
-    let sum = 0;
-    for (let i = 0; i < dataList.length; i++) {
-      if (!dataList[i].checked && !dataList[i].halfChecked) {
-        sum += 1;
-      }
-    }
-    if (value && value.length) {
-      if (sum === dataList.length) {
-        this.dataErrorState = true;
-      } else {
-        this.dataErrorState = false;
-      }
-    }
-    if (this.dataErrorState) {
-      console.debug('found data exception, repairing data ...');
-      this.setData(value, dataList);
-      console.debug('success.');
-    }
   }
 
   /**
