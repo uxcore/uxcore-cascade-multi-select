@@ -145,9 +145,10 @@ class CascadeMulti extends React.Component {
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
         if (item.checked || item.halfChecked) {
-          this.handleSelectNums += 1;
           if (item.children) {
             this.getNums(item.children);
+          } else {
+            this.handleSelectNums += 1;
           }
         }
       });
