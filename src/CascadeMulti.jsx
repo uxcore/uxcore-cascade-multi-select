@@ -54,7 +54,7 @@ class CascadeMulti extends React.Component {
         value: data.value,
         label: data.label,
         children: data.children,
-      });
+      }, level + 1);
     }
     this.setState({ selectArray });
   }
