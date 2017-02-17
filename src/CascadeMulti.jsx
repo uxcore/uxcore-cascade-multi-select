@@ -223,13 +223,15 @@ class CascadeMulti extends React.Component {
       dataList = this.setCleanResult(dataList);
       for (let i = 0, len = value.length; i < len; i += 1) {
         const treeNodeObj = this.getTreeNodeData(dataList, value[i]);
-        const { parentNode, itemNode } = treeNodeObj;
-        itemNode.checked = true;
-        if (itemNode.children) {
-          itemNode.children = this.setChildrenChecked(itemNode.children, true);
-        }
-        if (parentNode) {
-          this.setFatherCheckState(itemNode, true, dataList);
+        if (treeNodeObj) {
+          const { parentNode, itemNode } = treeNodeObj;
+          itemNode.checked = true;
+          if (itemNode.children) {
+            itemNode.children = this.setChildrenChecked(itemNode.children, true);
+          }
+          if (parentNode) {
+            this.setFatherCheckState(itemNode, true, dataList);
+          }
         }
       }
     }
