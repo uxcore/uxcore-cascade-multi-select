@@ -20,7 +20,7 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      demo1: [],
+      demo1: ['shanghai'],
       demo2: [],
       demo3: ['xihu'],
       demo4: ['bingjiang', 'ningbo', 'jiangsu'],
