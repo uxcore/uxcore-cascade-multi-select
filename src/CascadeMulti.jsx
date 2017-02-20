@@ -145,6 +145,7 @@ class CascadeMulti extends React.Component {
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
         if (item.checked || item.halfChecked) {
+          this.selectNums += 1;
           if (item.children) {
             this.getNums(item.children);
           } else {
@@ -329,6 +330,7 @@ class CascadeMulti extends React.Component {
       style.width += parseInt(width, 0);
     }
     style.width += parseInt(resultPanelWidth, 0) + 2;
+    style.position = 'relative';
     this.resultPanelWidth = parseInt(resultPanelWidth, 0);
     return style;
   }
@@ -453,7 +455,10 @@ class CascadeMulti extends React.Component {
    */
   renderResultNums() {
     const { dataList } = this.state;
+    // 记录所有选中的叶子节点
     this.handleSelectNums = 0;
+    // 记录所有选中的节点
+    this.selectNums = 0;
     this.getNums(dataList);
     return (
       <span>({this.handleSelectNums})</span>
@@ -467,7 +472,7 @@ class CascadeMulti extends React.Component {
     const { prefixCls } = this.props;
     const { dataList } = this.state;
     const style = {};
-    if (this.handleSelectNums < 10) {
+    if (this.selectNums < 10) {
       style.marginRight = 2;
     }
     return (
