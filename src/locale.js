@@ -7,6 +7,10 @@ const locale = {
     all: '全部',
     placeholder: '请选择',
     delete: '删除',
+    close: '收起',
+    expandAll: '展开全部',
+    item: '项',
+    title: '级联选择',
   },
   'en-us': {
     noData: 'No Data',
@@ -16,6 +20,10 @@ const locale = {
     all: 'All',
     placeholder: 'Please Select',
     delete: 'Delete',
+    close: 'Close',
+    expandAll: 'Expand All ',
+    item: ' Item',
+    title: 'Cascade Multi Select',
   },
 };
 

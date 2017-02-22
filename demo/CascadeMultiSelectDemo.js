@@ -8,6 +8,7 @@
 
 const React = require('react');
 const CascadeMultiSelect = require('../src');
+const CascadeMultiModal = require('../src/CascadeMultiModal.jsx');
 
 import {
   options,
@@ -27,6 +28,8 @@ class Demo extends React.Component {
       demo5: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
       demo6: ['xihu'],
       demo7: [],
+      demo8: [],
+      demo9: [],
       asyncOptions6: options,
     };
   }
@@ -145,9 +148,49 @@ class Demo extends React.Component {
             options={options3}
             value={this.state.demo7}
             cascadeSize={4}
-            resultPanelWidth={250}
             onSelect={(resa) => {
               console.log(resa);
+            }}
+          />
+        </div>
+        <div style={{ marginLeft: 20 }}>
+          <h3>单选</h3>
+          <p>通过禁用所有级 + Props.onItemClick 实现</p>
+        </div>
+        <div style={{ position: 'relative', margin: 15 }}>
+          <CascadeMultiSelect
+            config={[{
+              checkable: false,
+            }, {
+              checkable: false,
+            }, {
+              checkable: false,
+            }, {
+              checkable: false,
+            }]}
+            options={options3}
+            value={this.state.demo8}
+            cascadeSize={4}
+            onItemClick={(item, level) => {
+              console.log(level, item);
+              if (level === 4) {
+                this.setState({
+                  demo8: [item.value],
+                });
+              }
+            }}
+          />
+        </div>
+        <div style={{ marginLeft: 20 }}>
+          <h3>弹框模式</h3>
+        </div>
+        <div style={{ position: 'relative', margin: 15 }}>
+          <CascadeMultiModal
+            options={options2}
+            value={this.state.demo9}
+            onOk={(data) => {
+              console.log(data);
+              this.setState({ demo9: data.resa });
             }}
           />
         </div>
