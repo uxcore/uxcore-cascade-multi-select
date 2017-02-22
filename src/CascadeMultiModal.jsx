@@ -52,6 +52,8 @@ class CascadeMultiModal extends React.Component {
       visible: false,
       value,
       options,
+    }, () => {
+      this.props.onCancel();
     });
   }
 
@@ -169,7 +171,7 @@ class CascadeMultiModal extends React.Component {
     const { prefixCls } = this.props;
     const { expand } = this.state;
     const { resb } = this.data.result;
-    if (!resb) { return null; }
+    if (!resb || !resb.length) { return null; }
     let arr = null;
     if (expand) {
       arr = (

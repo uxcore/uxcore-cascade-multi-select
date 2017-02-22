@@ -29,7 +29,7 @@ class Demo extends React.Component {
       demo6: ['xihu'],
       demo7: [],
       demo8: [],
-      demo9: ['zhejiang'],
+      demo9: [],
       asyncOptions6: options,
     };
   }
@@ -189,6 +189,7 @@ class Demo extends React.Component {
             options={options2}
             value={this.state.demo9}
             onOk={(data) => {
+              console.log(data);
               this.setState({ demo9: data.resa });
             }}
           />
