@@ -11,6 +11,7 @@ import deepcopy from 'lodash/cloneDeep';
 import Button from 'uxcore-button';
 import Dialog from 'uxcore-dialog';
 import CascadeMulti from './CascadeMulti.jsx';
+import i18n from './locale';
 
 class CascadeMultiModal extends React.Component {
 
@@ -122,7 +123,7 @@ class CascadeMultiModal extends React.Component {
     return (
       <Dialog
         className={`${prefixCls}-model`}
-        title={title}
+        title={title || i18n(locale).title}
         visible={visible}
         locale={locale}
         width={defaultWidth}
@@ -168,7 +169,7 @@ class CascadeMultiModal extends React.Component {
   }
 
   renderExpand() {
-    const { prefixCls } = this.props;
+    const { prefixCls, locale } = this.props;
     const { expand } = this.state;
     const { resb } = this.data.result;
     if (!resb || !resb.length) { return null; }
@@ -179,7 +180,7 @@ class CascadeMultiModal extends React.Component {
           className={`${prefixCls}-model-expand`}
           onClick={() => { this.onExpand(false); }}
         >
-          收起
+          {i18n(locale).close}
         </span>
       );
     } else {
@@ -188,7 +189,9 @@ class CascadeMultiModal extends React.Component {
           className={`${prefixCls}-model-expand`}
           onClick={() => { this.onExpand(true); }}
         >
-          展开全部{resb.length}项
+          {i18n(locale).expandAll}
+          {resb.length}
+          {i18n(locale).item}
         </span>
       );
     }
@@ -232,6 +235,7 @@ class CascadeMultiModal extends React.Component {
   }
 
   render() {
+    const { locale } = this.props;
     return (
       <div>
         <Button
@@ -240,7 +244,7 @@ class CascadeMultiModal extends React.Component {
             this.setState({ visible: true });
           }}
         >
-          请选择
+          {i18n(locale).placeholder}
         </Button>
         {this.renderResult()}
         {this.renderDialog()}
@@ -261,7 +265,7 @@ CascadeMultiModal.defaultProps = {
   allowClear: true,
   locale: 'zh-cn',
 
-  title: '级联选择',
+  title: '',
   width: 672,
   onOk: () => {},
   onCancel: () => {},
