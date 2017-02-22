@@ -114,6 +114,7 @@ class CascadeMultiModal extends React.Component {
   renderDialog() {
     const { prefixCls, locale, title, cascadeSize, width } = this.props;
     const { visible } = this.state;
+    if (!visible) { return null; }
     // 设置 dialog 默认宽度
     const defaultWidth = width || cascadeSize * 150 + 220 + 2;
     return (
@@ -136,8 +137,7 @@ class CascadeMultiModal extends React.Component {
   }
 
   renderContent() {
-    const { value, options, visible } = this.state;
-    if (!visible) { return null; }
+    const { value, options } = this.state;
     return (
       <div>
         <CascadeMulti
