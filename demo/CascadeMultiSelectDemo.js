@@ -29,7 +29,7 @@ class Demo extends React.Component {
       demo6: ['xihu'],
       demo7: [],
       demo8: [],
-      demo9: [],
+      demo9: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
       asyncOptions6: options,
     };
   }
