@@ -171,10 +171,11 @@ class Demo extends React.Component {
             options={options3}
             value={this.state.demo8}
             cascadeSize={4}
-            onItemClick={(resa, level) => {
+            onItemClick={(item, level) => {
+              console.log(level, item);
               if (level === 4) {
                 this.setState({
-                  demo8: [resa.value],
+                  demo8: [item.value],
                 });
               }
             }}
@@ -188,7 +189,6 @@ class Demo extends React.Component {
             options={options2}
             value={this.state.demo9}
             onOk={(data) => {
-              console.log(data);
               this.setState({ demo9: data.resa });
             }}
           />

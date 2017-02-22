@@ -220,6 +220,7 @@ class CascadeMulti extends React.Component {
    * @param options 选项列表
    */
   setData(value, options) {
+    console.log(value);
     let dataList = deepcopy(options);
     if (dataList && dataList.length) {
       dataList = this.setCleanResult(dataList);
