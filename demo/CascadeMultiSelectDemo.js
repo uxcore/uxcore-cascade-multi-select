@@ -20,23 +20,15 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      demo1: [],
+      demo1: ['shanghai'],
       demo2: [],
       demo3: ['xihu'],
       demo4: ['bingjiang', 'ningbo', 'jiangsu'],
       demo5: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
       demo6: ['xihu'],
+      demo7: [],
       asyncOptions6: options,
     };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        demo6: ['hangzhou', 'ningbo', 'anhui', 'shandong'],
-        asyncOptions6: options2,
-      });
-    }, 5000);
   }
 
   render() {
@@ -62,7 +54,6 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             options={options}
             allowClear={false}
-            value={this.state.demo2}
             onSelect={(resa) => {
               this.setState({ demo2: resa });
             }}
@@ -80,25 +71,14 @@ class Demo extends React.Component {
           />
         </div>
         <div style={{ marginLeft: 20 }}>
-          <h3>只读</h3>
-          <p>(不可修改选中与清空)</p>
-        </div>
-        <div style={{ position: 'relative', margin: 15 }}>
-          <CascadeMultiSelect
-            options={options2}
-            value={this.state.demo4}
-            readOnly
-          />
-        </div>
-        <div style={{ marginLeft: 20 }}>
-          <h3>禁选第二级</h3>
-          <p>(设置第二级 checkable: false)</p>
+          <h3>禁选前两级</h3>
+          <p>(设置前两级 checkable: false)</p>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
             config={
               [{
-                checkable: true,
+                checkable: false,
               }, {
                 checkable: false,
               }, {}]
@@ -109,15 +89,51 @@ class Demo extends React.Component {
         </div>
         <div style={{ marginLeft: 20 }}>
           <h3>数据异步</h3>
-          <p>(异步设置 options 和 value)</p>
+          <p>
+            （手动异步数据）
+          </p>
+          <p>
+            <button
+              type="button"
+              className="kuma-button kuma-button-secondary"
+              onClick={() => {
+                this.setState({
+                  demo6: ['hangzhou', 'ningbo', 'anhui', 'shandong'],
+                  asyncOptions6: options2,
+                });
+              }}
+            >
+              async
+            </button>
+            &nbsp;
+            <button
+              type="button"
+              className="kuma-button kuma-button-secondary"
+              onClick={() => {
+                this.setState({
+                  demo6: ['xihu'],
+                  asyncOptions6: options,
+                });
+              }}
+            >init</button>
+          </p>
+          <p>点击async更新options和value</p>
+          <p>点击浙江/杭州/长兴，添加长兴的子集(原没有数据)</p>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
             options={this.state.asyncOptions6}
             value={this.state.demo6}
-            onSelect={(resa, resb) => {
-              console.log(resa, resb);
+            onSelect={(resa) => {
               this.setState({ demo6: resa });
+            }}
+            onItemClick={(item) => {
+              console.log('onItemClick', item);
+              if (item.value === 'changxing') {
+                this.setState({
+                  asyncOptions6: options2,
+                });
+              }
             }}
           />
         </div>
@@ -129,6 +145,10 @@ class Demo extends React.Component {
             options={options3}
             value={this.state.demo7}
             cascadeSize={4}
+            resultPanelWidth={250}
+            onSelect={(resa) => {
+              console.log(resa);
+            }}
           />
         </div>
       </div>

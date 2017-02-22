@@ -8,7 +8,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
-import CascadeMulti from './CascadeMulti.jsx';
+import CascadeMulti from './CascadeMulti';
 import i18n from './locale';
 
 class CascadeMultiSelect extends React.Component {
@@ -65,7 +65,9 @@ class CascadeMultiSelect extends React.Component {
     if (dataList && dataList.length) {
       for (let i = 0; i < dataList.length; i += 1) {
         if (dataList[i].value === key) {
-          return dataList[i].label;
+          return dataList[i].children && dataList[i].children.length ?
+            `${dataList[i].label} (${i18n(this.props.locale).all})` :
+            dataList[i].label;
         }
         if (dataList[i].children) {
           const res = this.getValueLabel(dataList[i].children, key);
@@ -82,15 +84,16 @@ class CascadeMultiSelect extends React.Component {
   }
 
   handleSelect(resa, resb) {
+    const { options } = this.props;
     this.setState({
-      displayValue: resb.join(this.separator),
+      displayValue: this.getInputValue(resa, options),
     });
     this.props.onSelect(resa, resb);
   }
 
   renderInput() {
     const { prefixCls, placeholder, locale } = this.props;
-    const { displayValue } = this.state;
+    const { displayValue, disabled } = this.state;
     return (
       <div>
         {
@@ -99,7 +102,14 @@ class CascadeMultiSelect extends React.Component {
               {placeholder || i18n(locale).placeholder}
             </div> :
             <div className={classnames([`${prefixCls}-text-result`])}>
-              {displayValue}
+              <input
+                className={classnames({
+                  [`${prefixCls}-text-result-input`]: true,
+                  [`${prefixCls}-text-result-input-disabled`]: disabled,
+                })}
+                value={displayValue}
+                onChange={() => {}}
+              />
             </div>
         }
       </div>
@@ -160,7 +170,7 @@ class CascadeMultiSelect extends React.Component {
     const CascadeMultiComponent = (
       <div>
         <CascadeMulti
-          { ...this.props }
+          {...this.props}
           ref={(r) => { this.CascadeMulti = r; }}
           onSelect={(resa, resb) => {
             this.handleSelect(resa, resb);
@@ -189,11 +199,9 @@ CascadeMultiSelect.defaultProps = {
   options: [],
   cascadeSize: 3,
   value: [],
-  readOnly: false,
-  noDataContent: '',
+  notFoundContent: '',
   allowClear: true,
   locale: 'zh-cn',
-  resultPanelWidth: 220,
   onSelect: () => {},
 
   placeholder: '',
@@ -208,11 +216,9 @@ CascadeMultiSelect.propTypes = {
   options: React.PropTypes.array,
   cascadeSize: React.PropTypes.number,
   value: React.PropTypes.array,
-  noDataContent: React.PropTypes.string,
+  notFoundContent: React.PropTypes.string,
   allowClear: React.PropTypes.bool,
-  readOnly: React.PropTypes.bool,
   locale: React.PropTypes.string,
-  resultPanelWidth: React.PropTypes.number,
   onSelect: React.PropTypes.func,
 
   placeholder: React.PropTypes.string,

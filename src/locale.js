@@ -3,15 +3,19 @@ const locale = {
     noData: '没有数据',
     selected: '已选择',
     clean: '清空',
-    all: '已全选',
+    haveAll: '已全选',
+    all: '全部',
     placeholder: '请选择',
+    delete: '删除',
   },
   'en-us': {
     noData: 'No Data',
     selected: 'Selected',
     clean: 'Clean',
-    all: 'Have All',
+    haveAll: 'Have All',
+    all: 'All',
     placeholder: 'Please Select',
+    delete: 'Delete',
   },
 };
 

@@ -83,6 +83,8 @@
       .@{notificationPrefixCls}-result-clean {
         float: right;
 
+        margin-right: 6px;
+
         cursor: pointer;
 
         color: @brand-primary;
@@ -93,7 +95,7 @@
       overflow-y: auto;
 
       height: 250px;
-      margin-left: -15px;
+      margin: 0 -15px;
       ul {
         margin-left: 15px;
 
@@ -101,8 +103,7 @@
         -moz-user-select: none;
         -ms-user-select: none;
         li {
-          cursor: pointer;
-
+          white-space: nowrap;
           line-height: 25px;
           .kuma-icon-triangle-down,
           .kuma-icon-triangle-right {
@@ -113,22 +114,50 @@
             color: #999;
           }
           .tree-node-ul-li-span {
-            display: inline-block;
-            overflow-x: hidden;
+            position: relative;
 
-            width: 85%;
+            display: inline-block;
+
+            width: 100%;
 
             vertical-align: middle;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            -ms-text-overflow: ellipsis;
+            &:hover {
+              color: @brand-primary;
+              .tree-node-ul-li-del {
+                opacity: 1;
+                transform: scale(1);
+                -ms-transform: scale(1);
+              }
+            }
+            &-label {
+              display: inline-block;
+              overflow-x: hidden;
 
-            -o-text-overflow: ellipsis;
-          }
-          .tree-node-ul-li-all {
-            margin-left: 10px;
+              vertical-align: middle;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              -ms-text-overflow: ellipsis;
 
-            color: #999;
+              -o-text-overflow: ellipsis;
+            }
+            .tree-node-ul-li-all {
+              margin-left: 10px;
+
+              vertical-align: middle;
+
+              color: #999;
+            }
+            .tree-node-ul-li-del {
+              position: absolute;
+              right: 25px;
+
+              cursor: pointer;
+              transition: opacity .3s, transform .3s;
+              -ms-transform: scale(0);
+              transform: scale(0);
+
+              color: @brand-primary;
+            }
           }
         }
       }
@@ -143,4 +172,12 @@
 
   white-space: nowrap;
   text-overflow: ellipsis;
+  &-input {
+    padding-right: 10px;
+    width: 100%;
+    border: 0;
+  }
+  &-input-disabled {
+    background-color: #f7f7f7;
+  }
 }
