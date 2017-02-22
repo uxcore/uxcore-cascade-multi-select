@@ -13,13 +13,14 @@
   top: 0;
   left: 0;
 
+  overflow: hidden;
+
   cursor: auto;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
 
-  border: 1px solid @border-color;
-  .@{notificationPrefixCls}-content {
+  border: 1px solid @border-color;  .@{notificationPrefixCls}-content {
     float: left;
     overflow-y: auto;
 
@@ -104,6 +105,7 @@
         -ms-user-select: none;
         li {
           white-space: nowrap;
+
           line-height: 25px;
           .kuma-icon-triangle-down,
           .kuma-icon-triangle-right {
@@ -124,9 +126,10 @@
             &:hover {
               color: @brand-primary;
               .tree-node-ul-li-del {
-                opacity: 1;
-                transform: scale(1);
                 -ms-transform: scale(1);
+                transform: scale(1);
+
+                opacity: 1;
               }
             }
             &-label {

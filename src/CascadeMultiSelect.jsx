@@ -40,7 +40,10 @@ class CascadeMultiSelect extends React.Component {
   }
 
   onCleanSelect() {
-    this.CascadeMulti.onCleanSelect();
+    this.setState({
+      value: [],
+      displayValue: '',
+    });
   }
 
   onDropDownVisibleChange(visible) {
@@ -167,10 +170,12 @@ class CascadeMultiSelect extends React.Component {
     if (disabled) {
       return this.renderContent();
     }
+    const { value } = this.state;
     const CascadeMultiComponent = (
       <div>
         <CascadeMulti
           {...this.props}
+          value={value}
           ref={(r) => { this.CascadeMulti = r; }}
           onSelect={(resa, resb) => {
             this.handleSelect(resa, resb);

@@ -8,12 +8,63 @@
 @notificationPrefixCls: kuma-cascade-multi;
 
 .@{notificationPrefixCls}-model {
+  &-result {
+    margin: 15px 0;
+    &-ul {
+      overflow: hidden;
+      &-list {
+        position: relative;
+
+        float: left;
+
+        margin-right: 8px;
+        margin-bottom: 8px;
+        padding: 6px 20px;
+
+        border-radius: 2px;
+        background-color: #f0f0f0;
+        &:hover {
+          .@{notificationPrefixCls}-model-result-ul-list-remove {
+            -ms-transform: scale(1);
+            transform: scale(1);
+          }
+          .@{notificationPrefixCls}-model-result-ul-list-content {
+            margin-right: 10px;
+            margin-left: -10px;            }
+        }
+        &-content {
+          transition: margin .3s cubic-bezier(.165,.84,.44,1);
+          -ms-transform: scale(0);
+          transform: scale(0);
+        }
+        &-remove {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+
+          cursor: pointer;
+          transition: opacity .3s,transform .3s;
+          -ms-transform: scale(0);
+          transform: scale(0);
+          vertical-align: middle;
+
+          opacity: .4;
+          color: #000;
+          &:before {
+            content: 'x';
+          }
+        }
+      }
+    }
+  }
+  &-expand {
+    cursor: pointer;
+
+    color: @brand-primary;
+  }
   .kuma-dlg-body {
     overflow: hidden;
 
     padding: 0;
-  }
-  .kuma-dlg-footer {
-    border-top: #ddd solid 1px;
   }
 }

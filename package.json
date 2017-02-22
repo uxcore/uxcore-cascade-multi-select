@@ -43,6 +43,7 @@
   "dependencies": {
     "classnames": "^2.1.2",
     "object-assign": "^4.0.0",
+    "uxcore-button": "^0.4.7",
     "uxcore-dialog": "^0.5.5",
     "uxcore-dropdown": "^0.4.1"
   },
