@@ -6,17 +6,17 @@
  * All rights reserved.
  */
 import React from 'react';
-import {
-  CascadeMulti,
-  CascadeMultiSelect,
-  CascadeMultiModal,
-} from '../src';
-
+import CascadeMultiSelect from '../src';
 import {
   options,
   options2,
   options3,
 } from './const';
+
+const {
+  CascadeMultiPanel,
+  CascadeMultiModal,
+} = CascadeMultiSelect;
 
 class Demo extends React.Component {
 
@@ -188,7 +188,7 @@ class Demo extends React.Component {
           <h3>只使用面板</h3>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
-          <CascadeMulti
+          <CascadeMultiPanel
             options={options2}
             value={this.state.demo9}
             onSelect={(resa) => {

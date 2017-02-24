@@ -206,11 +206,12 @@ props 复用 uxcore-cascade-multi-select 的 props.
 ## 使用方法
 
 ```javascript
-import {
-  CascadeMulti,
-  CascadeMultiSelect,
-  CascadeMultiModal
-} from 'uxcore-cascade-multi-select';
+import CascadeMultiSelect from 'uxcore-cascade-multi-select';
+
+const {
+  CascadeMultiPanel,
+  CascadeMultiModal,
+} = CascadeMultiSelect;
 
 render() {
   return () {

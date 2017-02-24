@@ -9,6 +9,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
 import CascadeMulti from './CascadeMulti';
+import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
 
 class CascadeMultiSelect extends React.Component {
@@ -234,5 +235,8 @@ CascadeMultiSelect.propTypes = {
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';
+
+CascadeMultiSelect.CascadeMultiPanel = CascadeMulti;
+CascadeMultiSelect.CascadeMultiModal = CascadeMultiModal;
 
 module.exports = CascadeMultiSelect;
