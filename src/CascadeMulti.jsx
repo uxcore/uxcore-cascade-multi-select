@@ -613,6 +613,7 @@ CascadeMulti.defaultProps = {
   allowClear: true,
   locale: 'zh-cn',
   onSelect: () => {},
+  onItemClick: () => {},
 };
 
 CascadeMulti.propTypes = {

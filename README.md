@@ -202,3 +202,23 @@ props 复用 uxcore-cascade-multi-select 的 props.
   data.resb: 选中选项的label列表
 }
 ```
+
+## 使用方法
+
+```javascript
+import {
+  CascadeMulti,
+  CascadeMultiSelect,
+  CascadeMultiModal
+} from 'uxcore-cascade-multi-select';
+
+render() {
+  return () {
+    <div>
+      <CascadeMulti />
+      <CascadeMultiSelect />
+      <CascadeMultiModal />
+    </div>
+  }
+}
+```

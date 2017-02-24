@@ -5,10 +5,12 @@
  * Copyright 2015-2016, Uxcore Team, Alinw.
  * All rights reserved.
  */
-
-const React = require('react');
-const CascadeMultiSelect = require('../src');
-const CascadeMultiModal = require('../src/CascadeMultiModal.jsx');
+import React from 'react';
+import {
+  CascadeMulti,
+  CascadeMultiSelect,
+  CascadeMultiModal,
+} from '../src';
 
 import {
   options,
@@ -30,6 +32,7 @@ class Demo extends React.Component {
       demo7: [],
       demo8: [],
       demo9: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
+      demo10: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
       asyncOptions6: options,
     };
   }
@@ -182,15 +185,29 @@ class Demo extends React.Component {
           />
         </div>
         <div style={{ marginLeft: 20 }}>
+          <h3>只使用面板</h3>
+        </div>
+        <div style={{ position: 'relative', margin: 15 }}>
+          <CascadeMulti
+            options={options2}
+            value={this.state.demo9}
+            onSelect={(resa) => {
+              this.setState({
+                demo9: resa,
+              });
+            }}
+          />
+        </div>
+        <div style={{ marginLeft: 20 }}>
           <h3>弹框模式</h3>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiModal
             options={options2}
-            value={this.state.demo9}
+            value={this.state.demo10}
             onOk={(data) => {
               console.log(data);
-              this.setState({ demo9: data.resa });
+              this.setState({ demo10: data.resa });
             }}
           />
         </div>

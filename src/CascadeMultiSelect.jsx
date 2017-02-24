@@ -208,6 +208,7 @@ CascadeMultiSelect.defaultProps = {
   allowClear: true,
   locale: 'zh-cn',
   onSelect: () => {},
+  onItemClick: () => {},
 
   placeholder: '',
   disabled: false,
@@ -225,6 +226,7 @@ CascadeMultiSelect.propTypes = {
   allowClear: React.PropTypes.bool,
   locale: React.PropTypes.string,
   onSelect: React.PropTypes.func,
+  onItemClick: React.PropTypes.func,
 
   placeholder: React.PropTypes.string,
   disabled: React.PropTypes.bool,
