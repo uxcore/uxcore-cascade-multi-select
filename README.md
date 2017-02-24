@@ -174,3 +174,52 @@ const value = ['xihu', 'bingjiang'];
 }
 ```
 > 注：如果选项的子集全部选中，则返回该选项值
+
+
+## cascade-multi-select-model
+
+## API
+
+## Props
+
+| 选项 | 描述 | 类型 | 必填 | 默认值 |
+|---|---|---|---|---|---|
+| ...CascadeMulti.Props | - | - | - | - |
+| title | 标题 | String | `false` | '级联选择' |
+| width | dialog 宽度 | Number | `false` | 672 |
+| onOk | 成功按钮回调函数 | Function | `false` | (data) => {} |
+| onCancel | 取消的回调函数 | Function | `false` | () => {} |
+
+props 复用 uxcore-cascade-multi-select 的 props.
+
+继承了部分Dialog的props,
+
+### onOk
+
+```javascript
+(data) => {
+  data.resa: 选中选项的key列表
+  data.resb: 选中选项的label列表
+}
+```
+
+## 使用方法
+
+```javascript
+import CascadeMultiSelect from 'uxcore-cascade-multi-select';
+
+const {
+  CascadeMultiPanel,
+  CascadeMultiModal,
+} = CascadeMultiSelect;
+
+render() {
+  return () {
+    <div>
+      <CascadeMulti />
+      <CascadeMultiSelect />
+      <CascadeMultiModal />
+    </div>
+  }
+}
+```

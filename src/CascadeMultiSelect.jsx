@@ -9,6 +9,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
 import CascadeMulti from './CascadeMulti';
+import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
 
 class CascadeMultiSelect extends React.Component {
@@ -40,7 +41,10 @@ class CascadeMultiSelect extends React.Component {
   }
 
   onCleanSelect() {
-    this.CascadeMulti.onCleanSelect();
+    this.setState({
+      value: [],
+      displayValue: '',
+    });
   }
 
   onDropDownVisibleChange(visible) {
@@ -80,7 +84,7 @@ class CascadeMultiSelect extends React.Component {
 
   setInputValue(value, dataList) {
     const displayValue = this.getInputValue(value, dataList);
-    this.setState({ displayValue });
+    this.setState({ displayValue, value });
   }
 
   handleSelect(resa, resb) {
@@ -167,10 +171,12 @@ class CascadeMultiSelect extends React.Component {
     if (disabled) {
       return this.renderContent();
     }
+    const { value } = this.state;
     const CascadeMultiComponent = (
       <div>
         <CascadeMulti
           {...this.props}
+          value={value}
           ref={(r) => { this.CascadeMulti = r; }}
           onSelect={(resa, resb) => {
             this.handleSelect(resa, resb);
@@ -203,6 +209,7 @@ CascadeMultiSelect.defaultProps = {
   allowClear: true,
   locale: 'zh-cn',
   onSelect: () => {},
+  onItemClick: () => {},
 
   placeholder: '',
   disabled: false,
@@ -220,6 +227,7 @@ CascadeMultiSelect.propTypes = {
   allowClear: React.PropTypes.bool,
   locale: React.PropTypes.string,
   onSelect: React.PropTypes.func,
+  onItemClick: React.PropTypes.func,
 
   placeholder: React.PropTypes.string,
   disabled: React.PropTypes.bool,
@@ -227,5 +235,8 @@ CascadeMultiSelect.propTypes = {
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';
+
+CascadeMultiSelect.CascadeMultiPanel = CascadeMulti;
+CascadeMultiSelect.CascadeMultiModal = CascadeMultiModal;
 
 module.exports = CascadeMultiSelect;
