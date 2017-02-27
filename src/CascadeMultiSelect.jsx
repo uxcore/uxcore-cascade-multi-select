@@ -33,7 +33,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // const oldValue = this.props.value; // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
+    // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
     const { value, options } = nextProps;
     this.setInputValue(value, options);
   }
