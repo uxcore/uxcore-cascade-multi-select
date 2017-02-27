@@ -42,6 +42,8 @@ class CascadeMultiSelect extends React.Component {
     this.setState({
       value: [],
       displayValue: '',
+    }, () => {
+      this.props.onSelect([], []);
     });
   }
 
