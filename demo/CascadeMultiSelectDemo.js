@@ -106,7 +106,7 @@ class Demo extends React.Component {
               className="kuma-button kuma-button-secondary"
               onClick={() => {
                 this.setState({
-                  demo6: ['hangzhou', 'ningbo', 'anhui', 'shandong'],
+                  demo6: ['xihu'],
                   asyncOptions6: options2,
                 });
               }}
