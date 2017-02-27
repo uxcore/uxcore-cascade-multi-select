@@ -266,7 +266,7 @@ CascadeMultiModal.defaultProps = {
   locale: 'zh-cn',
 
   title: '',
-  width: 672,
+  width: 0,
   onOk: () => {},
   onCancel: () => {},
 };

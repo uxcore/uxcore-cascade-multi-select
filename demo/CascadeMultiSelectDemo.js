@@ -45,6 +45,8 @@ class Demo extends React.Component {
         </div>
         <div style={{ margin: 15 }}>
           <CascadeMultiSelect
+            className={'ucms-input'}
+            dropdownClassName={'ucms-drop'}
             options={options}
             onSelect={(resa, resb) => {
               console.log(resa, resb);
@@ -117,7 +119,7 @@ class Demo extends React.Component {
               className="kuma-button kuma-button-secondary"
               onClick={() => {
                 this.setState({
-                  demo6: ['xihu'],
+                  // demo6: ['xihu'],
                   asyncOptions6: options,
                 });
               }}
@@ -196,6 +198,7 @@ class Demo extends React.Component {
                 demo9: resa,
               });
             }}
+            className={'ucms-panel'}
           />
         </div>
         <div style={{ marginLeft: 20 }}>
@@ -203,6 +206,7 @@ class Demo extends React.Component {
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiModal
+            className={'ucms-modal'}
             options={options2}
             value={this.state.demo10}
             onOk={(data) => {
