@@ -58,17 +58,6 @@ export const options = [
       }],
     }],
   }, {
-    value: 'anhui',
-    label: '安徽',
-    children: [{
-      value: 'hefei',
-      label: '合肥',
-      children: [{
-        value: 'dashushan',
-        label: '大蜀山',
-      }],
-    }],
-  }, {
     value: 'shandong',
     label: '山东',
     children: [{

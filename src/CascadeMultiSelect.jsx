@@ -33,7 +33,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // const oldValue = this.props.value; // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
+    // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
     const { value, options } = nextProps;
     this.setInputValue(value, options);
   }
@@ -42,6 +42,8 @@ class CascadeMultiSelect extends React.Component {
     this.setState({
       value: [],
       displayValue: '',
+    }, () => {
+      this.props.onSelect([], []);
     });
   }
 
@@ -165,7 +167,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   render() {
-    const { disabled } = this.props;
+    const { disabled, dropdownClassName } = this.props;
     if (disabled) {
       return this.renderContent();
     }
@@ -174,6 +176,7 @@ class CascadeMultiSelect extends React.Component {
       <div>
         <CascadeMulti
           {...this.props}
+          className={dropdownClassName}
           value={value}
           ref={(r) => { this.CascadeMulti = r; }}
           onSelect={(resa, resb) => {
@@ -212,6 +215,7 @@ CascadeMultiSelect.defaultProps = {
   placeholder: '',
   disabled: false,
   defaultValue: [],
+  dropdownClassName: '',
 };
 
 CascadeMultiSelect.propTypes = {
@@ -230,6 +234,7 @@ CascadeMultiSelect.propTypes = {
   placeholder: React.PropTypes.string,
   disabled: React.PropTypes.bool,
   defaultValue: React.PropTypes.array,
+  dropdownClassName: React.PropTypes.string,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';

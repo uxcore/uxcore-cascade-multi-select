@@ -74,6 +74,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 |---|---|---|---|---|---|
 | prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
 | className | 自定义类名 | String | `false` | "" |
+| dropdownClassName | dropdown 部分的定制类名 | String | `false` | "" |
 | config | 配置项 | Array | `false` | [] |
 | options | 横向级联的数据 | Array | `true` | [] |
 | value | 可由外部控制的值 | Array | `false` | [] |
