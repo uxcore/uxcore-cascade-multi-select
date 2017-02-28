@@ -167,7 +167,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   render() {
-    const { disabled, dropdownClassName } = this.props;
+    const { disabled, dropdownClassName, getPopupContainer } = this.props;
     if (disabled) {
       return this.renderContent();
     }
@@ -192,6 +192,7 @@ class CascadeMultiSelect extends React.Component {
         onVisibleChange={(visible) => {
           this.onDropDownVisibleChange(visible);
         }}
+        getPopupContainer={getPopupContainer}
       >
         {this.renderContent()}
       </Dropdown>
@@ -216,6 +217,7 @@ CascadeMultiSelect.defaultProps = {
   disabled: false,
   defaultValue: [],
   dropdownClassName: '',
+  getPopupContainer: null,
 };
 
 CascadeMultiSelect.propTypes = {
@@ -235,6 +237,8 @@ CascadeMultiSelect.propTypes = {
   disabled: React.PropTypes.bool,
   defaultValue: React.PropTypes.array,
   dropdownClassName: React.PropTypes.string,
+
+  getPopupContainer: React.PropTypes.func,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';
