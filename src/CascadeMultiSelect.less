@@ -15,11 +15,26 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   &-input {
-    padding-right: 10px;
     width: 100%;
+    
+    padding-right: 10px;
+
     border: 0;
   }
   &-input-disabled {
     background-color: #f7f7f7;
   }
+}
+
+.@{notificationPrefixCls}-select-footer {
+  height: 52px;
+
+  text-align: center;
+
+  border-width: 0 1px 1px 1px;
+  border-style: solid;
+  border-color: @border-color;
+  background-color: #ffffff;
+
+  line-height: 52px;
 }

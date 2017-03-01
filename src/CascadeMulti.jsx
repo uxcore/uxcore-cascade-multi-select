@@ -467,7 +467,7 @@ class CascadeMulti extends React.Component {
     const { dataList } = this.state;
     const style = {};
     if (this.selectNums < 10) {
-      style.marginRight = 2;
+      style.paddingRight = 17;
     }
     return (
       <div
@@ -507,37 +507,42 @@ class CascadeMulti extends React.Component {
                 this.onTriggerNode(item);
               }}
             >
-              {
-                this.renderExpand(item)
-              }
-              <span className={classnames('tree-node-ul-li-span')}>
+              <div
+                className={classnames('tree-node-ul-li-div')}
+                style={{ paddingLeft: (level + 1) * 15 }}
+              >
                 {
-                  <span
-                    className="tree-node-ul-li-span-label"
-                    style={style}
-                  >
-                    {item.label}
-                  </span>
+                  this.renderExpand(item)
                 }
-                {
-                  level < cascadeSize - 1 && item.checked ?
-                    <span className="tree-node-ul-li-all">
-                      {i18n(this.props.locale).haveAll}
-                    </span> :
-                    null
-                }
-                {
-                  <span
-                    className="tree-node-ul-li-del"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      this.onDeleteItem(item, level);
-                    }}
-                  >
-                    {i18n(this.props.locale).delete}
-                  </span>
-                }
-              </span>
+                <span className={classnames('tree-node-ul-li-span')}>
+                  {
+                    <span
+                      className="tree-node-ul-li-span-label"
+                      style={style}
+                    >
+                      {item.label}
+                    </span>
+                  }
+                  {
+                    level < cascadeSize - 1 && item.checked ?
+                      <span className="tree-node-ul-li-all">
+                        {i18n(this.props.locale).haveAll}
+                      </span> :
+                      null
+                  }
+                  {
+                    <span
+                      className="tree-node-ul-li-del"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        this.onDeleteItem(item, level);
+                      }}
+                    >
+                      {i18n(this.props.locale).delete}
+                    </span>
+                  }
+                </span>
+              </div>
               {
                 item.children && !item.expand ?
                   this.renderTreeListNode(item.children, level + 1) :

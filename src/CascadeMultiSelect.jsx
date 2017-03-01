@@ -8,6 +8,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
+import Button from 'uxcore-button';
 import CascadeMulti from './CascadeMulti';
 import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
@@ -25,6 +26,17 @@ class CascadeMultiSelect extends React.Component {
       showSubMenu: false,
     };
     this.separator = ' , ';
+    this.data = {
+      value: props.value || props.defaultValue,
+      options: props.options,
+      displayValue: '',
+    };
+  }
+
+  componentWillMount() {
+    this.onOk = this.onOk.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
   }
 
   componentDidMount() {
@@ -38,12 +50,36 @@ class CascadeMultiSelect extends React.Component {
     this.setInputValue(value, options);
   }
 
+  onOk() {
+    const { displayValue, value } = this.state;
+    this.data.displayValue = displayValue;
+    this.data.value = value;
+    this.setState({
+      displayValue,
+      value,
+    }, () => {
+      this.props.onOk(value);
+    });
+  }
+
+  onCancel() {
+    const { value, options } = this.data;
+    this.setState({
+      displayValue: this.getInputValue(value, options),
+      value,
+    }, () => {
+      this.props.onCancel();
+    });
+  }
+
   onCleanSelect() {
+    this.data.displayValue = '';
+    this.data.value = [];
     this.setState({
       value: [],
       displayValue: '',
     }, () => {
-      this.props.onSelect([], []);
+      this.props.onOk([]);
     });
   }
 
@@ -51,6 +87,9 @@ class CascadeMultiSelect extends React.Component {
     const { disabled } = this.props;
     if (!disabled) {
       this.setState({ showSubMenu: visible });
+    }
+    if (!visible) {
+      this.onCancel();
     }
   }
 
@@ -91,13 +130,20 @@ class CascadeMultiSelect extends React.Component {
     const { options } = this.props;
     this.setState({
       displayValue: this.getInputValue(resa, options),
+      value: resa,
+    }, () => {
+      this.props.onSelect(resa, resb);
     });
-    this.props.onSelect(resa, resb);
+  }
+
+  handleItemClick(item, level) {
+    this.props.onItemClick(item, level);
   }
 
   renderInput() {
     const { prefixCls, placeholder, locale } = this.props;
-    const { displayValue, disabled } = this.state;
+    const { disabled } = this.state;
+    const { displayValue } = this.data;
     return (
       <div>
         {
@@ -166,25 +212,43 @@ class CascadeMultiSelect extends React.Component {
     );
   }
 
-  render() {
-    const { disabled, dropdownClassName, getPopupContainer } = this.props;
-    if (disabled) {
-      return this.renderContent();
-    }
+  renderCascadeMultiPanel() {
+    const { dropdownClassName } = this.props;
     const { value } = this.state;
-    const CascadeMultiComponent = (
+    return (
       <div>
         <CascadeMulti
           {...this.props}
           className={dropdownClassName}
           value={value}
           ref={(r) => { this.CascadeMulti = r; }}
-          onSelect={(resa, resb) => {
-            this.handleSelect(resa, resb);
-          }}
+          onSelect={this.handleSelect}
+          onItemClick={this.handleItemClick}
         />
+        {this.renderFooter()}
       </div>
     );
+  }
+
+  renderFooter() {
+    const { prefixCls, locale } = this.props;
+    return (
+      <div className={classnames(`${prefixCls}-select-footer`)}>
+        <Button
+          onClick={this.onOk}
+        >
+          {i18n(locale).ok}
+        </Button>
+      </div>
+    );
+  }
+
+  render() {
+    const { disabled, getPopupContainer } = this.props;
+    if (disabled) {
+      return this.renderContent();
+    }
+    const CascadeMultiComponent = this.renderCascadeMultiPanel();
     return (
       <Dropdown
         overlay={CascadeMultiComponent}
@@ -217,6 +281,8 @@ CascadeMultiSelect.defaultProps = {
   disabled: false,
   defaultValue: [],
   dropdownClassName: '',
+  onOk: () => {},
+  onCancel: () => {},
   getPopupContainer: null,
 };
 
@@ -237,7 +303,8 @@ CascadeMultiSelect.propTypes = {
   disabled: React.PropTypes.bool,
   defaultValue: React.PropTypes.array,
   dropdownClassName: React.PropTypes.string,
-
+  onOk: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
   getPopupContainer: React.PropTypes.func,
 };
 

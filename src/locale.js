@@ -11,6 +11,8 @@ const locale = {
     expandAll: '展开全部',
     item: '项',
     title: '级联选择',
+    ok: '确定',
+    cancel: '取消',
   },
   'en-us': {
     noData: 'No Data',
@@ -24,6 +26,8 @@ const locale = {
     expandAll: 'Expand All ',
     item: ' Item',
     title: 'Cascade Multi Select',
+    ok: 'Ok',
+    cancel: 'Cancel',
   },
 };
 
