@@ -66,6 +66,8 @@ http://uxcore.github.io/components/cascade-multi-select
 
 Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/CONTRIBUTING.md) for details.
 
+## CascadeMultiSelect
+
 ## API
 
 ## Props
@@ -87,6 +89,8 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
 | onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
+| onOk | 点击确认按钮回调函数 | function | `false` | (resa) => {} |
+| onCancel | 取消选择时回调函数 | function | `false` | () => {} |
 
 ### Props.config
 
@@ -176,8 +180,7 @@ const value = ['xihu', 'bingjiang'];
 ```
 > 注：如果选项的子集全部选中，则返回该选项值
 
-
-## cascade-multi-select-model
+## CascadeMultiPanel
 
 ## API
 
@@ -185,7 +188,38 @@ const value = ['xihu', 'bingjiang'];
 
 | 选项 | 描述 | 类型 | 必填 | 默认值 |
 |---|---|---|---|---|---|
-| ...CascadeMulti.Props | - | - | - | - |
+| className | 自定义类名 | String | `false` | "" |
+| prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
+| config | 配置项 | Array | `false` | [] |
+| options | 横向级联的数据 | Array | `true` | [] |
+| value | 可由外部控制的值 | Array | `false` | [] |
+| cascadeSize | 级联层级数 | number | `false` | 3 |
+| notFoundContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
+| allowClear | 是否允许清空 | bool | `false` | true |
+| locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
+| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
+| onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
+
+
+## CascadeMultiModal
+
+## API
+
+## Props
+
+| 选项 | 描述 | 类型 | 必填 | 默认值 |
+|---|---|---|---|---|---|
+| prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
+| className | 自定义类名 | String | `false` | "" |
+| config | 配置项 | Array | `false` | [] |
+| options | 横向级联的数据 | Array | `true` | [] |
+| value | 可由外部控制的值 | Array | `false` | [] |
+| cascadeSize | 级联层级数 | number | `false` | 3 |
+| notFoundContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
+| allowClear | 是否允许清空 | bool | `false` | true |
+| locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
+| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
+| onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 | title | 标题 | String | `false` | '级联选择' |
 | width | dialog 宽度 | Number | `false` | 672 |
 | onOk | 成功按钮回调函数 | Function | `false` | (data) => {} |

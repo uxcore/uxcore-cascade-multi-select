@@ -48,8 +48,8 @@ class Demo extends React.Component {
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}
             options={options}
-            onSelect={(resa, resb) => {
-              console.log(resa, resb);
+            onSelect={(resa) => {
+              console.log(resa);
               this.setState({ demo1: resa });
             }}
             value={this.state.demo1}
@@ -62,6 +62,7 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             options={options}
             allowClear={false}
+            value={this.state.demo2}
             onSelect={(resa) => {
               this.setState({ demo2: resa });
             }}
