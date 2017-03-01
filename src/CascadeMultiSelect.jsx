@@ -9,6 +9,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
 import CascadeMulti from './CascadeMulti';
+import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
 
 class CascadeMultiSelect extends React.Component {
@@ -32,17 +33,17 @@ class CascadeMultiSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const oldValue = this.props.value;
+    // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
     const { value, options } = nextProps;
-    if (oldValue !== value) {
-      this.setInputValue(value, options);
-    }
+    this.setInputValue(value, options);
   }
 
   onCleanSelect() {
     this.setState({
       value: [],
       displayValue: '',
+    }, () => {
+      this.props.onSelect([], []);
     });
   }
 
@@ -166,7 +167,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   render() {
-    const { disabled } = this.props;
+    const { disabled, dropdownClassName, getPopupContainer } = this.props;
     if (disabled) {
       return this.renderContent();
     }
@@ -175,6 +176,7 @@ class CascadeMultiSelect extends React.Component {
       <div>
         <CascadeMulti
           {...this.props}
+          className={dropdownClassName}
           value={value}
           ref={(r) => { this.CascadeMulti = r; }}
           onSelect={(resa, resb) => {
@@ -190,6 +192,7 @@ class CascadeMultiSelect extends React.Component {
         onVisibleChange={(visible) => {
           this.onDropDownVisibleChange(visible);
         }}
+        getPopupContainer={getPopupContainer}
       >
         {this.renderContent()}
       </Dropdown>
@@ -208,10 +211,13 @@ CascadeMultiSelect.defaultProps = {
   allowClear: true,
   locale: 'zh-cn',
   onSelect: () => {},
+  onItemClick: () => {},
 
   placeholder: '',
   disabled: false,
   defaultValue: [],
+  dropdownClassName: '',
+  getPopupContainer: null,
 };
 
 CascadeMultiSelect.propTypes = {
@@ -225,12 +231,19 @@ CascadeMultiSelect.propTypes = {
   allowClear: React.PropTypes.bool,
   locale: React.PropTypes.string,
   onSelect: React.PropTypes.func,
+  onItemClick: React.PropTypes.func,
 
   placeholder: React.PropTypes.string,
   disabled: React.PropTypes.bool,
   defaultValue: React.PropTypes.array,
+  dropdownClassName: React.PropTypes.string,
+
+  getPopupContainer: React.PropTypes.func,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';
+
+CascadeMultiSelect.CascadeMultiPanel = CascadeMulti;
+CascadeMultiSelect.CascadeMultiModal = CascadeMultiModal;
 
 module.exports = CascadeMultiSelect;

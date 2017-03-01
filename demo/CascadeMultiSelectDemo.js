@@ -5,16 +5,18 @@
  * Copyright 2015-2016, Uxcore Team, Alinw.
  * All rights reserved.
  */
-
-const React = require('react');
-const CascadeMultiSelect = require('../src');
-const CascadeMultiModal = require('../src/CascadeMultiModal.jsx');
-
+import React from 'react';
+import CascadeMultiSelect from '../src';
 import {
   options,
   options2,
   options3,
 } from './const';
+
+const {
+  CascadeMultiPanel,
+  CascadeMultiModal,
+} = CascadeMultiSelect;
 
 class Demo extends React.Component {
 
@@ -29,7 +31,8 @@ class Demo extends React.Component {
       demo6: ['xihu'],
       demo7: [],
       demo8: [],
-      demo9: [],
+      demo9: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
+      demo10: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
       asyncOptions6: options,
     };
   }
@@ -42,6 +45,8 @@ class Demo extends React.Component {
         </div>
         <div style={{ margin: 15 }}>
           <CascadeMultiSelect
+            className={'ucms-input'}
+            dropdownClassName={'ucms-drop'}
             options={options}
             onSelect={(resa, resb) => {
               console.log(resa, resb);
@@ -101,7 +106,7 @@ class Demo extends React.Component {
               className="kuma-button kuma-button-secondary"
               onClick={() => {
                 this.setState({
-                  demo6: ['hangzhou', 'ningbo', 'anhui', 'shandong'],
+                  demo6: ['xihu'],
                   asyncOptions6: options2,
                 });
               }}
@@ -182,15 +187,31 @@ class Demo extends React.Component {
           />
         </div>
         <div style={{ marginLeft: 20 }}>
+          <h3>只使用面板</h3>
+        </div>
+        <div style={{ position: 'relative', margin: 15 }}>
+          <CascadeMultiPanel
+            options={options2}
+            value={this.state.demo9}
+            onSelect={(resa) => {
+              this.setState({
+                demo9: resa,
+              });
+            }}
+            className={'ucms-panel'}
+          />
+        </div>
+        <div style={{ marginLeft: 20 }}>
           <h3>弹框模式</h3>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiModal
+            className={'ucms-modal'}
             options={options2}
-            value={this.state.demo9}
+            value={this.state.demo10}
             onOk={(data) => {
               console.log(data);
-              this.setState({ demo9: data.resa });
+              this.setState({ demo10: data.resa });
             }}
           />
         </div>

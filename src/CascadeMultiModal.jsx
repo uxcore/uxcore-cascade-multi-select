@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
 import Button from 'uxcore-button';
 import Dialog from 'uxcore-dialog';
-import CascadeMulti from './CascadeMulti.jsx';
+import CascadeMulti from './CascadeMulti';
 import i18n from './locale';
 
 class CascadeMultiModal extends React.Component {
@@ -266,7 +266,7 @@ CascadeMultiModal.defaultProps = {
   locale: 'zh-cn',
 
   title: '',
-  width: 672,
+  width: 0,
   onOk: () => {},
   onCancel: () => {},
 };

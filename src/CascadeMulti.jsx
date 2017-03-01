@@ -330,7 +330,6 @@ class CascadeMulti extends React.Component {
       style.width += parseInt(width, 0);
     }
     style.width += parseInt(resultPanelWidth, 0) + 2;
-    style.position = 'relative';
     this.resultPanelWidth = parseInt(resultPanelWidth, 0);
     return style;
   }
@@ -340,7 +339,7 @@ class CascadeMulti extends React.Component {
    */
   renderUlList(level) {
     const t = this;
-    const { className, prefixCls, notFoundContent, locale } = this.props;
+    const { prefixCls, notFoundContent, locale } = this.props;
     const { dataList, selectArray } = this.state;
     if (!dataList.length) { return null; }
     const treeNodeObj = t.getTreeNodeData(dataList, selectArray[level - 1]);
@@ -356,7 +355,6 @@ class CascadeMulti extends React.Component {
       <ul
         key={level}
         className={classnames({
-          className: !!className,
           'use-svg': true,
           [`${prefixCls}-content`]: true,
         })}
@@ -375,7 +373,7 @@ class CascadeMulti extends React.Component {
    * 渲染对应级的 ListItem
    */
   renderListItems(dataList, level) {
-    const { className, prefixCls, config } = this.props;
+    const { prefixCls, config } = this.props;
     const { selectArray } = this.state;
     const arr = [];
     // 设置当前级是否开启 checkbox
@@ -389,7 +387,6 @@ class CascadeMulti extends React.Component {
         <li
           key={item.value}
           className={classnames({
-            className: !!className,
             [`${prefixCls}-list-item`]: !!prefixCls,
             [`${prefixCls}-checked`]: item.checked && !item.disabled,
             [`${prefixCls}-list-item-active`]: selectArray[level] === item.value,
@@ -398,14 +395,11 @@ class CascadeMulti extends React.Component {
           onClick={() => { this.onItemClick(item, level); }}
         >
           <label
-            className={classnames({
-              className: !!className,
-            }, [`${prefixCls}-item-label`])}
+            className={classnames([`${prefixCls}-item-label`])}
           >
             {
               checkable ? <s
                 className={classnames({
-                  className: !!className,
                   'kuma-tree-checkbox': true,
                   'kuma-tree-checkbox-indeterminate': item.halfChecked,
                   'kuma-tree-checkbox-checked': item.checked && !item.halfChecked,
@@ -587,7 +581,7 @@ class CascadeMulti extends React.Component {
     return (
       <div
         className={classnames({
-          className: !!className,
+          [className]: !!className,
         }, [`${prefixCls}`])}
         onClick={(e) => {
           e.stopPropagation();
@@ -613,6 +607,7 @@ CascadeMulti.defaultProps = {
   allowClear: true,
   locale: 'zh-cn',
   onSelect: () => {},
+  onItemClick: () => {},
 };
 
 CascadeMulti.propTypes = {
