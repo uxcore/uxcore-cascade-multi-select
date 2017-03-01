@@ -1,5 +1,9 @@
 # history
 
+## 0.2.0
+
+* `NEW` modal view
+
 ## 0.1.5
 
 * `FIXED` props.value rerender error
