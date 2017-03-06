@@ -173,9 +173,10 @@ const value = ['xihu', 'bingjiang'];
 ### onSelect
 
 ```javascript
-(resa, resb) => {
+(resa, resb, resc) => {
   resa: 选中选项的key列表
   resb: 选中选项的label列表
+  resc: 选中所有子项的{value, label}列表
 }
 ```
 > 注：如果选项的子集全部选中，则返回该选项值
@@ -235,6 +236,7 @@ props 复用 uxcore-cascade-multi-select 的 props.
 (data) => {
   data.resa: 选中选项的key列表
   data.resb: 选中选项的label列表
+  data.resc: 选中所有子项的{value, label}列表
 }
 ```
 
