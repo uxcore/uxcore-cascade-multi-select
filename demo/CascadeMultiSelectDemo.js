@@ -48,8 +48,8 @@ class Demo extends React.Component {
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}
             options={options}
-            onSelect={(resa) => {
-              console.log(resa);
+            onSelect={(resa, resb, resc) => {
+              console.log(resa, resb, resc);
               this.setState({ demo1: resa });
             }}
             value={this.state.demo1}
@@ -194,7 +194,8 @@ class Demo extends React.Component {
           <CascadeMultiPanel
             options={options2}
             value={this.state.demo9}
-            onSelect={(resa) => {
+            onSelect={(resa, resb, resc) => {
+              console.log(resc);
               this.setState({
                 demo9: resa,
               });

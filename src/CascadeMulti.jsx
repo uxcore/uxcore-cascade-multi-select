@@ -86,7 +86,7 @@ class CascadeMulti extends React.Component {
     const { dataList } = this.state;
     this.setState({
       dataList: this.setCleanResult(dataList),
-    }, this.props.onSelect([], []));
+    }, this.props.onSelect([], [], []));
   }
 
   /**
@@ -136,6 +136,21 @@ class CascadeMulti extends React.Component {
         }
       });
     }
+  }
+
+  getAllLeafNode(dataList = []) {
+    let back = [];
+    dataList.forEach(item => {
+      if ((item.checked || item.halfChecked) && item.children && item.children.length) {
+        back = back.concat(this.getAllLeafNode(item.children));
+      } else if (item.checked) {
+        back.push({
+          value: item.value,
+          label: item.label,
+        });
+      }
+    });
+    return back;
   }
 
   /**
@@ -240,7 +255,8 @@ class CascadeMulti extends React.Component {
     this.setState({ dataList }, () => {
       const arr = [];
       this.textArr = [];
-      this.getSelectResult(this.state.dataList, arr, this.textArr);
+      this.leafArr = [];
+      this.getSelectResult(this.state.dataList, arr, this.textArr, this.leafArr);
     });
   }
 
@@ -291,8 +307,9 @@ class CascadeMulti extends React.Component {
   setSelectResult() {
     const arr = [];
     this.textArr = [];
+    this.leafArr = this.getAllLeafNode(this.state.dataList);
     this.getSelectResult(this.state.dataList, arr, this.textArr);
-    this.props.onSelect(arr, this.textArr);
+    this.props.onSelect(arr, this.textArr, this.leafArr);
   }
 
   /**

@@ -87,7 +87,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | allowClear | 是否允许清空 | bool | `false` | true |
 | disabled | 禁用模式，只能看到结果，不可展开面板 | bool | `false` | false |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
-| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
+| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb, resc) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 | onOk | 点击确认按钮回调函数 | function | `false` | (resa) => {} |
 | onCancel | 取消选择时回调函数 | function | `false` | () => {} |
@@ -197,7 +197,7 @@ const value = ['xihu', 'bingjiang'];
 | notFoundContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
 | allowClear | 是否允许清空 | bool | `false` | true |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
-| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
+| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb, resc) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 
 
@@ -218,7 +218,7 @@ const value = ['xihu', 'bingjiang'];
 | notFoundContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
 | allowClear | 是否允许清空 | bool | `false` | true |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
-| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb) => {} |
+| onSelect | 选中选项的回调函数 | function | `false` | (resa, resb, resc) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 | title | 标题 | String | `false` | '级联选择' |
 | width | dialog 宽度 | Number | `false` | 672 |
@@ -251,7 +251,7 @@ const {
 render() {
   return () {
     <div>
-      <CascadeMulti />
+      <CascadeMultiPanel />
       <CascadeMultiSelect />
       <CascadeMultiModal />
     </div>

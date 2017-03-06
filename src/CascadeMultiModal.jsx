@@ -58,12 +58,13 @@ class CascadeMultiModal extends React.Component {
     });
   }
 
-  onSelect(resa, resb) {
+  onSelect(resa, resb, resc) {
     this.setState({
       value: resa,
       result: {
         resa,
         resb,
+        resc,
       },
     });
   }
@@ -147,8 +148,8 @@ class CascadeMultiModal extends React.Component {
           {...this.props}
           value={value}
           options={options}
-          onSelect={(resa, resb) => {
-            this.onSelect(resa, resb);
+          onSelect={(resa, resb, resc) => {
+            this.onSelect(resa, resb, resc);
           }}
           ref={(r) => { this.refCascadeMulti = r; }}
         />
