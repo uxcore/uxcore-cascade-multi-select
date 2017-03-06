@@ -123,6 +123,8 @@ class CascadeMultiSelect extends React.Component {
 
   setInputValue(value, dataList) {
     const displayValue = this.getInputValue(value, dataList);
+    this.data.displayValue = displayValue;
+    this.data.value = value;
     this.setState({ displayValue, value });
   }
 

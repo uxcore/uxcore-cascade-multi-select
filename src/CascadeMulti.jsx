@@ -252,12 +252,7 @@ class CascadeMulti extends React.Component {
         }
       }
     }
-    this.setState({ dataList }, () => {
-      const arr = [];
-      this.textArr = [];
-      this.leafArr = [];
-      this.getSelectResult(this.state.dataList, arr, this.textArr, this.leafArr);
-    });
+    this.setState({ dataList });
   }
 
   /**
