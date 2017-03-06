@@ -9,7 +9,7 @@ import React from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
 import Button from 'uxcore-button';
-import CascadeMulti from './CascadeMulti';
+import CascadeMultiPanel from './CascadeMultiPanel';
 import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
 
@@ -24,12 +24,14 @@ class CascadeMultiSelect extends React.Component {
       allowClear: props.allowClear,
       disabled: props.disabled,
       showSubMenu: false,
+      result: {},
     };
     this.separator = ' , ';
     this.data = {
       value: props.value || props.defaultValue,
       options: props.options,
       displayValue: '',
+      result: {},
     };
   }
 
@@ -41,6 +43,9 @@ class CascadeMultiSelect extends React.Component {
 
   componentDidMount() {
     const { value, defaultValue, options } = this.props;
+    const displayValue = this.getInputValue(value, options);
+    this.data.displayValue = displayValue;
+    this.data.value = value;
     this.setInputValue(value || defaultValue, options);
   }
 
@@ -51,22 +56,25 @@ class CascadeMultiSelect extends React.Component {
   }
 
   onOk() {
-    const { displayValue, value } = this.state;
+    const { displayValue, value, result } = this.state;
+    const { valueList, labelList, leafList } = result;
     this.data.displayValue = displayValue;
     this.data.value = value;
+    this.data.result = result;
     this.setState({
       displayValue,
       value,
     }, () => {
-      this.props.onOk(value);
+      this.props.onOk(valueList, labelList, leafList);
     });
   }
 
   onCancel() {
-    const { value, options } = this.data;
+    const { value, options, result } = this.data;
     this.setState({
       displayValue: this.getInputValue(value, options),
       value,
+      result,
     }, () => {
       this.props.onCancel();
     });
@@ -78,8 +86,9 @@ class CascadeMultiSelect extends React.Component {
     this.setState({
       value: [],
       displayValue: '',
+      result: {},
     }, () => {
-      this.props.onOk([]);
+      this.props.onOk([], [], []);
     });
   }
 
@@ -126,13 +135,18 @@ class CascadeMultiSelect extends React.Component {
     this.setState({ displayValue, value });
   }
 
-  handleSelect(resa, resb) {
+  handleSelect(valueList, labelList, leafList) {
     const { options } = this.props;
     this.setState({
-      displayValue: this.getInputValue(resa, options),
-      value: resa,
+      displayValue: this.getInputValue(valueList, options),
+      value: valueList,
+      result: {
+        valueList,
+        labelList,
+        leafList,
+      },
     }, () => {
-      this.props.onSelect(resa, resb);
+      this.props.onSelect(valueList, labelList, leafList);
     });
   }
 
@@ -217,7 +231,7 @@ class CascadeMultiSelect extends React.Component {
     const { value } = this.state;
     return (
       <div>
-        <CascadeMulti
+        <CascadeMultiPanel
           {...this.props}
           className={dropdownClassName}
           value={value}
@@ -310,7 +324,7 @@ CascadeMultiSelect.propTypes = {
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';
 
-CascadeMultiSelect.CascadeMultiPanel = CascadeMulti;
+CascadeMultiSelect.CascadeMultiPanel = CascadeMultiPanel;
 CascadeMultiSelect.CascadeMultiModal = CascadeMultiModal;
 
 module.exports = CascadeMultiSelect;
