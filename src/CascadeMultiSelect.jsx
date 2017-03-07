@@ -227,8 +227,11 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderCascadeMultiPanel() {
-    const { dropdownClassName } = this.props;
+    const { dropdownClassName, options } = this.props;
     const { value } = this.state;
+    if (!options || !options.length) {
+      return <div />;
+    }
     return (
       <div>
         <CascadeMultiPanel

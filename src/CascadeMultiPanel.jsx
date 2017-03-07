@@ -590,7 +590,10 @@ class CascadeMulti extends React.Component {
   }
 
   render() {
-    const { className, prefixCls, cascadeSize } = this.props;
+    const { className, prefixCls, cascadeSize, options } = this.props;
+    if (!options || !options.length) {
+      return null;
+    }
     const arr = [];
     for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));

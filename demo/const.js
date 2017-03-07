@@ -190,6 +190,72 @@ export const options2 = [
         label: '名称很长的选项展示效果0-0-0',
       }],
     }],
+  }, {
+    value: 'jiangxi',
+    label: '江西',
+    children: [{
+      value: 'nanchang',
+      label: '南昌',
+      children: [{
+        value: 'qiyi',
+        label: '起义',
+      }],
+    }],
+  }, {
+    value: 'xinjiang',
+    label: '新疆',
+    children: [{
+      value: 'tianshan',
+      label: '天山',
+      children: [{
+        value: 'hetian',
+        label: '和田',
+      }],
+    }],
+  }, {
+    value: 'shagnhai',
+    label: '上海',
+    children: [{
+      value: 'pudong',
+      label: '浦东',
+      children: [{
+        value: 'jichang',
+        label: '机场',
+      }],
+    }],
+  }, {
+    value: 'beijing',
+    label: '北京',
+    children: [{
+      value: 'dadongmen',
+      label: '大东门',
+      children: [{
+        value: 'xidan',
+        label: '西单',
+      }],
+    }],
+  }, {
+    value: 'jilin',
+    label: '吉林',
+    children: [{
+      value: 'changchun',
+      label: '长春',
+      children: [{
+        value: 'dabaicai',
+        label: '大白菜',
+      }],
+    }],
+  }, {
+    value: 'heilongjiang',
+    label: '黑龙江',
+    children: [{
+      value: 'mohe',
+      label: '漠河',
+      children: [{
+        value: 'bianjing',
+        label: '边境',
+      }],
+    }],
   },
 ];
 
