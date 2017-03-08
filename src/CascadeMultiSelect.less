@@ -19,6 +19,7 @@
   -ms-user-select: none;
 
   border: 1px solid @border-color;
+  background-color: #ffffff;
 
   .@{notificationPrefixCls}-content {
     float: left;
@@ -74,7 +75,7 @@
   }
 
   .@{notificationPrefixCls}-result {
-    float: left;
+    float: right;
 
     width: 220px;
     height: 310px;
@@ -135,7 +136,6 @@
               vertical-align: middle;
               &:hover {
                 color: @brand-primary;
-
                 background-color: #f5f5f5;
                 .tree-node-ul-li-del {
                   -ms-transform: scale(1);
@@ -190,6 +190,10 @@
  */
 @notificationPrefixCls: kuma-cascade-multi;
 
+.@{notificationPrefixCls}-input {
+  background-color: #fff;
+}
+
 .@{notificationPrefixCls}-text-result {
   overflow-x: hidden;
 
@@ -199,13 +203,10 @@
   text-overflow: ellipsis;
   &-input {
     width: 100%;
-
     padding-right: 10px;
 
     border: 0;
-  }
-  &-input-disabled {
-    background-color: #f7f7f7;
+    background-color: transparent;
   }
 }
 
@@ -221,6 +222,7 @@
 
   line-height: 52px;
 }
+
 
 /**
  * CascadeMultiSelect Component Style for uxcore

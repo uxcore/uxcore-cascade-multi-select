@@ -39,7 +39,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <div style={{ width: 300 }}>
+      <div style={{ width: 900 }}>
         <div style={{ margin: 15 }}>
           <h3>基本</h3>
         </div>

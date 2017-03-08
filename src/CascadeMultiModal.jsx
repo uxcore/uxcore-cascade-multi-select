@@ -146,9 +146,6 @@ class CascadeMultiModal extends React.Component {
 
   renderContent() {
     const { value, options } = this.state;
-    if (!options || !options.length) {
-      return <div />;
-    }
     return (
       <div>
         <CascadeMultiPanel

@@ -353,7 +353,18 @@ class CascadeMulti extends React.Component {
     const t = this;
     const { prefixCls, notFoundContent, locale } = this.props;
     const { dataList, selectArray } = this.state;
-    if (!dataList.length) { return null; }
+    if (!dataList.length) {
+      return (
+        <ul
+          key={level}
+          className={classnames({
+            'use-svg': true,
+            [`${prefixCls}-content`]: true,
+          })}
+          ref={(r) => { this.refUls = r; }}
+        />
+      );
+    }
     const treeNodeObj = t.getTreeNodeData(dataList, selectArray[level - 1]);
     const childrenList = (
       treeNodeObj &&
@@ -590,10 +601,7 @@ class CascadeMulti extends React.Component {
   }
 
   render() {
-    const { className, prefixCls, cascadeSize, options } = this.props;
-    if (!options || !options.length) {
-      return null;
-    }
+    const { className, prefixCls, cascadeSize } = this.props;
     const arr = [];
     for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));
