@@ -39,7 +39,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <div style={{ width: 300 }}>
+      <div style={{ width: 900 }}>
         <div style={{ margin: 15 }}>
           <h3>基本</h3>
         </div>
@@ -123,7 +123,7 @@ class Demo extends React.Component {
               className="kuma-button kuma-button-secondary"
               onClick={() => {
                 this.setState({
-                  demo6: ['xihu'],
+                  demo6: ['xihu', 'bingjiang', 'shandong'],
                   asyncOptions6: options,
                 });
               }}

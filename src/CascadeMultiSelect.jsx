@@ -39,6 +39,7 @@ class CascadeMultiSelect extends React.Component {
     this.onOk = this.onOk.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleStopPropagation = this.handleStopPropagation.bind(this);
   }
 
   componentDidMount() {
@@ -52,6 +53,9 @@ class CascadeMultiSelect extends React.Component {
   componentWillReceiveProps(nextProps) {
     // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
     const { value, options } = nextProps;
+    const displayValue = this.getInputValue(value, options);
+    this.data.displayValue = displayValue;
+    this.data.value = value;
     this.setInputValue(value, options);
   }
 
@@ -135,6 +139,24 @@ class CascadeMultiSelect extends React.Component {
     this.setState({ displayValue, value });
   }
 
+  setPanelWidth() {
+    const { cascadeSize } = this.props;
+    const style = {};
+    const reg = /[0-9]+/g;
+    const width = this.refUls ?
+      getComputedStyle(this.refUls).width.match(reg)[0] :
+      150;
+    const resultPanelWidth = this.refResultPanel ?
+      getComputedStyle(this.refResultPanel).width.match(reg)[0] : 220;
+    style.width = 0;
+    for (let i = 0; i < cascadeSize; i += 1) {
+      style.width += parseInt(width, 0);
+    }
+    style.width += parseInt(resultPanelWidth, 0) + 2;
+    this.resultPanelWidth = parseInt(resultPanelWidth, 0);
+    return style;
+  }
+
   handleSelect(valueList, labelList, leafList) {
     const { options } = this.props;
     this.setState({
@@ -152,6 +174,13 @@ class CascadeMultiSelect extends React.Component {
 
   handleItemClick(item, level) {
     this.props.onItemClick(item, level);
+  }
+
+  handleStopPropagation(e) {
+    const tagName = e.target.tagName;
+    if (tagName !== 'BUTTON') {
+      e.stopPropagation();
+    }
   }
 
   renderInput() {
@@ -196,27 +225,28 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderContent() {
-    const { className } = this.props;
+    const { className, prefixCls } = this.props;
     const { displayValue, allowClear, disabled, showSubMenu } = this.state;
-    const prefixCls = 'kuma-cascader';
+    const prefixCls2 = 'kuma-cascader';
     return (
       <div
         className={classnames({
           [className]: true,
-          [`${prefixCls}-wrapper`]: true,
-          [`${prefixCls}-disabled`]: disabled,
-          [`${prefixCls}-clearable`]: !disabled && allowClear && displayValue.length > 0,
+          [`${prefixCls}-input`]: !disabled,
+          [`${prefixCls2}-wrapper`]: true,
+          [`${prefixCls2}-disabled`]: disabled,
+          [`${prefixCls2}-clearable`]: !disabled && allowClear && displayValue.length > 0,
         })}
       >
-        <div className={`${prefixCls}-text`}>
-          <div className={`${prefixCls}-trigger`}>
+        <div className={`${prefixCls2}-text`}>
+          <div className={`${prefixCls2}-trigger`}>
             {this.renderInput()}
           </div>
         </div>
         <div
           className={classnames({
-            [`${prefixCls}-arrow`]: true,
-            [`${prefixCls}-arrow-reverse`]: showSubMenu,
+            [`${prefixCls2}-arrow`]: true,
+            [`${prefixCls2}-arrow-reverse`]: showSubMenu,
           })}
         >
           <i className="kuma-icon kuma-icon-triangle-down" />
@@ -247,7 +277,11 @@ class CascadeMultiSelect extends React.Component {
   renderFooter() {
     const { prefixCls, locale } = this.props;
     return (
-      <div className={classnames(`${prefixCls}-select-footer`)}>
+      <div
+        className={classnames(`${prefixCls}-select-footer`)}
+        style={this.setPanelWidth()}
+        onClick={this.handleStopPropagation}
+      >
         <Button
           onClick={this.onOk}
         >
