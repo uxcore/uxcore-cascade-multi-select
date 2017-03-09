@@ -30,21 +30,6 @@ export const options = [
       value: 'changxing',
       label: '长兴',
       children: [],
-    }, {
-      value: 'jiaxing',
-      label: '嘉兴',
-      children: [],
-    }, {
-      value: 'wenzhou',
-      label: '温州',
-    }, {
-      value: 'lishui',
-      label: '丽水',
-      children: [],
-    }, {
-      value: 'linan',
-      label: '临安',
-      children: [],
     }],
   }, {
     value: 'jiangsu',
