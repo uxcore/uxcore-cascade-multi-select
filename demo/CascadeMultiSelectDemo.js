@@ -39,7 +39,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <div style={{ width: 300 }}>
+      <div style={{ width: 900 }}>
         <div style={{ margin: 15 }}>
           <h3>基本</h3>
         </div>
@@ -48,9 +48,12 @@ class Demo extends React.Component {
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}
             options={options}
-            onSelect={(resa, resb) => {
-              console.log(resa, resb);
-              this.setState({ demo1: resa });
+            onSelect={(valueList, labelList, leafList) => {
+              console.log(valueList, labelList, leafList);
+              this.setState({ demo1: valueList });
+            }}
+            onOk={(valueList, labelList, leafList) => {
+              console.log(valueList, labelList, leafList);
             }}
             value={this.state.demo1}
           />
@@ -62,8 +65,9 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             options={options}
             allowClear={false}
-            onSelect={(resa) => {
-              this.setState({ demo2: resa });
+            value={this.state.demo2}
+            onSelect={(valueList) => {
+              this.setState({ demo2: valueList });
             }}
           />
         </div>
@@ -119,7 +123,7 @@ class Demo extends React.Component {
               className="kuma-button kuma-button-secondary"
               onClick={() => {
                 this.setState({
-                  demo6: ['xihu'],
+                  demo6: ['xihu', 'bingjiang', 'shandong'],
                   asyncOptions6: options,
                 });
               }}
@@ -132,8 +136,8 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             options={this.state.asyncOptions6}
             value={this.state.demo6}
-            onSelect={(resa) => {
-              this.setState({ demo6: resa });
+            onSelect={(valueList) => {
+              this.setState({ demo6: valueList });
             }}
             onItemClick={(item) => {
               console.log('onItemClick', item);
@@ -153,8 +157,8 @@ class Demo extends React.Component {
             options={options3}
             value={this.state.demo7}
             cascadeSize={4}
-            onSelect={(resa) => {
-              console.log(resa);
+            onSelect={(valueList) => {
+              console.log(valueList);
             }}
           />
         </div>
@@ -193,9 +197,10 @@ class Demo extends React.Component {
           <CascadeMultiPanel
             options={options2}
             value={this.state.demo9}
-            onSelect={(resa) => {
+            onSelect={(valueList, labelList, leafList) => {
+              console.log(leafList);
               this.setState({
-                demo9: resa,
+                demo9: valueList,
               });
             }}
             className={'ucms-panel'}
@@ -209,9 +214,9 @@ class Demo extends React.Component {
             className={'ucms-modal'}
             options={options2}
             value={this.state.demo10}
-            onOk={(data) => {
-              console.log(data);
-              this.setState({ demo10: data.resa });
+            onOk={(valueList, labelList, leafList) => {
+              console.log(valueList, labelList, leafList);
+              this.setState({ demo10: valueList });
             }}
           />
         </div>

@@ -8,7 +8,8 @@
 import React from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
-import CascadeMulti from './CascadeMulti';
+import Button from 'uxcore-button';
+import CascadeMultiPanel from './CascadeMultiPanel';
 import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
 
@@ -23,27 +24,75 @@ class CascadeMultiSelect extends React.Component {
       allowClear: props.allowClear,
       disabled: props.disabled,
       showSubMenu: false,
+      result: {},
     };
     this.separator = ' , ';
+    this.data = {
+      value: props.value || props.defaultValue,
+      options: props.options,
+      displayValue: '',
+      result: {},
+    };
+  }
+
+  componentWillMount() {
+    this.onOk = this.onOk.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleStopPropagation = this.handleStopPropagation.bind(this);
   }
 
   componentDidMount() {
     const { value, defaultValue, options } = this.props;
+    const displayValue = this.getInputValue(value, options);
+    this.data.displayValue = displayValue;
+    this.data.value = value;
     this.setInputValue(value || defaultValue, options);
   }
 
   componentWillReceiveProps(nextProps) {
     // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
     const { value, options } = nextProps;
+    const displayValue = this.getInputValue(value, options);
+    this.data.displayValue = displayValue;
+    this.data.value = value;
     this.setInputValue(value, options);
   }
 
+  onOk() {
+    const { displayValue, value, result } = this.state;
+    const { valueList, labelList, leafList } = result;
+    this.data.displayValue = displayValue;
+    this.data.value = value;
+    this.data.result = result;
+    this.setState({
+      displayValue,
+      value,
+    }, () => {
+      this.props.onOk(valueList, labelList, leafList);
+    });
+  }
+
+  onCancel() {
+    const { value, options, result } = this.data;
+    this.setState({
+      displayValue: this.getInputValue(value, options),
+      value,
+      result,
+    }, () => {
+      this.props.onCancel();
+    });
+  }
+
   onCleanSelect() {
+    this.data.displayValue = '';
+    this.data.value = [];
     this.setState({
       value: [],
       displayValue: '',
+      result: {},
     }, () => {
-      this.props.onSelect([], []);
+      this.props.onOk([], [], []);
     });
   }
 
@@ -51,6 +100,9 @@ class CascadeMultiSelect extends React.Component {
     const { disabled } = this.props;
     if (!disabled) {
       this.setState({ showSubMenu: visible });
+    }
+    if (!visible) {
+      this.onCancel();
     }
   }
 
@@ -87,17 +139,54 @@ class CascadeMultiSelect extends React.Component {
     this.setState({ displayValue, value });
   }
 
-  handleSelect(resa, resb) {
+  setPanelWidth() {
+    const { cascadeSize } = this.props;
+    const style = {};
+    const reg = /[0-9]+/g;
+    const width = this.refUls ?
+      getComputedStyle(this.refUls).width.match(reg)[0] :
+      150;
+    const resultPanelWidth = this.refResultPanel ?
+      getComputedStyle(this.refResultPanel).width.match(reg)[0] : 220;
+    style.width = 0;
+    for (let i = 0; i < cascadeSize; i += 1) {
+      style.width += parseInt(width, 0);
+    }
+    style.width += parseInt(resultPanelWidth, 0) + 2;
+    this.resultPanelWidth = parseInt(resultPanelWidth, 0);
+    return style;
+  }
+
+  handleSelect(valueList, labelList, leafList) {
     const { options } = this.props;
     this.setState({
-      displayValue: this.getInputValue(resa, options),
+      displayValue: this.getInputValue(valueList, options),
+      value: valueList,
+      result: {
+        valueList,
+        labelList,
+        leafList,
+      },
+    }, () => {
+      this.props.onSelect(valueList, labelList, leafList);
     });
-    this.props.onSelect(resa, resb);
+  }
+
+  handleItemClick(item, level) {
+    this.props.onItemClick(item, level);
+  }
+
+  handleStopPropagation(e) {
+    const tagName = e.target.tagName;
+    if (tagName !== 'BUTTON') {
+      e.stopPropagation();
+    }
   }
 
   renderInput() {
     const { prefixCls, placeholder, locale } = this.props;
-    const { displayValue, disabled } = this.state;
+    const { disabled } = this.state;
+    const { displayValue } = this.data;
     return (
       <div>
         {
@@ -136,27 +225,28 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderContent() {
-    const { className } = this.props;
+    const { className, prefixCls } = this.props;
     const { displayValue, allowClear, disabled, showSubMenu } = this.state;
-    const prefixCls = 'kuma-cascader';
+    const prefixCls2 = 'kuma-cascader';
     return (
       <div
         className={classnames({
           [className]: true,
-          [`${prefixCls}-wrapper`]: true,
-          [`${prefixCls}-disabled`]: disabled,
-          [`${prefixCls}-clearable`]: !disabled && allowClear && displayValue.length > 0,
+          [`${prefixCls}-input`]: !disabled,
+          [`${prefixCls2}-wrapper`]: true,
+          [`${prefixCls2}-disabled`]: disabled,
+          [`${prefixCls2}-clearable`]: !disabled && allowClear && displayValue.length > 0,
         })}
       >
-        <div className={`${prefixCls}-text`}>
-          <div className={`${prefixCls}-trigger`}>
+        <div className={`${prefixCls2}-text`}>
+          <div className={`${prefixCls2}-trigger`}>
             {this.renderInput()}
           </div>
         </div>
         <div
           className={classnames({
-            [`${prefixCls}-arrow`]: true,
-            [`${prefixCls}-arrow-reverse`]: showSubMenu,
+            [`${prefixCls2}-arrow`]: true,
+            [`${prefixCls2}-arrow-reverse`]: showSubMenu,
           })}
         >
           <i className="kuma-icon kuma-icon-triangle-down" />
@@ -166,25 +256,47 @@ class CascadeMultiSelect extends React.Component {
     );
   }
 
-  render() {
-    const { disabled, dropdownClassName, getPopupContainer } = this.props;
-    if (disabled) {
-      return this.renderContent();
-    }
+  renderCascadeMultiPanel() {
+    const { dropdownClassName } = this.props;
     const { value } = this.state;
-    const CascadeMultiComponent = (
+    return (
       <div>
-        <CascadeMulti
+        <CascadeMultiPanel
           {...this.props}
           className={dropdownClassName}
           value={value}
           ref={(r) => { this.CascadeMulti = r; }}
-          onSelect={(resa, resb) => {
-            this.handleSelect(resa, resb);
-          }}
+          onSelect={this.handleSelect}
+          onItemClick={this.handleItemClick}
         />
+        {this.renderFooter()}
       </div>
     );
+  }
+
+  renderFooter() {
+    const { prefixCls, locale } = this.props;
+    return (
+      <div
+        className={classnames(`${prefixCls}-select-footer`)}
+        style={this.setPanelWidth()}
+        onClick={this.handleStopPropagation}
+      >
+        <Button
+          onClick={this.onOk}
+        >
+          {i18n(locale).ok}
+        </Button>
+      </div>
+    );
+  }
+
+  render() {
+    const { disabled, getPopupContainer } = this.props;
+    if (disabled) {
+      return this.renderContent();
+    }
+    const CascadeMultiComponent = this.renderCascadeMultiPanel();
     return (
       <Dropdown
         overlay={CascadeMultiComponent}
@@ -217,6 +329,8 @@ CascadeMultiSelect.defaultProps = {
   disabled: false,
   defaultValue: [],
   dropdownClassName: '',
+  onOk: () => {},
+  onCancel: () => {},
   getPopupContainer: null,
 };
 
@@ -237,13 +351,14 @@ CascadeMultiSelect.propTypes = {
   disabled: React.PropTypes.bool,
   defaultValue: React.PropTypes.array,
   dropdownClassName: React.PropTypes.string,
-
+  onOk: React.PropTypes.func,
+  onCancel: React.PropTypes.func,
   getPopupContainer: React.PropTypes.func,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';
 
-CascadeMultiSelect.CascadeMultiPanel = CascadeMulti;
+CascadeMultiSelect.CascadeMultiPanel = CascadeMultiPanel;
 CascadeMultiSelect.CascadeMultiModal = CascadeMultiModal;
 
 module.exports = CascadeMultiSelect;

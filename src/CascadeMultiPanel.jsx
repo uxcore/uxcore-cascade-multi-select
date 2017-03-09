@@ -86,7 +86,7 @@ class CascadeMulti extends React.Component {
     const { dataList } = this.state;
     this.setState({
       dataList: this.setCleanResult(dataList),
-    }, this.props.onSelect([], []));
+    }, this.props.onSelect([], [], []));
   }
 
   /**
@@ -136,6 +136,21 @@ class CascadeMulti extends React.Component {
         }
       });
     }
+  }
+
+  getAllLeafNode(dataList = []) {
+    let back = [];
+    dataList.forEach(item => {
+      if ((item.checked || item.halfChecked) && item.children && item.children.length) {
+        back = back.concat(this.getAllLeafNode(item.children));
+      } else if (item.checked) {
+        back.push({
+          value: item.value,
+          label: item.label,
+        });
+      }
+    });
+    return back;
   }
 
   /**
@@ -237,11 +252,7 @@ class CascadeMulti extends React.Component {
         }
       }
     }
-    this.setState({ dataList }, () => {
-      const arr = [];
-      this.textArr = [];
-      this.getSelectResult(this.state.dataList, arr, this.textArr);
-    });
+    this.setState({ dataList });
   }
 
   /**
@@ -291,8 +302,9 @@ class CascadeMulti extends React.Component {
   setSelectResult() {
     const arr = [];
     this.textArr = [];
+    this.leafArr = this.getAllLeafNode(this.state.dataList);
     this.getSelectResult(this.state.dataList, arr, this.textArr);
-    this.props.onSelect(arr, this.textArr);
+    this.props.onSelect(arr, this.textArr, this.leafArr);
   }
 
   /**
@@ -341,7 +353,18 @@ class CascadeMulti extends React.Component {
     const t = this;
     const { prefixCls, notFoundContent, locale } = this.props;
     const { dataList, selectArray } = this.state;
-    if (!dataList.length) { return null; }
+    if (!dataList.length) {
+      return (
+        <ul
+          key={level}
+          className={classnames({
+            'use-svg': true,
+            [`${prefixCls}-content`]: true,
+          })}
+          ref={(r) => { this.refUls = r; }}
+        />
+      );
+    }
     const treeNodeObj = t.getTreeNodeData(dataList, selectArray[level - 1]);
     const childrenList = (
       treeNodeObj &&
@@ -467,7 +490,7 @@ class CascadeMulti extends React.Component {
     const { dataList } = this.state;
     const style = {};
     if (this.selectNums < 10) {
-      style.marginRight = 2;
+      style.paddingRight = 17;
     }
     return (
       <div
@@ -507,37 +530,42 @@ class CascadeMulti extends React.Component {
                 this.onTriggerNode(item);
               }}
             >
-              {
-                this.renderExpand(item)
-              }
-              <span className={classnames('tree-node-ul-li-span')}>
+              <div
+                className={classnames('tree-node-ul-li-div')}
+                style={{ paddingLeft: (level + 1) * 15 }}
+              >
                 {
-                  <span
-                    className="tree-node-ul-li-span-label"
-                    style={style}
-                  >
-                    {item.label}
-                  </span>
+                  this.renderExpand(item)
                 }
-                {
-                  level < cascadeSize - 1 && item.checked ?
-                    <span className="tree-node-ul-li-all">
-                      {i18n(this.props.locale).haveAll}
-                    </span> :
-                    null
-                }
-                {
-                  <span
-                    className="tree-node-ul-li-del"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      this.onDeleteItem(item, level);
-                    }}
-                  >
-                    {i18n(this.props.locale).delete}
-                  </span>
-                }
-              </span>
+                <span className={classnames('tree-node-ul-li-span')}>
+                  {
+                    <span
+                      className="tree-node-ul-li-span-label"
+                      style={style}
+                    >
+                      {item.label}
+                    </span>
+                  }
+                  {
+                    level < cascadeSize - 1 && item.checked ?
+                      <span className="tree-node-ul-li-all">
+                        {i18n(this.props.locale).haveAll}
+                      </span> :
+                      null
+                  }
+                  {
+                    <span
+                      className="tree-node-ul-li-del"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        this.onDeleteItem(item, level);
+                      }}
+                    >
+                      {i18n(this.props.locale).delete}
+                    </span>
+                  }
+                </span>
+              </div>
               {
                 item.children && !item.expand ?
                   this.renderTreeListNode(item.children, level + 1) :

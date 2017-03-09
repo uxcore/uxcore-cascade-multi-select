@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
 import Button from 'uxcore-button';
 import Dialog from 'uxcore-dialog';
-import CascadeMulti from './CascadeMulti';
+import CascadeMultiPanel from './CascadeMultiPanel';
 import i18n from './locale';
 
 class CascadeMultiModal extends React.Component {
@@ -38,33 +38,38 @@ class CascadeMultiModal extends React.Component {
 
   onOk() {
     const { value, options, result } = this.state;
+    const { valueList, labelList, leafList } = result;
     this.data = {
       value,
       options,
       result,
     };
-    this.props.onOk(this.state.result);
+    this.props.onOk(valueList, labelList, leafList);
     this.setState({ visible: false });
   }
 
   onCancel() {
-    const { value, options } = this.data;
+    const { value, options, result } = this.data;
     this.setState({
       visible: false,
       value,
       options,
+      result,
     }, () => {
       this.props.onCancel();
     });
   }
 
-  onSelect(resa, resb) {
+  onSelect(valueList, labelList, leafList) {
     this.setState({
-      value: resa,
+      value: valueList,
       result: {
-        resa,
-        resb,
+        valueList,
+        labelList,
+        leafList,
       },
+    }, () => {
+      this.props.onSelect(valueList, labelList, leafList);
     });
   }
 
@@ -109,8 +114,8 @@ class CascadeMultiModal extends React.Component {
     this.getSelectResult(valueList, options, keyArr, textArr);
     this.data.value = keyArr;
     this.data.result = {
-      resa: keyArr,
-      resb: textArr,
+      valueList: keyArr,
+      labelList: textArr,
     };
   }
 
@@ -143,12 +148,12 @@ class CascadeMultiModal extends React.Component {
     const { value, options } = this.state;
     return (
       <div>
-        <CascadeMulti
+        <CascadeMultiPanel
           {...this.props}
           value={value}
           options={options}
-          onSelect={(resa, resb) => {
-            this.onSelect(resa, resb);
+          onSelect={(valueList, labelList, leafList) => {
+            this.onSelect(valueList, labelList, leafList);
           }}
           ref={(r) => { this.refCascadeMulti = r; }}
         />
@@ -171,8 +176,8 @@ class CascadeMultiModal extends React.Component {
   renderExpand() {
     const { prefixCls, locale } = this.props;
     const { expand } = this.state;
-    const { resb } = this.data.result;
-    if (!resb || !resb.length) { return null; }
+    const { labelList } = this.data.result;
+    if (!labelList || !labelList.length) { return null; }
     let arr = null;
     if (expand) {
       arr = (
@@ -190,7 +195,7 @@ class CascadeMultiModal extends React.Component {
           onClick={() => { this.onExpand(true); }}
         >
           {i18n(locale).expandAll}
-          {resb.length}
+          {labelList.length}
           {i18n(locale).item}
         </span>
       );
@@ -201,8 +206,8 @@ class CascadeMultiModal extends React.Component {
   renderResultList() {
     const { prefixCls } = this.props;
     const { expand } = this.state;
-    const { resa, resb } = this.data.result;
-    if (!resb) { return null; }
+    const { valueList, labelList } = this.data.result;
+    if (!labelList) { return null; }
     const arr = [];
     const style = {};
     if (expand) {
@@ -210,16 +215,16 @@ class CascadeMultiModal extends React.Component {
     } else {
       style.maxHeight = 76;
     }
-    resb.forEach((item, index) => {
+    labelList.forEach((item, index) => {
       arr.push(
-        <li className={`${prefixCls}-model-result-ul-list`} key={resa[index]}>
+        <li className={`${prefixCls}-model-result-ul-list`} key={valueList[index]}>
           <span className={`${prefixCls}-model-result-ul-list-content`}>{item}</span>
           <i
             className={classnames(
               [`${prefixCls}-model-result-ul-list-remove`],
               'kuma-icon kuma-icon-close')
             }
-            onClick={() => { this.onDelete(resa[index]); }}
+            onClick={() => { this.onDelete(valueList[index]); }}
           ></i>
         </li>
       );
@@ -264,6 +269,7 @@ CascadeMultiModal.defaultProps = {
   notFoundContent: '',
   allowClear: true,
   locale: 'zh-cn',
+  onSelect: () => {},
 
   title: '',
   width: 0,
@@ -281,6 +287,7 @@ CascadeMultiModal.propTypes = {
   notFoundContent: React.PropTypes.string,
   allowClear: React.PropTypes.bool,
   locale: React.PropTypes.string,
+  onSelect: React.PropTypes.func,
 
   title: React.PropTypes.string,
   width: React.PropTypes.number,
