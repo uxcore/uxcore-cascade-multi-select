@@ -2,24 +2,25 @@
 
 ## 0.2.3
 
-* `FIXED` CascadeMultiSelect footer's button click, dropdown can't hidden
-* `FIXED` CascadeMultiSelect demo async options error
-* `FIXED` CascadeMultiSelect demo input value sync update error
+* `FIXED` footer's button click, dropdown not hidden
+* `FIXED` demo async options error
+* `FIXED` demo input value sync update error
 
 ## 0.2.2
 
-* `FIXED` CascadeMultiSelect button position not in center
-* `FIXED` CascadeMultiPanel style error when no options
+* `FIXED` button not in center
 
 ## 0.2.1
 
-* `UPDATE` CascadeMultiPanel onSelect callback function add new param, return all leaf node object
-* `UPDATE` demo update onSelect, onItemClick, onOk functions callback params name
+* `NEW` add ok button
+* `FIXED` missing style
+* `CHANGED` onSelect will pass leafList
 
 ## 0.2.0
 
-* `UPDATE` CascadeMultiSelect add footer, add confirm button
-* `UPDATE` CascadeMultiPanel result panel style
+* `NEW` modal view
+* `NEW` add footer, add confirm button
+* `UPDATE` result panel style
 
 ## 0.1.5
 
