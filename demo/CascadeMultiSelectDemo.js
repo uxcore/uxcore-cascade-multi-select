@@ -28,7 +28,7 @@ class Demo extends React.Component {
       demo3: ['xihu'],
       demo4: ['bingjiang', 'ningbo', 'jiangsu'],
       demo5: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
-      demo6: ['xihu'],
+      demo6: ['xihu', 'bingjiang', 'shandong'],
       demo7: [],
       demo8: [],
       demo9: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
@@ -48,12 +48,9 @@ class Demo extends React.Component {
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}
             options={options}
-            onSelect={(valueList, labelList, leafList) => {
-              console.log(valueList, labelList, leafList);
-              this.setState({ demo1: valueList });
-            }}
             onOk={(valueList, labelList, leafList) => {
               console.log(valueList, labelList, leafList);
+              this.setState({ demo1: valueList });
             }}
             value={this.state.demo1}
           />
@@ -66,7 +63,7 @@ class Demo extends React.Component {
             options={options}
             allowClear={false}
             value={this.state.demo2}
-            onSelect={(valueList) => {
+            onOk={(valueList) => {
               this.setState({ demo2: valueList });
             }}
           />
@@ -97,6 +94,9 @@ class Demo extends React.Component {
             }
             options={options2}
             value={this.state.demo5}
+            onOk={(valueList) => {
+              this.setState({ demo5: valueList });
+            }}
           />
         </div>
         <div style={{ marginLeft: 20 }}>
@@ -110,6 +110,17 @@ class Demo extends React.Component {
               className="kuma-button kuma-button-secondary"
               onClick={() => {
                 this.setState({
+                  demo6: ['xihu', 'bingjiang', 'shandong'],
+                  asyncOptions6: options,
+                });
+              }}
+            >init</button>
+            &nbsp;
+            <button
+              type="button"
+              className="kuma-button kuma-button-secondary"
+              onClick={() => {
+                this.setState({
                   demo6: ['xihu'],
                   asyncOptions6: options2,
                 });
@@ -117,35 +128,23 @@ class Demo extends React.Component {
             >
               async
             </button>
-            &nbsp;
-            <button
-              type="button"
-              className="kuma-button kuma-button-secondary"
-              onClick={() => {
-                this.setState({
-                  demo6: ['xihu', 'bingjiang', 'shandong'],
-                  asyncOptions6: options,
-                });
-              }}
-            >init</button>
           </p>
           <p>点击async更新options和value</p>
-          <p>点击浙江/杭州/长兴，添加长兴的子集(原没有数据)</p>
+          <p>点击西湖，更新选项</p>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
             options={this.state.asyncOptions6}
             value={this.state.demo6}
-            onSelect={(valueList) => {
-              this.setState({ demo6: valueList });
-            }}
             onItemClick={(item) => {
-              console.log('onItemClick', item);
-              if (item.value === 'changxing') {
+              if (item.value === 'xihu') {
                 this.setState({
                   asyncOptions6: options2,
                 });
               }
+            }}
+            onOk={(valueList) => {
+              this.setState({ demo6: valueList });
             }}
           />
         </div>
@@ -157,8 +156,9 @@ class Demo extends React.Component {
             options={options3}
             value={this.state.demo7}
             cascadeSize={4}
-            onSelect={(valueList) => {
+            onOk={(valueList) => {
               console.log(valueList);
+              this.setState({ demo7: valueList });
             }}
           />
         </div>
@@ -209,7 +209,7 @@ class Demo extends React.Component {
         <div style={{ marginLeft: 20 }}>
           <h3>弹框模式</h3>
         </div>
-        <div style={{ position: 'relative', margin: 15 }}>
+        <div style={{ position: 'relative', margin: 15, width: 300 }}>
           <CascadeMultiModal
             className={'ucms-modal'}
             options={options2}
