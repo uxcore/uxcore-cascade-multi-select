@@ -178,7 +178,7 @@ class CascadeMultiSelect extends React.Component {
 
   handleStopPropagation(e) {
     const tagName = e.target.tagName;
-    if (tagName !== 'BUTTON') {
+    if (tagName === 'DIV') {
       e.stopPropagation();
     }
   }
@@ -257,10 +257,10 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderCascadeMultiPanel() {
-    const { dropdownClassName } = this.props;
+    const { dropdownClassName, prefixCls } = this.props;
     const { value } = this.state;
     return (
-      <div>
+      <div className={`${prefixCls}-select-panel-content`}>
         <CascadeMultiPanel
           {...this.props}
           className={dropdownClassName}

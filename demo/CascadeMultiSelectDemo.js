@@ -48,10 +48,6 @@ class Demo extends React.Component {
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}
             options={options}
-            onSelect={(valueList, labelList, leafList) => {
-              console.log(valueList, labelList, leafList);
-              this.setState({ demo1: valueList });
-            }}
             onOk={(valueList, labelList, leafList) => {
               console.log(valueList, labelList, leafList);
             }}
@@ -66,7 +62,7 @@ class Demo extends React.Component {
             options={options}
             allowClear={false}
             value={this.state.demo2}
-            onSelect={(valueList) => {
+            onOk={(valueList) => {
               this.setState({ demo2: valueList });
             }}
           />
@@ -124,7 +120,7 @@ class Demo extends React.Component {
               onClick={() => {
                 this.setState({
                   demo6: ['xihu', 'bingjiang', 'shandong'],
-                  asyncOptions6: options,
+                  asyncOptions6: options2,
                 });
               }}
             >init</button>
@@ -140,7 +136,6 @@ class Demo extends React.Component {
               this.setState({ demo6: valueList });
             }}
             onItemClick={(item) => {
-              console.log('onItemClick', item);
               if (item.value === 'changxing') {
                 this.setState({
                   asyncOptions6: options2,
@@ -209,7 +204,7 @@ class Demo extends React.Component {
         <div style={{ marginLeft: 20 }}>
           <h3>弹框模式</h3>
         </div>
-        <div style={{ position: 'relative', margin: 15 }}>
+        <div style={{ position: 'relative', margin: 15, width: 300 }}>
           <CascadeMultiModal
             className={'ucms-modal'}
             options={options2}
