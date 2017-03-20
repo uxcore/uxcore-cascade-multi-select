@@ -592,8 +592,10 @@ class CascadeMulti extends React.Component {
   render() {
     const { className, prefixCls, cascadeSize } = this.props;
     const arr = [];
+    let minWidth = 0;
     for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));
+      minWidth = 150 * cascadeSize + 222;
     }
     this.setPanelWidth();
     return (
@@ -604,6 +606,7 @@ class CascadeMulti extends React.Component {
         onClick={(e) => {
           e.stopPropagation();
         }}
+        style={{ minWidth }}
       >
         {arr}
         {this.renderResult()}
