@@ -11,6 +11,7 @@
 .@{notificationPrefixCls} {
   position: relative;
 
+  display: inline-block;
   overflow: hidden;
 
   cursor: auto;
@@ -75,17 +76,18 @@
   }
 
   .@{notificationPrefixCls}-result {
-    float: right;
+    float: left;
 
     width: 220px;
     height: 310px;
-    padding: 20px 15px;
+    padding: 0;
 
     border-left: 1px solid @border-color;
     background-color: #fff;
 
     .@{notificationPrefixCls}-result-title {
-      padding-bottom: 10px;
+      margin: 20px 15px 10px 15px;
+      padding: 0;
 
       color: #999;
 
@@ -105,7 +107,7 @@
       overflow-y: auto;
 
       height: 250px;
-      margin: 0 -15px;
+      margin: 0;
       ul {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -263,8 +265,8 @@
         }
         &-content {
           transition: margin .3s cubic-bezier(.165,.84,.44,1);
-          -ms-transform: scale(0);
-          transform: scale(0);
+          -ms-transform: scale(1);
+          transform: scale(1);
         }
         &-remove {
           position: absolute;

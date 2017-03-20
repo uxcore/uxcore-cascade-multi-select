@@ -1,5 +1,9 @@
 # history
 
+## 0.2.6
+
+* `FIXED` ie9+ result panel width style error
+
 ## 0.2.3
 
 * `FIXED` footer's button click, dropdown not hidden
