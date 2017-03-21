@@ -198,6 +198,9 @@
 
 .@{notificationPrefixCls}-input {
   background-color: #fff;
+  &::-ms-clear {
+    display: none;
+  }
 }
 
 .@{notificationPrefixCls}-text-result {
@@ -213,6 +216,9 @@
 
     border: 0;
     background-color: transparent;
+    &::-ms-clear {
+      display: none;
+    }
   }
 }
 
@@ -270,7 +276,7 @@
         }
         &-remove {
           position: absolute;
-          top: 5px;
+          top: 4px;
           right: 5px;
 
           cursor: pointer;
@@ -282,7 +288,7 @@
           opacity: .4;
           color: #000;
           &:before {
-            content: 'x';
+            content: '\e610';
           }
         }
       }
