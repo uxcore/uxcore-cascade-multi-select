@@ -1,5 +1,9 @@
 # history
 
+## 0.2.7
+
+* `FIXED`: remove transparent split.
+
 ## 0.2.6
 
 * `FIXED` ie9+ result panel width style error
