@@ -50,7 +50,8 @@ class Demo extends React.Component {
             options={options}
             onOk={(valueList, labelList, leafList) => {
               console.log(valueList, labelList, leafList);
-              this.setState({ demo1: valueList });
+              // this.setState({ demo1: valueList });
+              this.setState({ demo1: leafList.map(item => item.value) });
             }}
             value={this.state.demo1}
           />
