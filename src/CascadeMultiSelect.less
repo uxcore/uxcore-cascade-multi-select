@@ -2,11 +2,14 @@
  * CascadeMulti Component Style for uxcore
  * @author guyunxiang
  *
- * Copyright 2015-2016, Uxcore Team, Alinw.
+ * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
 @notificationPrefixCls: kuma-cascade-multi;
 @list-item-back-color: #f5f5f5;
+@_border: rgba(31,56,88,0.20);
+@_border-light: #e8e8e8;
+@_text-0: #76889A;
 
 .@{notificationPrefixCls} {
   position: relative;
@@ -19,7 +22,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
 
-  border: 1px solid @border-color;
+  border: 1px solid @_border;
   background-color: #ffffff;
 
   .@{notificationPrefixCls}-content {
@@ -30,7 +33,7 @@
     height: 310px;
     padding: 14px 0;
 
-    border-left: 1px solid @border-color;
+    border-left: 1px solid @_border-light;
     background-color: #fff;
     &:first-child {
       border-left: 0;
@@ -82,14 +85,14 @@
     height: 310px;
     padding: 0;
 
-    border-left: 1px solid @border-color;
+    border-left: 1px solid @_border-light;
     background-color: #fff;
 
     .@{notificationPrefixCls}-result-title {
       margin: 20px 15px 10px 15px;
       padding: 0;
 
-      color: #999;
+      color: @_text-0;
 
       .@{notificationPrefixCls}-result-clean {
         float: right;
@@ -98,7 +101,7 @@
 
         cursor: pointer;
 
-        color: @brand-primary;
+        color: @link-color;
       }
     }
 
@@ -137,7 +140,7 @@
 
               vertical-align: middle;
               &:hover {
-                color: @brand-primary;
+                color: @text-primary-color;
                 background-color: #f5f5f5;
                 .tree-node-ul-li-del {
                   -ms-transform: scale(1);
@@ -173,7 +176,7 @@
                 -ms-transform: scale(0);
                 transform: scale(0);
 
-                color: @brand-primary;
+                color: @link-color;
               }
             }
           }
@@ -187,13 +190,23 @@
  * CascadeMultiSelect Component Style for uxcore
  * @author guyunxiang
  *
- * Copyright 2015-2016, Uxcore Team, Alinw.
+ * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
 @notificationPrefixCls: kuma-cascade-multi;
 
 .@{notificationPrefixCls}-select-panel-content {
   position: relative;
+  box-shadow: @box-shadow-1;
+  border-radius: @popup-border-radius;
+  .@{notificationPrefixCls} {
+    border-radius: @popup-border-radius @popup-border-radius 0 0;
+    overflow: hidden;
+  }
+  .@{notificationPrefixCls}-select-footer {
+    border-radius: 0 0 @popup-border-radius @popup-border-radius;
+    overflow: hidden;
+  }
 }
 
 .@{notificationPrefixCls}-input {
@@ -223,10 +236,16 @@
 
   border-width: 0 1px 1px 1px;
   border-style: solid;
-  border-color: @border-color;
+  border-color: @_border;
   background-color: #ffffff;
 
   line-height: 52px;
+}
+
+.@{notificationPrefixCls} {
+  &.ucms-panel {
+    border-radius: @popup-border-radius;
+  }
 }
 
 
@@ -234,10 +253,14 @@
  * CascadeMultiSelect Component Style for uxcore
  * @author guyunxiang
  *
- * Copyright 2015-2016, Uxcore Team, Alinw.
+ * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
 .@{notificationPrefixCls}-model {
+  .@{notificationPrefixCls} {
+    border-left: none;
+    border-right: none;
+  }
   &-result {
     margin: 15px 0;
     &-ul {
