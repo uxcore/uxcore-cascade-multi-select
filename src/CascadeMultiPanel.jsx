@@ -477,14 +477,9 @@ class CascadeMulti extends React.Component {
   renderResultTree() {
     const { prefixCls } = this.props;
     const { dataList } = this.state;
-    const style = {};
-    if (this.selectNums < 10) {
-      style.paddingRight = 17;
-    }
     return (
       <div
         className={classnames([`${prefixCls}-result-tree`])}
-        style={style}
       >
         {this.renderTreeListNode(dataList, 0)}
       </div>
@@ -512,6 +507,7 @@ class CascadeMulti extends React.Component {
                 'tree-node-ul-li-open': !item.expand,
                 'tree-node-ul-li-close': item.expand,
               })}
+              ref={(r) => { this.refResultUl = r; }}
               title={item.label}
               key={item.value}
               onClick={(e) => {

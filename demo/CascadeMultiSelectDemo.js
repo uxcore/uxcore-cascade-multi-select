@@ -39,7 +39,7 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <div style={{ width: 500 }}>
+      <div>
         <div style={{ margin: 15 }}>
           <h3>基本</h3>
         </div>
@@ -194,7 +194,7 @@ class Demo extends React.Component {
         <div style={{ marginLeft: 20 }}>
           <h3>只使用面板</h3>
         </div>
-        <div style={{ position: 'relative', margin: 15 }}>
+        <div style={{ position: 'relative', margin: 15, overflow: 'hidden' }}>
           <CascadeMultiPanel
             options={options2}
             value={this.state.demo9}
