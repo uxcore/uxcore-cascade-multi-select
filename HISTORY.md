@@ -1,5 +1,9 @@
 # history
 
+## 0.3.0
+
+* `New Feature`: update to new Style.
+
 ## 0.2.7
 
 * `FIXED`: remove transparent split.
