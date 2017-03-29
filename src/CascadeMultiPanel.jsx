@@ -2,7 +2,7 @@
  * CascadeMultiSelect Component for uxcore
  * @author guyunxiang
  *
- * Copyright 2015-2016, Uxcore Team, Alinw.
+ * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
 import React from 'react';
@@ -329,21 +329,10 @@ class CascadeMulti extends React.Component {
    * 设置组件宽度样式，兼容名称过长时显示效果等
    */
   setPanelWidth() {
-    const { cascadeSize } = this.props;
-    const style = {};
     const reg = /[0-9]+/g;
-    const width = this.refUls ?
-      getComputedStyle(this.refUls).width.match(reg)[0] :
-      150;
     const resultPanelWidth = this.refResultPanel ?
       getComputedStyle(this.refResultPanel).width.match(reg)[0] : 220;
-    style.width = 0;
-    for (let i = 0; i < cascadeSize; i += 1) {
-      style.width += parseInt(width, 0);
-    }
-    style.width += parseInt(resultPanelWidth, 0) + 2;
     this.resultPanelWidth = parseInt(resultPanelWidth, 0);
-    return style;
   }
 
   /**
@@ -603,9 +592,12 @@ class CascadeMulti extends React.Component {
   render() {
     const { className, prefixCls, cascadeSize } = this.props;
     const arr = [];
+    let minWidth = 0;
     for (let i = 0; i < cascadeSize; i += 1) {
       arr.push(this.renderUlList(i));
+      minWidth = 150 * cascadeSize + 222;
     }
+    this.setPanelWidth();
     return (
       <div
         className={classnames({
@@ -614,7 +606,7 @@ class CascadeMulti extends React.Component {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        style={this.setPanelWidth()}
+        style={{ minWidth }}
       >
         {arr}
         {this.renderResult()}

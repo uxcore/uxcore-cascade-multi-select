@@ -2,7 +2,7 @@
  * CascadeMultiSelect Component for uxcore
  * @author guyunxiang
  *
- * Copyright 2015-2016, Uxcore Team, Alinw.
+ * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
 import React from 'react';
@@ -178,7 +178,7 @@ class CascadeMultiSelect extends React.Component {
 
   handleStopPropagation(e) {
     const tagName = e.target.tagName;
-    if (tagName !== 'BUTTON') {
+    if (tagName === 'DIV') {
       e.stopPropagation();
     }
   }
@@ -257,10 +257,10 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderCascadeMultiPanel() {
-    const { dropdownClassName } = this.props;
+    const { dropdownClassName, prefixCls } = this.props;
     const { value } = this.state;
     return (
-      <div>
+      <div className={`${prefixCls}-select-panel-content`}>
         <CascadeMultiPanel
           {...this.props}
           className={dropdownClassName}

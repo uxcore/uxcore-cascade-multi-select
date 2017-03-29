@@ -1,5 +1,27 @@
 # history
 
+## 0.3.0
+
+* `New Feature`: update to new Style.
+
+## 0.2.7
+
+* `FIXED`: remove transparent split.
+
+## 0.2.6
+
+* `FIXED` ie9+ result panel width style error
+
+## 0.2.3
+
+* `FIXED` footer's button click, dropdown not hidden
+* `FIXED` demo async options error
+* `FIXED` demo input value sync update error
+
+## 0.2.2
+
+* `FIXED` button not in center
+
 ## 0.2.1
 
 * `NEW` add ok button
@@ -9,6 +31,8 @@
 ## 0.2.0
 
 * `NEW` modal view
+* `NEW` add footer, add confirm button
+* `UPDATE` result panel style
 
 ## 0.1.5
 
