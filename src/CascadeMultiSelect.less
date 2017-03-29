@@ -6,15 +6,13 @@
  * All rights reserved.
  */
 @notificationPrefixCls: kuma-cascade-multi;
-@list-item-back-color: #f5f5f5;
+@backgroundColor: #f5f5f5;
 @_border: rgba(31,56,88,0.20);
 @_border-light: #e8e8e8;
 @_text-0: #76889A;
 
 .@{notificationPrefixCls} {
-  position: relative;
-
-  display: block;
+  float: left;
   overflow: hidden;
 
   cursor: auto;
@@ -53,7 +51,7 @@
 
       -o-text-overflow: ellipsis;
       &:hover {
-        background-color: @list-item-back-color;
+        background-color: @backgroundColor;
       }
       s {
         margin-right: 5px;
@@ -67,7 +65,7 @@
     }
 
     .@{notificationPrefixCls}-list-item-active {
-      background-color: @list-item-back-color;
+      background-color: @backgroundColor;
     }
 
     .@{notificationPrefixCls}-list-noData {
@@ -111,6 +109,9 @@
 
       height: 250px;
       margin: 0;
+      & > ul {
+        width: 220px;
+      }
       ul {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -129,7 +130,7 @@
           }
           .tree-node-ul-li-div {
             &:hover {
-              background-color: #f5f5f5;
+              background-color: @backgroundColor;
             }
             .tree-node-ul-li-span {
               position: relative;
@@ -141,7 +142,7 @@
               vertical-align: middle;
               &:hover {
                 color: @text-primary-color;
-                background-color: #f5f5f5;
+                background-color: @backgroundColor;
                 .tree-node-ul-li-del {
                   -ms-transform: scale(1);
                   transform: scale(1);
@@ -169,7 +170,7 @@
               }
               .tree-node-ul-li-del {
                 position: absolute;
-                right: 25px;
+                right: 42px;
 
                 cursor: pointer;
                 transition: opacity .3s, transform .3s;
@@ -193,8 +194,6 @@
  * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
-@notificationPrefixCls: kuma-cascade-multi;
-
 .@{notificationPrefixCls}-select-panel-content {
   position: relative;
   box-shadow: @box-shadow-1;
@@ -211,6 +210,9 @@
 
 .@{notificationPrefixCls}-input {
   background-color: #fff;
+  &::-ms-clear {
+    display: none;
+  }
 }
 
 .@{notificationPrefixCls}-text-result {
@@ -226,16 +228,22 @@
 
     border: 0;
     background-color: transparent;
+    &::-ms-clear {
+      display: none;
+    }
   }
 }
 
 .@{notificationPrefixCls}-select-footer {
+  float: left;
+
   height: 52px;
 
   text-align: center;
 
   border-width: 0 1px 1px 1px;
   border-style: solid;
+
   border-color: @_border;
   background-color: #ffffff;
 
@@ -250,7 +258,7 @@
 
 
 /**
- * CascadeMultiSelect Component Style for uxcore
+ * CascadeMultiModal Component Style for uxcore
  * @author guyunxiang
  *
  * Copyright 2015-2017, Uxcore Team, Alinw.
@@ -293,7 +301,7 @@
         }
         &-remove {
           position: absolute;
-          top: 5px;
+          top: 4px;
           right: 5px;
 
           cursor: pointer;
@@ -305,7 +313,7 @@
           opacity: .4;
           color: #000;
           &:before {
-            content: 'x';
+            content: '\e610';
           }
         }
       }
