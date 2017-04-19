@@ -532,7 +532,7 @@ class CascadeMulti extends React.Component {
                     </span>
                   }
                   {
-                    level < cascadeSize - 1 && item.checked ?
+                    level < cascadeSize - 1 && item.checked && item.children && item.children.length ?
                       <span className="tree-node-ul-li-all">
                         {i18n(this.props.locale).haveAll}
                       </span> :
@@ -575,7 +575,7 @@ class CascadeMulti extends React.Component {
    */
   renderExpand(item) {
     let arr = [];
-    if (item.children) {
+    if (item.children && item.children.length) {
       arr = !item.expand ? <i className="kuma-icon kuma-icon-triangle-down" /> :
         <i className="kuma-icon kuma-icon-triangle-right" />;
     } else {

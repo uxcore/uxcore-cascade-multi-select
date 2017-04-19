@@ -1,5 +1,9 @@
 # history
 
+## 0.3.1
+
+* `FIXED`: fix cascader width
+
 ## 0.3.0
 
 * `New Feature`: update to new Style.

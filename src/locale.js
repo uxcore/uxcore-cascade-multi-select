@@ -1,6 +1,6 @@
 const locale = {
   'zh-cn': {
-    noData: '没有数据',
+    noData: '',
     selected: '已选择',
     clean: '清空',
     haveAll: '已全选',
@@ -15,7 +15,7 @@ const locale = {
     cancel: '取消',
   },
   'en-us': {
-    noData: 'No Data',
+    noData: '',
     selected: 'Selected',
     clean: 'Clean',
     haveAll: 'Have All',
