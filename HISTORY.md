@@ -1,5 +1,9 @@
 # history
 
+## 0.3.2
+
+* `FIXED`: fix visual problems.
+
 ## 0.3.1
 
 * `FIXED`: fix cascader width
