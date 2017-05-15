@@ -33,6 +33,7 @@ class CascadeMultiSelect extends React.Component {
       displayValue: '',
       result: {},
     };
+    this.hasChanged = false;
   }
 
   componentWillMount() {
@@ -60,6 +61,9 @@ class CascadeMultiSelect extends React.Component {
   }
 
   onOk() {
+    if (!this.hasChanged) {
+      return;
+    }
     const { displayValue, value, result } = this.state;
     const { valueList, labelList, leafList } = result;
     this.data.displayValue = displayValue;
@@ -94,6 +98,7 @@ class CascadeMultiSelect extends React.Component {
     }, () => {
       this.props.onOk([], [], []);
     });
+    this.hasChanged = true;
   }
 
   onDropDownVisibleChange(visible) {
@@ -170,6 +175,7 @@ class CascadeMultiSelect extends React.Component {
     }, () => {
       this.props.onSelect(valueList, labelList, leafList);
     });
+    this.hasChanged = true;
   }
 
   handleItemClick(item, level) {
