@@ -1,5 +1,9 @@
 # history
 
+## 0.3.3
+
+* `Fixed`: fix issue #13.
+
 ## 0.3.2
 
 * `FIXED`: fix visual problems.
