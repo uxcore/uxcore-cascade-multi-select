@@ -1,6 +1,6 @@
 {
  "name": "uxcore-cascade-multi-select",
- "version": "0.3.3",
+ "version": "0.4.0",
  "description": "uxcore-cascade-multi-select component for uxcore.",
  "repository": "https://github.com/uxcore/uxcore-cascade-multi-select.git",
  "author": "eternalsky",
@@ -14,6 +14,7 @@
   "coverage": "uxcore-tools run coverage",
   "pub": "uxcore-tools run pub",
   "dep": "uxcore-tools run dep",
+  "update": "uxcore-tools run update",
   "tnpm-dep": "uxcore-tools run tnpm-dep",
   "saucelabs": "uxcore-tools run saucelabs",
   "chrome": "uxcore-tools run chrome",
@@ -45,7 +46,7 @@
   "classnames": "^2.1.2",
   "lodash": "^4.17.4",
   "uxcore-button": "^0.4.7",
-  "uxcore-dialog": "^0.5.5",
+  "uxcore-dialog": "^0.7.0",
   "object-assign": "^4.0.0",
   "uxcore-dropdown": "^0.4.1"
  },

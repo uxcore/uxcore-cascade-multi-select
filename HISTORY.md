@@ -1,5 +1,9 @@
 # history
 
+## 0.4.0
+
+* `CHANGED`: update `uxcore-dialog` to ^0.7.0
+
 ## 0.3.3
 
 * `Fixed`: fix issue #13.
