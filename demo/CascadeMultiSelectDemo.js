@@ -43,7 +43,7 @@ class Demo extends React.Component {
         <div style={{ margin: 15 }}>
           <h3>基本</h3>
         </div>
-        <div style={{ margin: 15 }}>
+        <div style={{ margin: 15, width: 200 }}>
           <CascadeMultiSelect
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}

@@ -267,7 +267,7 @@ class CascadeMultiSelect extends React.Component {
     const { value } = this.state;
     return (
       <div className={classnames([`${prefixCls}-select-panel-content`])}>
-        <div className={`${prefixCls}-select-panel-wrap`} style={{ position: 'absolute' }}>
+        <div className={`${prefixCls}-select-panel-wrap`}>
           <CascadeMultiPanel
             {...this.props}
             className={dropdownClassName}
@@ -309,6 +309,7 @@ class CascadeMultiSelect extends React.Component {
       <Dropdown
         overlay={CascadeMultiComponent}
         trigger={['click']}
+        minOverlayWidthMatchTrigger={false}
         onVisibleChange={(visible) => {
           this.onDropDownVisibleChange(visible);
         }}

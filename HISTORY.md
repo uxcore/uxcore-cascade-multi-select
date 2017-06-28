@@ -1,5 +1,9 @@
 # history
 
+## 0.5.0
+
+* `FIXED`: dom-align fail to work
+
 ## 0.4.0
 
 * `CHANGED`: update `uxcore-dialog` to ^0.7.0
