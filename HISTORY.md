@@ -1,5 +1,9 @@
 # history
 
+## 0.5.1
+
+* `FEAT`: onItemClick 第三个参数为当前选中的所有数据
+
 ## 0.5.0
 
 * `FIXED`: dom-align fail to work

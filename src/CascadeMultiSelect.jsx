@@ -178,8 +178,8 @@ class CascadeMultiSelect extends React.Component {
     this.hasChanged = true;
   }
 
-  handleItemClick(item, level) {
-    this.props.onItemClick(item, level);
+  handleItemClick(...params) {
+    this.props.onItemClick(...params);
   }
 
   handleStopPropagation(e) {

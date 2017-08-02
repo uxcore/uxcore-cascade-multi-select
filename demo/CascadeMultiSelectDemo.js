@@ -54,6 +54,7 @@ class Demo extends React.Component {
               this.setState({ demo1: leafList.map(item => item.value) });
             }}
             value={this.state.demo1}
+            onItemClick={(...params) => console.log(params)}
           />
         </div>
         <div style={{ margin: 15 }}>

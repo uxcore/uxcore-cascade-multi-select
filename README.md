@@ -220,7 +220,7 @@ const value = ['xihu', 'bingjiang'];
 | allowClear | 是否允许清空 | bool | `false` | true |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
 | onSelect | 选中选项的回调函数 | function | `false` | (valueList, labelList, leafList) => {} |
-| onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
+| onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item, level) => {} |
 | title | 标题 | String | `false` | '级联选择' |
 | width | dialog 宽度 | Number | `false` | 672 |
 | onOk | 成功按钮回调函数 | Function | `false` | (valueList, labelList, leafList) => {} |

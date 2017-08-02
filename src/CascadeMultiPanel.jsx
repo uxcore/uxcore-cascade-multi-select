@@ -54,7 +54,7 @@ class CascadeMulti extends React.Component {
         value: data.value,
         label: data.label,
         children: data.children,
-      }, level + 1);
+      }, level + 1, selectArray);
     }
     this.setState({ selectArray });
   }
@@ -392,9 +392,9 @@ class CascadeMulti extends React.Component {
     const checkable = !(config[level] && config[level].checkable === false);
     dataList.forEach((item) => {
       // 默认选择第一项
-      if (!selectArray[level]) {
-        selectArray[level] = item.value;
-      }
+      // if (!selectArray[level]) {
+        // selectArray[level] = item.value;
+      // }
       arr.push(
         <li
           key={item.value}
