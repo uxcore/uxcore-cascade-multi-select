@@ -1,5 +1,9 @@
 # history
 
+## 0.5.2
+
+* `FIX`: 修复 options 动态改变无法重新渲染的问题
+
 ## 0.5.1
 
 * `FEAT`: onItemClick 第三个参数为当前选中的所有数据
