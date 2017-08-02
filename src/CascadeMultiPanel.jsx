@@ -29,15 +29,13 @@ class CascadeMulti extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { value, options } = nextProps;
-    if (
-      value === this.props.value &&
-      options === this.props.options
-    ) {
-      return;
-    }
-    if (value) {
-      this.setData(value, options);
-    }
+    // if (value === this.props.value && options === this.props.options) {
+    //   return;
+    // }
+    // if (value) {
+    //   this.setData(value, options);
+    // }
+    this.setData(value, options);
   }
 
   /**

@@ -13,6 +13,24 @@ import {
   options3,
 } from './const';
 
+const dynamicData = [
+  {
+    value: 1,
+    label: 'one',
+    children: [
+      {
+        value: 2,
+        label: 'two',
+        children: [{
+          value: 3,
+          label: 'three',
+          children: null,
+        }],
+      },
+    ],
+  },
+];
+
 const {
   CascadeMultiPanel,
   CascadeMultiModal,
@@ -34,6 +52,7 @@ class Demo extends React.Component {
       demo9: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
       demo10: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
       asyncOptions6: options,
+      dynamicData,
     };
   }
 
@@ -56,6 +75,27 @@ class Demo extends React.Component {
             value={this.state.demo1}
             onItemClick={(...params) => console.log(params)}
           />
+        </div>
+        <div style={{ margin: 15 }}>
+          <h3>动态</h3>
+        </div>
+        <div style={{ margin: 15, width: 200 }}>
+          <CascadeMultiSelect
+            options={this.state.dynamicData}
+            onOk={(...params) => console.log('onOk', params)}
+            onChange={(...params) => console.log('onChange', params)}
+            cascadeSize={4}
+          />
+          <button
+            onClick={() => {
+              this.state.dynamicData[0].children[0].children[0].children = [{ value: 5, label: 'five' }];
+              this.setState({ dynamicData: this.state.dynamicData }, () => {
+                // console.log(this.state.dynamicData);
+              });
+            }}
+          >
+            改变数据
+          </button>
         </div>
         <div style={{ margin: 15 }}>
           <h3>隐藏清空</h3>
@@ -117,7 +157,6 @@ class Demo extends React.Component {
                 });
               }}
             >init</button>
-            &nbsp;
             <button
               type="button"
               className="kuma-button kuma-button-secondary"

@@ -265,8 +265,9 @@ class CascadeMultiSelect extends React.Component {
   renderCascadeMultiPanel() {
     const { dropdownClassName, prefixCls } = this.props;
     const { value } = this.state;
+    console.log('renderCascadeMultiPanel', value);
     return (
-      <div className={classnames([`${prefixCls}-select-panel-content`])}>
+      <div className={classnames(`${prefixCls}-select-panel-content`)}>
         <div className={`${prefixCls}-select-panel-wrap`}>
           <CascadeMultiPanel
             {...this.props}
