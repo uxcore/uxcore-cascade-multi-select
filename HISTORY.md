@@ -1,5 +1,9 @@
 # history
 
+## 0.5.3
+
+* `FIX`: remove console
+
 ## 0.5.2
 
 * `FIX`: 修复 options 动态改变无法重新渲染的问题
