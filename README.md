@@ -87,9 +87,9 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | allowClear | 是否允许清空 | bool | `false` | true |
 | disabled | 禁用模式，只能看到结果，不可展开面板 | bool | `false` | false |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
-| onSelect | 选中选项的回调函数 | function | `false` | (valueList, labelList, leafList) => {} |
+| onSelect | 选中选项的回调函数 | function | `false` | (valueList, labelList, leafList, cascadeSelected) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
-| onOk | 点击确认按钮回调函数 | function | `false` | (valueList, labelList, leafList) => {} |
+| onOk | 点击确认按钮回调函数 | function | `false` | (valueList, labelList, leafList, cascadeSelected) => {} |
 | onCancel | 取消选择时回调函数 | function | `false` | () => {} |
 
 ### Props.config
