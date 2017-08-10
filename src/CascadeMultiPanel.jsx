@@ -74,7 +74,9 @@ class CascadeMulti extends React.Component {
     if (level) {
       this.setFatherCheckState(itemNode, itemNode.checked);
     }
-    this.setState({ dataList }, this.setSelectResult());
+    this.setState({ dataList }, () => {
+      this.setSelectResult();
+    });
   }
 
   /**
@@ -121,19 +123,28 @@ class CascadeMulti extends React.Component {
    * @param dataList 组件选项列表
    * @param arr 存放结果 value 的数组
    * @param textArr 存放结果 label 的数组
+   * @param back 存放选中的级联结构
    */
-  getSelectResult(dataList, arr, textArr) {
+  getSelectResult(dataList, arr, textArr, back = []) {
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
         if (item.checked) {
           arr.push(item.value);
           textArr.push(item.label);
+          back.push(item);
         }
         if (item.halfChecked) {
-          this.getSelectResult(item.children, arr, textArr);
+          const backItem = {
+            label: item.label,
+            value: item.value,
+            children: [],
+          };
+          backItem.children = this.getSelectResult(item.children, arr, textArr, backItem.children);
+          back.push(backItem);
         }
       });
     }
+    return back;
   }
 
   getAllLeafNode(dataList = []) {
@@ -301,8 +312,8 @@ class CascadeMulti extends React.Component {
     const arr = [];
     this.textArr = [];
     this.leafArr = this.getAllLeafNode(this.state.dataList);
-    this.getSelectResult(this.state.dataList, arr, this.textArr);
-    this.props.onSelect(arr, this.textArr, this.leafArr);
+    const cascadeSelected = this.getSelectResult(this.state.dataList, arr, this.textArr);
+    this.props.onSelect(arr, this.textArr, this.leafArr, cascadeSelected);
   }
 
   /**

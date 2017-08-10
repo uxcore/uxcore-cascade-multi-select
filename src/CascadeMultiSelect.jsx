@@ -65,7 +65,7 @@ class CascadeMultiSelect extends React.Component {
       return;
     }
     const { displayValue, value, result } = this.state;
-    const { valueList, labelList, leafList } = result;
+    const { valueList, labelList, leafList, cascadeSelected } = result;
     this.data.displayValue = displayValue;
     this.data.value = value;
     this.data.result = result;
@@ -73,7 +73,7 @@ class CascadeMultiSelect extends React.Component {
       displayValue,
       value,
     }, () => {
-      this.props.onOk(valueList, labelList, leafList);
+      this.props.onOk(valueList, labelList, leafList, cascadeSelected);
     });
   }
 
@@ -162,7 +162,7 @@ class CascadeMultiSelect extends React.Component {
     return style;
   }
 
-  handleSelect(valueList, labelList, leafList) {
+  handleSelect(valueList, labelList, leafList, cascadeSelected) {
     const { options } = this.props;
     this.setState({
       displayValue: this.getInputValue(valueList, options),
@@ -171,9 +171,10 @@ class CascadeMultiSelect extends React.Component {
         valueList,
         labelList,
         leafList,
+        cascadeSelected,
       },
     }, () => {
-      this.props.onSelect(valueList, labelList, leafList);
+      this.props.onSelect(valueList, labelList, leafList, cascadeSelected);
     });
     this.hasChanged = true;
   }

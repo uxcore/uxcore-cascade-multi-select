@@ -67,16 +67,15 @@ class Demo extends React.Component {
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}
             options={options}
-            onOk={(valueList, labelList, leafList) => {
-              console.log(valueList, labelList, leafList);
+            onOk={(valueList, labelList, leafList, cascadeSelected) => {
+              console.log(valueList, labelList, leafList, cascadeSelected);
               // this.setState({ demo1: valueList });
               this.setState({ demo1: leafList.map(item => item.value) });
             }}
             value={this.state.demo1}
-            onItemClick={(...params) => console.log(params)}
           />
         </div>
-        <div style={{ margin: 15 }}>
+        {/*<div style={{ margin: 15 }}>
           <h3>动态</h3>
         </div>
         <div style={{ margin: 15, width: 200 }}>
@@ -260,7 +259,7 @@ class Demo extends React.Component {
               this.setState({ demo10: valueList });
             }}
           />
-        </div>
+        </div>*/}
       </div>
     );
   }

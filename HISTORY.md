@@ -1,5 +1,9 @@
 # history
 
+## 0.5.4
+
+* `FEAT`: 添加选中的级联结构数据
+
 ## 0.5.3
 
 * `FIX`: remove console
