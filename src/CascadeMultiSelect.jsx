@@ -13,6 +13,25 @@ import CascadeMultiPanel from './CascadeMultiPanel';
 import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
 
+const makeOptionsChecked = (value, options) => {
+  if (value && value.length) {
+    const valueStr = value.map(i => `${i}`);
+    for (let i = 0, l = options.length; i < l; i++) {
+      const item = options[i];
+      const containIdx = valueStr.indexOf(`${item.value}`);
+      if (containIdx > -1) {
+        item.checked = true;
+        valueStr.splice(containIdx, 1);
+      } else {
+        item.checked = false;
+      }
+      if (item.children && item.children.length && valueStr.length > 0) {
+        makeOptionsChecked(valueStr, item.children);
+      }
+    }
+  }
+};
+
 class CascadeMultiSelect extends React.Component {
 
   constructor(props) {
@@ -112,6 +131,11 @@ class CascadeMultiSelect extends React.Component {
   }
 
   getInputValue(value, dataList) {
+    if (this.props.beforeRender) {
+      makeOptionsChecked(value, dataList);
+      return this.props.beforeRender(value, dataList);
+    }
+
     const arr = [];
     if (value && value.length) {
       for (let i = 0; i < value.length; i += 1) {
@@ -342,6 +366,8 @@ CascadeMultiSelect.defaultProps = {
   onOk: () => {},
   onCancel: () => {},
   getPopupContainer: null,
+
+  beforeRender: null,
 };
 
 CascadeMultiSelect.propTypes = {
@@ -364,6 +390,8 @@ CascadeMultiSelect.propTypes = {
   onOk: React.PropTypes.func,
   onCancel: React.PropTypes.func,
   getPopupContainer: React.PropTypes.func,
+
+  beforeRender: React.PropTypes.func,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';

@@ -41,7 +41,7 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      demo1: ['shanghai'],
+      demo1: ['zhejiang'],
       demo2: [],
       demo3: ['xihu'],
       demo4: ['bingjiang', 'ningbo', 'jiangsu'],
@@ -69,10 +69,18 @@ class Demo extends React.Component {
             options={options}
             onOk={(valueList, labelList, leafList, cascadeSelected) => {
               console.log(valueList, labelList, leafList, cascadeSelected);
-              // this.setState({ demo1: valueList });
               this.setState({ demo1: leafList.map(item => item.value) });
             }}
             value={this.state.demo1}
+            beforeRender={(value, opts) => {
+              let back = '';
+              opts.forEach((item) => {
+                if (item.checked) {
+                  back += `${item.label}, `;
+                }
+              });
+              return back.substring(0, back.length - 2);
+            }}
           />
         </div>
         {/*<div style={{ margin: 15 }}>

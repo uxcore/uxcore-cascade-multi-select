@@ -91,6 +91,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 | onOk | 点击确认按钮回调函数 | function | `false` | (valueList, labelList, leafList, cascadeSelected) => {} |
 | onCancel | 取消选择时回调函数 | function | `false` | () => {} |
+| beforeRender | 处理在input中预显示的内容 | function | null | (value, options) => {} |
 
 ### Props.config
 

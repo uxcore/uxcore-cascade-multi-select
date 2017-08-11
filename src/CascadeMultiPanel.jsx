@@ -242,8 +242,9 @@ class CascadeMulti extends React.Component {
    * 外部设置组件的 value
    * @param value 设置的结果
    * @param options 选项列表
+   * @param from 从哪里调用
    */
-  setData(value, options) {
+  setData(value, options, callFrom = 'default') {
     let dataList = deepcopy(options);
     if (dataList && dataList.length) {
       dataList = this.setCleanResult(dataList);
@@ -261,7 +262,12 @@ class CascadeMulti extends React.Component {
         }
       }
     }
-    this.setState({ dataList });
+
+    if (callFrom === 'default') {
+      this.setState({ dataList });
+    }
+
+    return dataList;
   }
 
   /**
