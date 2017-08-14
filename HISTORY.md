@@ -1,5 +1,9 @@
 # history
 
+## 0.5.6
+
+* `FEAT`: add readOnly prop
+
 ## 0.5.5
 
 * `FEAT`: add beforeRender prop

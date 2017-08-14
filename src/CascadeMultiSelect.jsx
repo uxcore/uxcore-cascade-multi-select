@@ -5,7 +5,7 @@
  * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
 import Button from 'uxcore-button';
@@ -215,9 +215,12 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderInput() {
-    const { prefixCls, placeholder, locale } = this.props;
+    const { prefixCls, placeholder, locale, readOnly } = this.props;
     const { disabled } = this.state;
     const { displayValue } = this.data;
+    if (readOnly) {
+      return <span>{displayValue}</span>;
+    }
     return (
       <div>
         {
@@ -325,7 +328,10 @@ class CascadeMultiSelect extends React.Component {
   }
 
   render() {
-    const { disabled, getPopupContainer } = this.props;
+    const { disabled, getPopupContainer, readOnly } = this.props;
+    if (readOnly) {
+      return this.renderInput();
+    }
     if (disabled) {
       return this.renderContent();
     }
@@ -368,30 +374,32 @@ CascadeMultiSelect.defaultProps = {
   getPopupContainer: null,
 
   beforeRender: null,
+  readOnly: false,
 };
 
 CascadeMultiSelect.propTypes = {
-  className: React.PropTypes.string,
-  prefixCls: React.PropTypes.string,
-  config: React.PropTypes.array,
-  options: React.PropTypes.array,
-  cascadeSize: React.PropTypes.number,
-  value: React.PropTypes.array,
-  notFoundContent: React.PropTypes.string,
-  allowClear: React.PropTypes.bool,
-  locale: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
-  onItemClick: React.PropTypes.func,
+  className: PropTypes.string,
+  prefixCls: PropTypes.string,
+  config: PropTypes.array,
+  options: PropTypes.array,
+  cascadeSize: PropTypes.number,
+  value: PropTypes.array,
+  notFoundContent: PropTypes.string,
+  allowClear: PropTypes.bool,
+  locale: PropTypes.string,
+  onSelect: PropTypes.func,
+  onItemClick: PropTypes.func,
 
-  placeholder: React.PropTypes.string,
-  disabled: React.PropTypes.bool,
-  defaultValue: React.PropTypes.array,
-  dropdownClassName: React.PropTypes.string,
-  onOk: React.PropTypes.func,
-  onCancel: React.PropTypes.func,
-  getPopupContainer: React.PropTypes.func,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  defaultValue: PropTypes.array,
+  dropdownClassName: PropTypes.string,
+  onOk: PropTypes.func,
+  onCancel: PropTypes.func,
+  getPopupContainer: PropTypes.func,
 
-  beforeRender: React.PropTypes.func,
+  beforeRender: PropTypes.func,
+  readOnly: PropTypes.bool,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';

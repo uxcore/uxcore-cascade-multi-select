@@ -91,9 +91,10 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 | onOk | 点击确认按钮回调函数 | function | `false` | (valueList, labelList, leafList, cascadeSelected) => {} |
 | onCancel | 取消选择时回调函数 | function | `false` | () => {} |
-| beforeRender | 处理在input中预显示的内容 | function | null | (value, options) => {} |
+| beforeRender | 处理在input中预显示的内容，具体用法参考下方的案例 | function | null | (value, options) => {} |
+| readOnly | 只读模式，只能看到结果，不可展开面板 | bool | `false` | false |
 
-### Props.config
+### props.config
 
 ** 示例 **
 ```javascript
@@ -122,7 +123,7 @@ const config = [{
 }]
 ```
 
-### Props.options
+### props.options
 
 | 选项 | 描述 | 类型 | 必填 | 默认值 |
 |---|---|---|---|---|---|
@@ -157,7 +158,7 @@ const options = [{
 }];
 ```
 
-### Props.value
+### props.value
 
 ```javascript
 const value = ['xihu', 'bingjiang'];
@@ -171,7 +172,21 @@ const value = ['xihu', 'bingjiang'];
 />
 ```
 
-### onSelect
+### props.beforeRender
+
+```javascript
+props.beforeRender = (value, options) => { return '渲染你自己想要的字符串'; }
+```
+
+beforeRender 返回一个字符串，用来渲染进展开面板触发器的 input 内容。beforeRender 有两个参数，第一个 value 就是当前所有选中的 value 值数组，比较重要的是 options，options 对应的就是 props.options，并且带有每一个选项的选中状态。比如，对于 `[{ label: 'label1', children: [{ label: 'label1-1' }] }]`，当用户选中了 label1 时，options 的结构为：
+
+```javascript
+[{ label: 'label1', checked: true, children: [{ label: 'label1-1', checked: true }] }]
+```
+
+你在业务中通过获取 `checked` 的值，就可以知道用户选中了哪些选项，此外，当用户未全选某一级时，还会有 `halfChecked` 属性。
+
+### props.onSelect
 
 ```javascript
 (valueList, labelList, leafList) => {

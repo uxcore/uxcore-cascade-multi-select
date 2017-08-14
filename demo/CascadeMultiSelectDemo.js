@@ -81,9 +81,10 @@ class Demo extends React.Component {
               });
               return back.substring(0, back.length - 2);
             }}
+            readOnly
           />
         </div>
-        {/*<div style={{ margin: 15 }}>
+        <div style={{ margin: 15 }}>
           <h3>动态</h3>
         </div>
         <div style={{ margin: 15, width: 200 }}>
@@ -267,7 +268,7 @@ class Demo extends React.Component {
               this.setState({ demo10: valueList });
             }}
           />
-        </div>*/}
+        </div>
       </div>
     );
   }
