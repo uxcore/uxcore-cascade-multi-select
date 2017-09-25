@@ -73,7 +73,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 ## Props
 
 | 选项 | 描述 | 类型 | 必填 | 默认值 |
-|---|---|---|---|---|---|
+|---|---|---|---|---|
 | prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
 | className | 自定义类名 | String | `false` | "" |
 | dropdownClassName | dropdown 部分的定制类名 | String | `false` | "" |
@@ -126,7 +126,7 @@ const config = [{
 ### props.options
 
 | 选项 | 描述 | 类型 | 必填 | 默认值 |
-|---|---|---|---|---|---|
+|---|---|---|---|---|
 | value | 选项的值 | String | `true`| "" |
 | label | 选项的名称 | String | `true` | "" |
 | children | 选项的子项集 | Array | `false` | [] |
@@ -204,7 +204,7 @@ beforeRender 返回一个字符串，用来渲染进展开面板触发器的 inp
 ## Props
 
 | 选项 | 描述 | 类型 | 必填 | 默认值 |
-|---|---|---|---|---|---|
+|---|---|---|---|---|
 | className | 自定义类名 | String | `false` | "" |
 | prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
 | config | 配置项 | Array | `false` | [] |
@@ -225,7 +225,7 @@ beforeRender 返回一个字符串，用来渲染进展开面板触发器的 inp
 ## Props
 
 | 选项 | 描述 | 类型 | 必填 | 默认值 |
-|---|---|---|---|---|---|
+|---|---|---|---|---|
 | prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
 | className | 自定义类名 | String | `false` | "" |
 | config | 配置项 | Array | `false` | [] |
