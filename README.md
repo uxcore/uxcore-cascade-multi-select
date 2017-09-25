@@ -90,7 +90,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | onSelect | 选中选项的回调函数 | function | `false` | (valueList, labelList, leafList, cascadeSelected) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 | onOk | 点击确认按钮回调函数 | function | `false` | (valueList, labelList, leafList, cascadeSelected) => {} |
-| onCancel | 取消选择时回调函数 | function | `false` | () => {} |
+| onCancel | 取消选择时回调函数，通常不点确定，直接隐藏下拉框也会触发这个函数 | function | `false` | () => {} |
 | beforeRender | 处理在input中预显示的内容，具体用法参考下方的案例 | function | null | (value, options) => {} |
 | readOnly | 只读模式，只能看到结果，不可展开面板 | bool | `false` | false |
 

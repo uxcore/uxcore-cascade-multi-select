@@ -1,5 +1,9 @@
 # history
 
+## 0.5.7
+
+* `FIX`: trigger the onSelect event when click the close icon.
+
 ## 0.5.6
 
 * `FEAT`: add readOnly prop

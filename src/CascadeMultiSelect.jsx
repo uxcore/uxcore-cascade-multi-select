@@ -116,6 +116,7 @@ class CascadeMultiSelect extends React.Component {
       result: {},
     }, () => {
       this.props.onOk([], [], []);
+      this.props.onSelect([], [], []);
     });
     this.hasChanged = true;
   }
@@ -250,8 +251,10 @@ class CascadeMultiSelect extends React.Component {
       <div className={'kuma-cascader-close-wrap'}>
         <i
           className="kuma-icon kuma-icon-error"
-          onClick={() => {
+          onClick={(e) => {
             this.onCleanSelect();
+            e.preventDefault();
+            e.stopPropagation();
           }}
         />
       </div>
