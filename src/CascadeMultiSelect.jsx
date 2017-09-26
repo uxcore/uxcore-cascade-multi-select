@@ -306,6 +306,7 @@ class CascadeMultiSelect extends React.Component {
             ref={(r) => { this.CascadeMulti = r; }}
             onSelect={this.handleSelect}
             onItemClick={this.handleItemClick}
+            mode="mix"
           />
           {this.renderFooter()}
         </div>

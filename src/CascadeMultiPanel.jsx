@@ -601,7 +601,7 @@ class CascadeMulti extends React.Component {
   }
 
   render() {
-    const { className, prefixCls, cascadeSize } = this.props;
+    const { className, prefixCls, cascadeSize, mode } = this.props;
     const arr = [];
     let minWidth = 0;
     for (let i = 0; i < cascadeSize; i += 1) {
@@ -609,7 +609,7 @@ class CascadeMulti extends React.Component {
       minWidth = 150 * cascadeSize + 222;
     }
     this.setPanelWidth();
-    return (
+    const back = (
       <div
         className={classnames({
           [className]: !!className,
@@ -623,6 +623,12 @@ class CascadeMulti extends React.Component {
         {this.renderResult()}
       </div>
     );
+
+    if (mode === 'independent') {
+      return <div style={{ overflow: 'hidden' }}>{back}</div>;
+    }
+
+    return back;
   }
 
 }
@@ -638,7 +644,8 @@ CascadeMulti.defaultProps = {
   allowClear: true,
   locale: 'zh-cn',
   onSelect: () => {},
-  onItemClick: () => {},
+  onItemClick: () => { },
+  mode: 'independent',
 };
 
 CascadeMulti.propTypes = {
@@ -653,6 +660,7 @@ CascadeMulti.propTypes = {
   locale: React.PropTypes.string,
   onSelect: React.PropTypes.func,
   onItemClick: React.PropTypes.func,
+  mode: React.PropTypes.oneOf(['independent', 'mix']),
 };
 
 CascadeMulti.displayName = 'CascadeMulti';

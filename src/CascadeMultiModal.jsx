@@ -156,6 +156,7 @@ class CascadeMultiModal extends React.Component {
             this.onSelect(valueList, labelList, leafList);
           }}
           ref={(r) => { this.refCascadeMulti = r; }}
+          mode="mix"
         />
       </div>
     );
