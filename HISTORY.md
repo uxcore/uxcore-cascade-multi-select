@@ -1,5 +1,9 @@
 # history
 
+## 0.5.8
+
+* `FIX`: Panel position can not be float:left when used independently
+
 ## 0.5.7
 
 * `FIX`: trigger the onSelect event when click the close icon.
