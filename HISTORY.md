@@ -1,5 +1,9 @@
 # history
 
+## 0.6.0
+
+* `UPDATE`: react 15
+
 ## 0.5.8
 
 * `FIX`: Panel position can not be float:left when used independently
