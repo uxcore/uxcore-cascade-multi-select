@@ -6,6 +6,7 @@
  * All rights reserved.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
 import Button from 'uxcore-button';
@@ -279,21 +280,21 @@ CascadeMultiModal.defaultProps = {
 };
 
 CascadeMultiModal.propTypes = {
-  className: React.PropTypes.string,
-  prefixCls: React.PropTypes.string,
-  config: React.PropTypes.array,
-  options: React.PropTypes.array,
-  cascadeSize: React.PropTypes.number,
-  value: React.PropTypes.array,
-  notFoundContent: React.PropTypes.string,
-  allowClear: React.PropTypes.bool,
-  locale: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
+  className: PropTypes.string,
+  prefixCls: PropTypes.string,
+  config: PropTypes.array,
+  options: PropTypes.array,
+  cascadeSize: PropTypes.number,
+  value: PropTypes.array,
+  notFoundContent: PropTypes.string,
+  allowClear: PropTypes.bool,
+  locale: PropTypes.string,
+  onSelect: PropTypes.func,
 
-  title: React.PropTypes.string,
-  width: React.PropTypes.number,
-  onOk: React.PropTypes.func,
-  onCancel: React.PropTypes.func,
+  title: PropTypes.string,
+  width: PropTypes.number,
+  onOk: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 export default CascadeMultiModal;

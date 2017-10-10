@@ -14,11 +14,12 @@
     "coverage": "uxcore-tools run coverage",
     "pub": "uxcore-tools run pub",
     "dep": "uxcore-tools run dep",
-    "update": "uxcore-tools run update",
     "tnpm-dep": "uxcore-tools run tnpm-dep",
-    "saucelabs": "uxcore-tools run saucelabs",
     "chrome": "uxcore-tools run chrome",
-    "browsers": "uxcore-tools run browsers"
+    "browsers": "uxcore-tools run browsers",
+    "saucelabs": "uxcore-tools run saucelabs",
+    "update": "uxcore-tools run update",
+    "tnpm-update": "uxcore-tools run tnpm-update"
   },
   "bugs": {
     "url": "http://github.com/uxcore/uxcore-cascade-multi-select/issues"
@@ -32,12 +33,14 @@
   ],
   "devDependencies": {
     "console-polyfill": "^0.2.2",
+    "enzyme": "^3.0.0",
+    "enzyme-adapter-react-15": "^1.0.0",
     "es5-shim": "^4.5.8",
     "expect.js": "~0.3.1",
     "kuma-base": "1.x",
-    "react": "0.14.x",
-    "react-addons-test-utils": "0.14.x",
-    "react-dom": "0.14.x",
+    "react": "15.x",
+    "react-dom": "15.x",
+    "react-test-renderer": "15.x",
     "uxcore-cascade-select": "^0.3.3",
     "uxcore-kuma": "*",
     "uxcore-tools": "0.2.x"
@@ -45,9 +48,10 @@
   "dependencies": {
     "classnames": "^2.1.2",
     "lodash": "^4.17.4",
+    "object-assign": "^4.0.0",
+    "prop-types": "15.x",
     "uxcore-button": "^0.4.7",
     "uxcore-dialog": "^0.7.0",
-    "object-assign": "^4.0.0",
     "uxcore-dropdown": "^0.4.1"
   },
   "contributors": [],

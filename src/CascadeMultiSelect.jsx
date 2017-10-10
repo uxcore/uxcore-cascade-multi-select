@@ -5,7 +5,8 @@
  * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
 import Button from 'uxcore-button';

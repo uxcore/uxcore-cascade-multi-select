@@ -8,6 +8,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
+import PropTypes from 'prop-types';
 import i18n from './locale';
 
 class CascadeMulti extends React.Component {
@@ -595,7 +596,7 @@ class CascadeMulti extends React.Component {
         <i className="kuma-icon kuma-icon-triangle-right" />;
     } else {
       // 21 = kuma-icon的占位宽度
-      arr = <span style={{ width: 21, display: 'inline-block' }} />;
+      arr = <span style={{ width: '21px', display: 'inline-block' }} />;
     }
     return arr;
   }
@@ -649,18 +650,18 @@ CascadeMulti.defaultProps = {
 };
 
 CascadeMulti.propTypes = {
-  className: React.PropTypes.string,
-  prefixCls: React.PropTypes.string,
-  config: React.PropTypes.array,
-  options: React.PropTypes.array,
-  cascadeSize: React.PropTypes.number,
-  value: React.PropTypes.array,
-  notFoundContent: React.PropTypes.string,
-  allowClear: React.PropTypes.bool,
-  locale: React.PropTypes.string,
-  onSelect: React.PropTypes.func,
-  onItemClick: React.PropTypes.func,
-  mode: React.PropTypes.oneOf(['independent', 'mix']),
+  className: PropTypes.string,
+  prefixCls: PropTypes.string,
+  config: PropTypes.array,
+  options: PropTypes.array,
+  cascadeSize: PropTypes.number,
+  value: PropTypes.array,
+  notFoundContent: PropTypes.string,
+  allowClear: PropTypes.bool,
+  locale: PropTypes.string,
+  onSelect: PropTypes.func,
+  onItemClick: PropTypes.func,
+  mode: PropTypes.oneOf(['independent', 'mix']),
 };
 
 CascadeMulti.displayName = 'CascadeMulti';
