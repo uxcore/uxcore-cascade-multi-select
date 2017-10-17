@@ -8,6 +8,7 @@ export const options = [
       children: [{
         value: 'xihu',
         label: '西湖',
+        disabled: true,
       }, {
         value: 'bingjiang',
         label: '滨江',
@@ -77,6 +78,7 @@ export const options2 = [
       children: [{
         value: 'xihu',
         label: '西湖',
+        disabled: true,
       }, {
         value: 'bingjiang',
         label: '滨江',

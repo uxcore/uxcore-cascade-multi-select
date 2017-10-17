@@ -1,5 +1,9 @@
 # history
 
+## 0.6.1
+
+* `ADD`: add a new attribute "disabled" to item of options array to enable/disable checkbox.
+
 ## 0.6.0
 
 * `UPDATE`: react 15

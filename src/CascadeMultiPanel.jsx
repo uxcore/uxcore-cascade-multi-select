@@ -423,7 +423,10 @@ class CascadeMulti extends React.Component {
           onClick={() => { this.onItemClick(item, level); }}
         >
           <label
-            className={classnames([`${prefixCls}-item-label`])}
+            className={classnames({
+              [`${prefixCls}-item-label`]: true,
+              [`${prefixCls}-item-disabled`]: item.disabled,
+            })}
           >
             {
               checkable ? <s
@@ -431,8 +434,14 @@ class CascadeMulti extends React.Component {
                   'kuma-tree-checkbox': true,
                   'kuma-tree-checkbox-indeterminate': item.halfChecked,
                   'kuma-tree-checkbox-checked': item.checked && !item.halfChecked,
+                  'kuma-tree-checkbox-checkbox-disabled': item.disabled,
+                  'kuma-tree-checkbox-disabled': item.disabled,
                 })}
-                onClick={() => { this.onItemChecked(item, level); }}
+                onClick={() => {
+                  if (!item.disabled) {
+                    this.onItemChecked(item, level);
+                  }
+                }}
               /> :
               null
             }
@@ -555,15 +564,16 @@ class CascadeMulti extends React.Component {
                       null
                   }
                   {
-                    <span
-                      className="tree-node-ul-li-del"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        this.onDeleteItem(item, level);
-                      }}
-                    >
-                      {i18n(this.props.locale).delete}
-                    </span>
+                    item.disabled ? null :
+                      <span
+                        className="tree-node-ul-li-del"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          this.onDeleteItem(item, level);
+                        }}
+                      >
+                        {i18n(this.props.locale).delete}
+                      </span>
                   }
                 </span>
               </div>

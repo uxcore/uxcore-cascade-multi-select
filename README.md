@@ -130,6 +130,7 @@ const config = [{
 | value | 选项的值 | String | `true`| "" |
 | label | 选项的名称 | String | `true` | "" |
 | children | 选项的子项集 | Array | `false` | [] |
+| disabled | 是否禁止选中 | boolean | `false` | undefined | 
 
 ** 示例 **
 ```javascript
@@ -142,6 +143,7 @@ const options = [{
     children: [{
       value: 'xihu',
       label: '西湖',
+      disabled: true,
     }],
   }],
 }, {
