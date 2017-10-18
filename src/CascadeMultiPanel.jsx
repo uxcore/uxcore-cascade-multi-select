@@ -401,16 +401,16 @@ class CascadeMulti extends React.Component {
    * 渲染对应级的 ListItem
    */
   renderListItems(dataList, level) {
-    const { prefixCls, config } = this.props;
+    const { prefixCls, config, mode } = this.props;
     const { selectArray } = this.state;
     const arr = [];
     // 设置当前级是否开启 checkbox
     const checkable = !(config[level] && config[level].checkable === false);
     dataList.forEach((item) => {
-      // 默认选择第一项
-      // if (!selectArray[level]) {
-        // selectArray[level] = item.value;
-      // }
+      // 如果只是用面板，则默认选择第一项
+      if (mode === 'independent' && !selectArray[level]) {
+        selectArray[level] = item.value;
+      }
       arr.push(
         <li
           key={item.value}
