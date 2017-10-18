@@ -1,5 +1,9 @@
 # history
 
+## 0.6.2
+
+* `ADD`: display all selection levels when use the independent Panel.
+
 ## 0.6.1
 
 * `ADD`: add a new attribute "disabled" to item of options array to enable/disable checkbox.
