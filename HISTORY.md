@@ -3,7 +3,7 @@
 ## 0.6.3
 
 * `ADD`: keyCouldDuplicated prop
-* `FIX`: remove Clear Button when all item is disabled
+* `FIX`: remove Clear Button when all items are disabled
 
 ## 0.6.2
 

@@ -122,28 +122,28 @@ export const options = [
 export const options2 = [{
   label: '常鸣—操作1',
   value: 1000,
-  "disabled": false,
+  "disabled": true,
   children: [
     {
       label: 'cj_test1',
       value: 2001,
-      "disabled": false,
+      "disabled": true,
       children: [
-        { "disabled": false, "label": "d", "value": 287374 }
+        { "disabled": true, "label": "d", "value": 287374 }
       ]
     }
   ]
 }, {
   label: '常鸣—操作2',
   value: 1001,
-  "disabled": false,
+  "disabled": true,
   children: [
     {
       label: '222',
       value: 2001,
-      "disabled": false,
+      "disabled": true,
       children: [
-        { "disabled": false, "label": "d2", "value": 287375 }
+        { "disabled": true, "label": "d2", "value": 287375 }
       ]
     }
   ]

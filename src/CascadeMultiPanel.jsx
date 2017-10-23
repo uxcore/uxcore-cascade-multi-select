@@ -251,6 +251,7 @@ class CascadeMulti extends React.Component {
    */
   setData(value, options, callFrom = 'default') {
     let dataList = deepcopy(options);
+    this.allItemDisabled = true; // 所有选项都被禁用
     if (dataList && dataList.length) {
       dataList = this.setCleanResult(dataList);
       for (let i = 0, len = value.length; i < len; i += 1) {
@@ -343,6 +344,9 @@ class CascadeMulti extends React.Component {
         item.$id = this.props.keyCouldDuplicated ? `${item.rootNum}/${item.value}` : `${item.value}`; // 如果每一级的 value 有可能会重复时，则使用 rootNum + value 作为 id
         if (item.children) {
           item.children = this.setCleanResult(item.children, item.rootNum);
+        }
+        if (item.disabled !== true) {
+          this.allItemDisabled = false;
         }
       }
     }
@@ -474,7 +478,7 @@ class CascadeMulti extends React.Component {
         <div className={classnames([`${prefixCls}-result-title`])}>
           {i18n(locale).selected} {this.renderResultNums()}
           {
-            allowClear ?
+            (allowClear && this.allItemDisabled === false) ?
               <span
                 className={classnames([`${prefixCls}-result-clean`])}
                 onClick={() => { this.onCleanSelect(); }}
