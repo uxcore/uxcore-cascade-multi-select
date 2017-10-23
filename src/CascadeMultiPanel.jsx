@@ -16,7 +16,7 @@ class CascadeMulti extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataList: props.options,
+      dataList: [],
       selectArray: [],
     };
   }
@@ -44,10 +44,10 @@ class CascadeMulti extends React.Component {
    */
   onItemClick(data, level) {
     const { selectArray } = this.state;
-    if (data.value !== selectArray[level]) {
+    if (data.$id !== selectArray[level]) {
       selectArray.splice(level + 1);
     }
-    selectArray[level] = data.value;
+    selectArray[level] = data.$id;
     if (this.props.onItemClick) {
       this.props.onItemClick({
         value: data.value,
@@ -63,7 +63,7 @@ class CascadeMulti extends React.Component {
    */
   onItemChecked(item, level) {
     const { dataList } = this.state;
-    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const treeNodeObj = this.getTreeNodeData(dataList, item.$id);
     const { itemNode } = treeNodeObj;
     itemNode.checked = !itemNode.checked;
     itemNode.halfChecked = false;
@@ -95,7 +95,7 @@ class CascadeMulti extends React.Component {
    */
   onTriggerNode(item) {
     const { dataList } = this.state;
-    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const treeNodeObj = this.getTreeNodeData(dataList, item.$id);
     const { itemNode } = treeNodeObj;
     itemNode.expand = !itemNode.expand;
     this.setState({ dataList });
@@ -106,7 +106,7 @@ class CascadeMulti extends React.Component {
    */
   onDeleteItem(item, level) {
     const { dataList } = this.state;
-    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const treeNodeObj = this.getTreeNodeData(dataList, item.$id);
     const { itemNode } = treeNodeObj;
     itemNode.checked = false;
     itemNode.halfChecked = false;
@@ -184,7 +184,7 @@ class CascadeMulti extends React.Component {
   /**
    * 根据传入的 key 获取其节点，父节点
    * @param dataList 组件的 options
-   * @param key 要查询的 item.value
+   * @param key 要查询的 item.$id 也有可能是 $item.value
    * @param parentNode 父节点（方法自用）
    */
   getTreeNodeData(dataList, key, parentNode = null) {
@@ -192,14 +192,18 @@ class CascadeMulti extends React.Component {
     if (!key) { return null; }
     if (dataList && dataList.length) {
       for (let i = 0, len = dataList.length; i < len; i += 1) {
-        if (dataList[i].value === key) {
+        let theKey = `${key}`;
+        if (this.props.keyCouldDuplicated && theKey.indexOf('/') === -1) {
+          theKey = `${dataList[i].rootNum}/${key}`;
+        }
+        if (dataList[i].$id === theKey) {
           return {
             parentNode,
             itemNode: dataList[i],
           };
         }
         if (dataList[i].children) {
-          const item = this.getTreeNodeData(dataList[i].children, key, dataList[i]);
+          const item = this.getTreeNodeData(dataList[i].children, theKey, dataList[i]);
           back = item || back;
         }
       }
@@ -250,7 +254,8 @@ class CascadeMulti extends React.Component {
     if (dataList && dataList.length) {
       dataList = this.setCleanResult(dataList);
       for (let i = 0, len = value.length; i < len; i += 1) {
-        const treeNodeObj = this.getTreeNodeData(dataList, value[i]);
+        const $id = value[i];
+        const treeNodeObj = this.getTreeNodeData(dataList, $id);
         if (treeNodeObj) {
           const { parentNode, itemNode } = treeNodeObj;
           itemNode.checked = true;
@@ -297,7 +302,7 @@ class CascadeMulti extends React.Component {
    * @param checked 设置状态
    */
   setFatherCheckState(item, checked, dataList = this.state.dataList) {
-    const treeNodeObj = this.getTreeNodeData(dataList, item.value);
+    const treeNodeObj = this.getTreeNodeData(dataList, item.$id);
     const { parentNode } = treeNodeObj;
     if (parentNode) {
       const halfChecked = this.getBotherCheckedState(parentNode.children, !checked);
@@ -326,15 +331,18 @@ class CascadeMulti extends React.Component {
   /**
    * 清空
    */
-  setCleanResult(dataList) {
+  setCleanResult(dataList, rootNum = -1) {
     const listArray = deepcopy(dataList);
     if (listArray && listArray.length) {
+      // 处理 dataList 添加根节点标识，因为除了第一级、根级以外其余级别可能会重复
       for (let i = 0; i < listArray.length; i++) {
         const item = listArray[i];
         item.checked = false;
         item.halfChecked = false;
+        item.rootNum = rootNum === -1 ? i : rootNum;
+        item.$id = this.props.keyCouldDuplicated ? `${item.rootNum}/${item.value}` : `${item.value}`; // 如果每一级的 value 有可能会重复时，则使用 rootNum + value 作为 id
         if (item.children) {
-          item.children = this.setCleanResult(item.children);
+          item.children = this.setCleanResult(item.children, item.rootNum);
         }
       }
     }
@@ -409,15 +417,15 @@ class CascadeMulti extends React.Component {
     dataList.forEach((item) => {
       // 如果只是用面板，则默认选择第一项
       if (mode === 'independent' && !selectArray[level]) {
-        selectArray[level] = item.value;
+        selectArray[level] = item.$id;
       }
       arr.push(
         <li
-          key={item.value}
+          key={item.$id}
           className={classnames({
             [`${prefixCls}-list-item`]: !!prefixCls,
             [`${prefixCls}-checked`]: item.checked && !item.disabled,
-            [`${prefixCls}-list-item-active`]: selectArray[level] === item.value,
+            [`${prefixCls}-list-item-active`]: selectArray[level] === item.$id,
           })}
           title={item.label}
           onClick={() => { this.onItemClick(item, level); }}
@@ -534,7 +542,7 @@ class CascadeMulti extends React.Component {
               })}
               ref={(r) => { this.refResultUl = r; }}
               title={item.label}
-              key={item.value}
+              key={item.$id}
               onClick={(e) => {
                 e.stopPropagation();
                 this.onTriggerNode(item);
@@ -657,6 +665,7 @@ CascadeMulti.defaultProps = {
   onSelect: () => {},
   onItemClick: () => { },
   mode: 'independent',
+  keyCouldDuplicated: false,
 };
 
 CascadeMulti.propTypes = {
@@ -672,6 +681,7 @@ CascadeMulti.propTypes = {
   onSelect: PropTypes.func,
   onItemClick: PropTypes.func,
   mode: PropTypes.oneOf(['independent', 'mix']),
+  keyCouldDuplicated: PropTypes.bool,
 };
 
 CascadeMulti.displayName = 'CascadeMulti';

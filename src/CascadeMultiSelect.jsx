@@ -380,6 +380,7 @@ CascadeMultiSelect.defaultProps = {
 
   beforeRender: null,
   readOnly: false,
+  keyCouldDuplicated: false,
 };
 
 CascadeMultiSelect.propTypes = {
@@ -405,6 +406,7 @@ CascadeMultiSelect.propTypes = {
 
   beforeRender: PropTypes.func,
   readOnly: PropTypes.bool,
+  keyCouldDuplicated: PropTypes.bool,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';

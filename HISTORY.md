@@ -1,5 +1,10 @@
 # history
 
+## 0.6.3
+
+* `ADD`: keyCouldDuplicated prop
+* `FIX`: remove Clear Button when all item is disabled
+
 ## 0.6.2
 
 * `ADD`: display all selection levels when use the independent Panel.

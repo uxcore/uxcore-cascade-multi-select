@@ -24,7 +24,10 @@ const dynamicData = [
         children: [{
           value: 3,
           label: 'three',
-          children: null,
+          children: [{
+            value: 4,
+            label: 'four',
+          }],
         }],
       },
     ],
@@ -49,7 +52,7 @@ class Demo extends React.Component {
       demo6: ['xihu', 'bingjiang', 'shandong'],
       demo7: [],
       demo8: [],
-      demo9: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
+      demo9: [287374],
       demo10: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
       asyncOptions6: options,
       dynamicData,
@@ -81,9 +84,9 @@ class Demo extends React.Component {
               });
               return back.substring(0, back.length - 2);
             }}
-            readOnly
           />
         </div>
+
         <div style={{ margin: 15 }}>
           <h3>动态</h3>
         </div>
@@ -94,6 +97,7 @@ class Demo extends React.Component {
             onChange={(...params) => console.log('onChange', params)}
             cascadeSize={4}
           />
+          <br/>
           <button
             onClick={() => {
               this.state.dynamicData[0].children[0].children[0].children = [{ value: 5, label: 'five' }];
@@ -102,9 +106,10 @@ class Demo extends React.Component {
               });
             }}
           >
-            改变数据
+            改变 options
           </button>
         </div>
+
         <div style={{ margin: 15 }}>
           <h3>隐藏清空</h3>
         </div>
@@ -118,20 +123,20 @@ class Demo extends React.Component {
             }}
           />
         </div>
+
         <div style={{ marginLeft: 20 }}>
-          <h3>禁用</h3>
-          <p>(不可展开面板)</p>
+          <h3>禁用 (不可展开面板)</h3>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
-            options={options2}
+            options={options}
             value={this.state.demo3}
             disabled
           />
         </div>
+
         <div style={{ marginLeft: 20 }}>
-          <h3>禁选前两级</h3>
-          <p>(设置前两级 checkable: false)</p>
+          <h3>禁选前两级 (设置前两级 checkable: false)</h3>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
@@ -142,18 +147,16 @@ class Demo extends React.Component {
                 checkable: false,
               }, {}]
             }
-            options={options2}
-            value={this.state.demo5}
+            options={options}
+            value={this.state.demo1}
             onOk={(valueList) => {
-              this.setState({ demo5: valueList });
+              this.setState({ demo1: valueList });
             }}
           />
         </div>
+
         <div style={{ marginLeft: 20 }}>
-          <h3>数据异步</h3>
-          <p>
-            （手动异步数据）
-          </p>
+          <h3>数据异步 （手动异步数据）</h3>
           <p>
             <button
               type="button"
@@ -164,8 +167,7 @@ class Demo extends React.Component {
                   asyncOptions6: options,
                 });
               }}
-            >init</button>
-            <button
+            >init</button> <button
               type="button"
               className="kuma-button kuma-button-secondary"
               onClick={() => {
@@ -189,12 +191,14 @@ class Demo extends React.Component {
               if (item.value === 'xihu') {
                 this.setState({
                   asyncOptions6: options2,
+                  demo6: []
                 });
               }
             }}
             onOk={(valueList) => {
               this.setState({ demo6: valueList });
             }}
+            keyCouldDuplicated
           />
         </div>
         <div style={{ marginLeft: 20 }}>
@@ -211,9 +215,9 @@ class Demo extends React.Component {
             }}
           />
         </div>
+
         <div style={{ marginLeft: 20 }}>
-          <h3>单选</h3>
-          <p>通过禁用所有级 + Props.onItemClick 实现</p>
+          <h3>单选 (通过禁用所有级 + Props.onItemClick 实现)</h3>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
           <CascadeMultiSelect
@@ -253,6 +257,7 @@ class Demo extends React.Component {
               });
             }}
             className={'ucms-panel'}
+            keyCouldDuplicated
           />
         </div>
         <div style={{ marginLeft: 20 }}>

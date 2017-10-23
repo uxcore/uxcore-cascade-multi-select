@@ -1,6 +1,6 @@
 ## uxcore-cascade-multi-select
 
-React cascade multi select
+级联多选组件，推荐所有层级的每一个候选 option 的 key 都是不重复的。
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -93,6 +93,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | onCancel | 取消选择时回调函数，通常不点确定，直接隐藏下拉框也会触发这个函数 | function | `false` | () => {} |
 | beforeRender | 处理在input中预显示的内容，具体用法参考下方的案例 | function | null | (value, options) => {} |
 | readOnly | 只读模式，只能看到结果，不可展开面板 | bool | `false` | false |
+| keyCouldDuplicated | 是否允许除了第一级和最后一级以外的 id 重复 | bool | `false` | false |
 
 ### props.config
 
@@ -108,20 +109,6 @@ const config = [{
 }]
 ```
 > 不传 config 时，checkable: true
-
-> 每一列的 config 可以只配置需要的 key, 不需要全部指定， 如上示例
-
-** 完整 config **
-```javascript
-// 三级横向级联多选
-const config = [{
-  checkable: true,
-}, {
-  checkable: true,
-}, {
-  checkable: true,
-}]
-```
 
 ### props.options
 
@@ -162,6 +149,8 @@ const options = [{
 
 ### props.value
 
+props.value 传递的是 **key 构成的数组**，这里的 key 可以是任意级别，除非当 prop `keyCouldDuplicated` 为 true 时，必须传 **叶子节点的 key 数组**。
+
 ```javascript
 const value = ['xihu', 'bingjiang'];
 ```
@@ -191,10 +180,11 @@ beforeRender 返回一个字符串，用来渲染进展开面板触发器的 inp
 ### props.onSelect
 
 ```javascript
-(valueList, labelList, leafList) => {
+(valueList, labelList, leafList, cascadeList) => {
   valueList: 选中选项的value列表
   labelList: 选中选项的label列表
   leafList: 选中所有子项的{value, label}列表
+  cascadeList: 所有级联结构，如果 item 被选中，则会有一个属性 `checked: true`
 }
 ```
 > 注：如果选项的子集全部选中，则返回该选项值
@@ -218,7 +208,7 @@ beforeRender 返回一个字符串，用来渲染进展开面板触发器的 inp
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
 | onSelect | 选中选项的回调函数 | function | `false` | (valueList, labelList, leafList) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
-
+| keyCouldDuplicated | 是否允许除了第一级和最后一级以外的 id 重复 | bool | `false` | false |
 
 ## CascadeMultiModal
 
@@ -251,10 +241,11 @@ props 复用 uxcore-cascade-multi-select 的 props.
 ### onOk
 
 ```javascript
-(valueList, labelList, leafList) => {
+(valueList, labelList, leafList, cascadeList) => {
   valueList: 选中选项的value列表
   labelList: 选中选项的label列表
   leafList: 选中所有子项的{value, label}列表
+  cascadeList: 所有级联结构，如果 item 被选中，则会有一个属性 `checked: true`
 }
 ```
 
