@@ -2,7 +2,6 @@
  * 获取选中的disabled节点
  * @param {*} dataList
  * @param {*} value
- * @param {bool} isLeafNode 无需校验value
  */
 export function getDisabledValueLabel(dataList, value) {
   const disabledNodes = [];
