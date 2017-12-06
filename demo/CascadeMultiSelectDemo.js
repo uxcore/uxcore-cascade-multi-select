@@ -69,6 +69,7 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}
+            isCleanDisabledLabel={false}
             options={options}
             onOk={(valueList, labelList, leafList, cascadeSelected) => {
               console.log(valueList, labelList, leafList, cascadeSelected);
@@ -267,6 +268,7 @@ class Demo extends React.Component {
           <CascadeMultiModal
             className={'ucms-modal'}
             options={options2}
+            isCleanDisabledLabel={false}
             value={this.state.demo10}
             onOk={(valueList, labelList, leafList) => {
               console.log(valueList, labelList, leafList);

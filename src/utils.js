@@ -6,7 +6,7 @@
  */
 export function getDisabledValueLabel(dataList, value) {
   const disabledNodes = [];
-  const leafNodes = [];
+  let leafNodes = [];
 
   /**
    * @param {*} list
@@ -40,6 +40,12 @@ export function getDisabledValueLabel(dataList, value) {
   }
 
   recursion(dataList);
+  leafNodes = leafNodes.map(item =>
+    ({
+      value: item.value,
+      label: item.label,
+    })
+  );
 
   return {
     disabledNodes, leafNodes,

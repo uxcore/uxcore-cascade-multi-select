@@ -136,7 +136,6 @@ export const options2 = [{
 }, {
   label: '常鸣—操作2',
   value: 1001,
-  "disabled": true,
   children: [
     {
       label: '222',
