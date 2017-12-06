@@ -13,6 +13,7 @@ import Button from 'uxcore-button';
 import CascadeMultiPanel from './CascadeMultiPanel';
 import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
+import { getDisabledValueLabel } from './utils';
 
 const makeOptionsChecked = (value, options) => {
   if (value && value.length) {
@@ -109,15 +110,30 @@ class CascadeMultiSelect extends React.Component {
   }
 
   onCleanSelect() {
-    this.data.displayValue = '';
-    this.data.value = [];
+    const { isCleanDisabledLabel, options } = this.props;
+    const prevValue = this.state.value;
+    let displayValue = '';
+    const value = [];
+    const labelList = [];
+    let leafList = [];
+    if (!isCleanDisabledLabel) {
+      const data = getDisabledValueLabel(options, prevValue);
+      leafList = data.leafNodes;
+      data.disabledNodes.forEach((item) => {
+        value.push(item.value);
+        labelList.push(item.label);
+      });
+      displayValue = this.getInputValue(value, options);
+    }
+    this.data.displayValue = displayValue;
+    this.data.value = value;
     this.setState({
-      value: [],
-      displayValue: '',
+      value,
+      displayValue,
       result: {},
     }, () => {
-      this.props.onOk([], [], []);
-      this.props.onSelect([], [], []);
+      this.props.onOk(value, labelList, leafList);
+      this.props.onSelect(value, labelList, leafList);
     });
     this.hasChanged = true;
   }
@@ -381,6 +397,7 @@ CascadeMultiSelect.defaultProps = {
   beforeRender: null,
   readOnly: false,
   keyCouldDuplicated: false,
+  isCleanDisabledLabel: true,
 };
 
 CascadeMultiSelect.propTypes = {
@@ -407,6 +424,7 @@ CascadeMultiSelect.propTypes = {
   beforeRender: PropTypes.func,
   readOnly: PropTypes.bool,
   keyCouldDuplicated: PropTypes.bool,
+  isCleanDisabledLabel: PropTypes.bool,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';

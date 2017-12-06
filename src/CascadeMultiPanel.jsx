@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
 import i18n from './locale';
+import { getDisabledValueLabel } from './utils';
 
 class CascadeMulti extends React.Component {
 
@@ -85,9 +86,23 @@ class CascadeMulti extends React.Component {
    */
   onCleanSelect() {
     const { dataList } = this.state;
+    const { value } = this.props;
     this.setState({
       dataList: this.setCleanResult(dataList),
-    }, this.props.onSelect([], [], []));
+    }, function onSelect() {
+      if (this.props.isCleanDisabledLabel) {
+        this.props.onSelect([], [], []);
+      } else {
+        const { disabledNodes, leafNodes: leafList } = getDisabledValueLabel(dataList, value);
+        const valueList = [];
+        const labelList = [];
+        disabledNodes.forEach((item) => {
+          valueList.push(item.value);
+          labelList.push(item.label);
+        });
+        this.props.onSelect(valueList, labelList, leafList, this.state.dataList);
+      }
+    });
   }
 
   /**
@@ -332,24 +347,39 @@ class CascadeMulti extends React.Component {
   /**
    * 清空
    */
-  setCleanResult(dataList, rootNum = -1) {
+  setCleanResult(dataList) {
+    const { isCleanDisabledLabel } = this.props;
     const listArray = deepcopy(dataList);
-    if (listArray && listArray.length) {
-      // 处理 dataList 添加根节点标识，因为除了第一级、根级以外其余级别可能会重复
-      for (let i = 0; i < listArray.length; i++) {
-        const item = listArray[i];
-        item.checked = false;
-        item.halfChecked = false;
-        item.rootNum = rootNum === -1 ? i : rootNum;
-        item.$id = this.props.keyCouldDuplicated ? `${item.rootNum}/${item.value}` : `${item.value}`; // 如果每一级的 value 有可能会重复时，则使用 rootNum + value 作为 id
-        if (item.children) {
-          item.children = this.setCleanResult(item.children, item.rootNum);
-        }
-        if (item.disabled !== true) {
-          this.allItemDisabled = false;
+    const recursion = (list, rootNum = -1, ancestorNodes = []) => {
+      if (list && list.length) {
+        // 处理 dataList 添加根节点标识，因为除了第一级、根级以外其余级别可能会重复
+        for (let i = 0; i < list.length; i++) {
+          let newAncestorNodes = [];
+          newAncestorNodes = ancestorNodes.concat(list);
+          const item = list[i];
+          item.halfChecked = false;
+          item.rootNum = rootNum === -1 ? i : rootNum;
+          item.$id = this.props.keyCouldDuplicated ? `${item.rootNum}/${item.value}` : `${item.value}`; // 如果每一级的 value 有可能会重复时，则使用 rootNum + value 作为 id
+          // 当isCleanDisabledLabel=false,被选中且disabled节点需处理父级的halfChecked
+          if ((!isCleanDisabledLabel && item.disabled) && item.checked) {
+            newAncestorNodes.forEach(ii => {
+              ii.halfChecked = true; // eslint-disable-line
+            });
+          } else {
+            item.checked = false;
+          }
+          if (item.children) {
+            recursion(item.children, item.rootNum, newAncestorNodes);
+          }
+          if (item.disabled !== true) {
+            this.allItemDisabled = false;
+          }
         }
       }
-    }
+    };
+
+    recursion(listArray);
+
     return listArray;
   }
 
@@ -670,6 +700,7 @@ CascadeMulti.defaultProps = {
   onItemClick: () => { },
   mode: 'independent',
   keyCouldDuplicated: false,
+  isCleanDisabledLabel: true,
 };
 
 CascadeMulti.propTypes = {
@@ -686,6 +717,7 @@ CascadeMulti.propTypes = {
   onItemClick: PropTypes.func,
   mode: PropTypes.oneOf(['independent', 'mix']),
   keyCouldDuplicated: PropTypes.bool,
+  isCleanDisabledLabel: PropTypes.bool,
 };
 
 CascadeMulti.displayName = 'CascadeMulti';
