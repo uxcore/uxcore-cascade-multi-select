@@ -1,5 +1,9 @@
 # history
 
+## 0.7.0
+
+* `ADD`: isCleanDisabledLabel prop
+
 ## 0.6.3
 
 * `ADD`: keyCouldDuplicated prop
