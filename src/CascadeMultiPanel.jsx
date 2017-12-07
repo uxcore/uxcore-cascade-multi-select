@@ -700,7 +700,7 @@ CascadeMulti.defaultProps = {
   onItemClick: () => { },
   mode: 'independent',
   keyCouldDuplicated: false,
-  isCleanDisabledLabel: true,
+  isCleanDisabledLabel: false,
 };
 
 CascadeMulti.propTypes = {

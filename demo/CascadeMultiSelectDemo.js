@@ -265,6 +265,7 @@ class Demo extends React.Component {
             }}
             className={'ucms-panel'}
             keyCouldDuplicated
+            isCleanDisabledLabel
           />
         </div>
         <div style={{ marginLeft: 20 }}>

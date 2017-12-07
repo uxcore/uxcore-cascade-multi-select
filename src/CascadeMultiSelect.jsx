@@ -401,7 +401,7 @@ CascadeMultiSelect.defaultProps = {
   beforeRender: null,
   readOnly: false,
   keyCouldDuplicated: false,
-  isCleanDisabledLabel: true,
+  isCleanDisabledLabel: false,
 };
 
 CascadeMultiSelect.propTypes = {
