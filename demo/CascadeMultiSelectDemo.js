@@ -69,6 +69,7 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             className={'ucms-input'}
             dropdownClassName={'ucms-drop'}
+            isCleanDisabledLabel={false}
             options={options}
             onOk={(valueList, labelList, leafList, cascadeSelected) => {
               console.log(valueList, labelList, leafList, cascadeSelected);
@@ -77,11 +78,17 @@ class Demo extends React.Component {
             value={this.state.demo1}
             beforeRender={(value, opts) => {
               let back = '';
-              opts.forEach((item) => {
-                if (item.checked) {
-                  back += `${item.label}, `;
-                }
-              });
+              function recursion(list) {
+                list.forEach(item => {
+                  if (item.checked) {
+                    back += `${item.label}, `;
+                  } else if (item.children && item.children.length) {
+                    recursion(item.children);
+                  }
+                });
+              }
+              recursion(opts);
+
               return back.substring(0, back.length - 2);
             }}
           />
@@ -267,6 +274,7 @@ class Demo extends React.Component {
           <CascadeMultiModal
             className={'ucms-modal'}
             options={options2}
+            isCleanDisabledLabel={false}
             value={this.state.demo10}
             onOk={(valueList, labelList, leafList) => {
               console.log(valueList, labelList, leafList);
