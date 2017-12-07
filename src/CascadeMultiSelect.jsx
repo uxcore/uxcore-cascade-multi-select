@@ -116,6 +116,7 @@ class CascadeMultiSelect extends React.Component {
     const value = [];
     const labelList = [];
     let leafList = [];
+    const result = {};
     if (!isCleanDisabledLabel) {
       const data = getDisabledValueLabel(options, prevValue);
       leafList = data.leafNodes;
@@ -123,6 +124,9 @@ class CascadeMultiSelect extends React.Component {
         value.push(item.value);
         labelList.push(item.label);
       });
+      result.labelList = labelList;
+      result.valueList = value;
+      result.leafList = leafList;
       displayValue = this.getInputValue(value, options);
     }
     this.data.displayValue = displayValue;
@@ -130,7 +134,7 @@ class CascadeMultiSelect extends React.Component {
     this.setState({
       value,
       displayValue,
-      result: {},
+      result,
     }, () => {
       this.props.onOk(value, labelList, leafList);
       this.props.onSelect(value, labelList, leafList);
