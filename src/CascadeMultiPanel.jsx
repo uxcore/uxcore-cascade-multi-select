@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
 import i18n from './locale';
-import { getDisabledValueLabel } from './utils';
+import { getDisabledValueLabel, getCascadeSelected } from './utils';
 
 class CascadeMulti extends React.Component {
 
@@ -20,6 +20,7 @@ class CascadeMulti extends React.Component {
       dataList: [],
       selectArray: [],
     };
+    this.itemCheckedStatus = [];
   }
 
   componentDidMount() {
@@ -31,12 +32,6 @@ class CascadeMulti extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { value, options } = nextProps;
-    // if (value === this.props.value && options === this.props.options) {
-    //   return;
-    // }
-    // if (value) {
-    //   this.setData(value, options);
-    // }
     this.setData(value, options);
   }
 
@@ -63,17 +58,28 @@ class CascadeMulti extends React.Component {
    * 选中/取消选项事件
    */
   onItemChecked(item, level) {
+    const { isCleanDisabledLabel } = this.props;
     const { dataList } = this.state;
     const treeNodeObj = this.getTreeNodeData(dataList, item.$id);
     const { itemNode } = treeNodeObj;
     itemNode.checked = !itemNode.checked;
     itemNode.halfChecked = false;
+    this.itemDisabledNodes = [];
     // 设置子集全部选中
     if (itemNode.children) {
       itemNode.children = this.setChildrenChecked(itemNode.children, itemNode.checked);
     }
-    // 设置父级选中状态
-    if (level) {
+    if (!isCleanDisabledLabel && this.itemDisabledNodes.length > 0) {
+      // 根据「this.itemCheckedStatus」决定状态
+      itemNode.checked = false;
+      itemNode.halfChecked = true;
+      let itemDisabledNode = this.itemDisabledNodes.pop();
+      while (itemDisabledNode) {
+        this.setFatherCheckState(itemDisabledNode, itemDisabledNode.checked);
+        itemDisabledNode = this.itemDisabledNodes.pop();
+      }
+    } else if (level) {
+      // 设置父级选中状态
       this.setFatherCheckState(itemNode, itemNode.checked);
     }
     this.setState({ dataList }, () => {
@@ -100,7 +106,7 @@ class CascadeMulti extends React.Component {
           valueList.push(item.value);
           labelList.push(item.label);
         });
-        this.props.onSelect(valueList, labelList, leafList, this.state.dataList);
+        this.props.onSelect(valueList, labelList, leafList, getCascadeSelected(this.state.dataList, valueList));
       }
     });
   }
@@ -268,7 +274,7 @@ class CascadeMulti extends React.Component {
     let dataList = deepcopy(options);
     this.allItemDisabled = true; // 所有选项都被禁用
     if (dataList && dataList.length) {
-      dataList = this.setCleanResult(dataList);
+      dataList = this.setCleanResult(dataList, true);
       for (let i = 0, len = value.length; i < len; i += 1) {
         const $id = value[i];
         const treeNodeObj = this.getTreeNodeData(dataList, $id);
@@ -276,7 +282,7 @@ class CascadeMulti extends React.Component {
           const { parentNode, itemNode } = treeNodeObj;
           itemNode.checked = true;
           if (itemNode.children) {
-            itemNode.children = this.setChildrenChecked(itemNode.children, true);
+            itemNode.children = this.setChildrenChecked(itemNode.children, true, true);
           }
           if (parentNode) {
             this.setFatherCheckState(itemNode, true, dataList);
@@ -297,15 +303,21 @@ class CascadeMulti extends React.Component {
    * @param childrenList 子集
    * @param checked 设置的状态
    */
-  setChildrenChecked(dataList, checked) {
+  setChildrenChecked(dataList, checked, isCleanDisabledLabel = this.props.isCleanDisabledLabel) {
     const childrenList = deepcopy(dataList);
     if (childrenList && childrenList.length) {
       for (let i = 0; i < childrenList.length; i++) {
         const item = childrenList[i];
-        item.checked = checked;
-        item.halfChecked = false;
-        if (item.children) {
-          item.children = this.setChildrenChecked(item.children, checked);
+        if (!isCleanDisabledLabel && item.disabled) {
+          if (checked !== item.checked) {
+            this.itemDisabledNodes.push(item);
+          }
+        } else {
+          item.checked = checked;
+          item.halfChecked = false;
+          if (item.children) {
+            item.children = this.setChildrenChecked(item.children, checked, isCleanDisabledLabel);
+          }
         }
       }
     }
@@ -347,29 +359,31 @@ class CascadeMulti extends React.Component {
   /**
    * 清空
    */
-  setCleanResult(dataList) {
-    const { isCleanDisabledLabel } = this.props;
+  setCleanResult(dataList, isCleanDisabledLabel = this.props.isCleanDisabledLabel) {
     const listArray = deepcopy(dataList);
-    const recursion = (list, rootNum = -1, ancestorNodes = []) => {
+    const recursion = (list, rootNum = -1, ancestorNodes = [], isChildrenCheck = false) => {
       if (list && list.length) {
         // 处理 dataList 添加根节点标识，因为除了第一级、根级以外其余级别可能会重复
         for (let i = 0; i < list.length; i++) {
           let newAncestorNodes = [];
-          newAncestorNodes = ancestorNodes.concat(list);
           const item = list[i];
           item.halfChecked = false;
           item.rootNum = rootNum === -1 ? i : rootNum;
           item.$id = this.props.keyCouldDuplicated ? `${item.rootNum}/${item.value}` : `${item.value}`; // 如果每一级的 value 有可能会重复时，则使用 rootNum + value 作为 id
-          // 当isCleanDisabledLabel=false,被选中且disabled节点需处理父级的halfChecked
-          if ((!isCleanDisabledLabel && item.disabled) && item.checked) {
-            newAncestorNodes.forEach(ii => {
-              ii.halfChecked = true; // eslint-disable-line
-            });
-          } else {
-            item.checked = false;
+          if (!isChildrenCheck) {
+            // 当isCleanDisabledLabel=false,被选中且disabled节点需处理父级的halfChecked
+            if ((!isCleanDisabledLabel && item.disabled) && item.checked) {
+              newAncestorNodes.forEach(ii => {
+                ii.halfChecked = true; // eslint-disable-line
+              });
+              isChildrenCheck = true; // eslint-disable-line
+            } else {
+              item.checked = false;
+            }
           }
+          newAncestorNodes = ancestorNodes.concat(item);
           if (item.children) {
-            recursion(item.children, item.rootNum, newAncestorNodes);
+            recursion(item.children, item.rootNum, newAncestorNodes, isChildrenCheck);
           }
           if (item.disabled !== true) {
             this.allItemDisabled = false;
@@ -557,7 +571,7 @@ class CascadeMulti extends React.Component {
    * 渲染已选择结果 TreeListNode
    */
   renderTreeListNode(dataList, level) {
-    const { cascadeSize } = this.props;
+    const { cascadeSize, isCleanDisabledLabel } = this.props;
     const arr = [];
     if (dataList && dataList.length) {
       dataList.forEach((item) => {
@@ -568,6 +582,10 @@ class CascadeMulti extends React.Component {
           style.maxWidth = this.resultPanelWidth - 86 - (level * 15);
           // 56 = "已选择"文字宽度
           style.maxWidth -= level < cascadeSize - 1 && item.checked ? 56 : 0;
+          let isDelete = !item.disabled;
+          if (!isCleanDisabledLabel) {
+            isDelete = item.checked && !item.disabled;
+          }
           arr.push(
             <li
               className={classnames('tree-node-ul-li', {
@@ -606,7 +624,7 @@ class CascadeMulti extends React.Component {
                       null
                   }
                   {
-                    item.disabled ? null :
+                    !isDelete ? null :
                       <span
                         className="tree-node-ul-li-del"
                         onClick={(e) => {

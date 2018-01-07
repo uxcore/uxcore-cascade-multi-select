@@ -1,3 +1,5 @@
+import deepcopy from 'lodash/cloneDeep';
+
 /**
  * 获取选中的disabled节点
  * @param {*} dataList
@@ -50,3 +52,44 @@ export function getDisabledValueLabel(dataList, value) {
     disabledNodes, leafNodes,
   };
 }
+
+const getCheckedIndexs = (dataList, values) => {
+  const result = [];
+  function recursion(data, level = '0') {
+    data.forEach((item, i) => {
+      const index = `${level}-${i}`;
+      item.pos = index; // eslint-disable-line
+      if (values.indexOf(item.value) > -1) {
+        result.push(index);
+      } else if (item.children && item.children.length) {
+        recursion(item.children, index);
+      }
+    });
+  }
+  recursion(dataList);
+  return result;
+};
+
+function checkStr(values, str) {
+  return values.some((value) => value.indexOf(str) === 0);
+}
+
+export const getCascadeSelected = (data, values) => {
+  const ret = deepcopy(data);
+  const checkedIndex = getCheckedIndexs(ret, values);
+  function recursion(dataList) {
+    for (let i = 0; i < dataList.length;) {
+      if (!checkStr(checkedIndex, dataList[i].pos)) {
+        dataList.splice(i, 1);
+        continue;
+      }
+      if (dataList[i].children && dataList[i].children.length) {
+        recursion(dataList[i].children);
+      }
+      i += 1;
+    }
+  }
+
+  recursion(ret);
+  return ret;
+};

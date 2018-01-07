@@ -94,7 +94,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | beforeRender | 处理在input中预显示的内容，具体用法参考下方的案例 | function | null | (value, options) => {} |
 | readOnly | 只读模式，只能看到结果，不可展开面板 | bool | `false` | false |
 | keyCouldDuplicated | 是否允许除了第一级和最后一级以外的 id 重复 | bool | `false` | false |
-| isCleanDisabledLabel | 是否清楚已禁用选项 | bool | `false` | false
+| isCleanDisabledLabel | 是否清除已禁用选项 | bool | `false` | false
 
 ### props.config
 
