@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
 import i18n from './locale';
-import { getDisabledValueLabel, getCascadeSelected } from './utils';
+import { getDisabledValueLabel, getCascadeSelected, getWidthStyle } from './utils';
 
 class CascadeMulti extends React.Component {
 
@@ -401,9 +401,7 @@ class CascadeMulti extends React.Component {
    * 设置组件宽度样式，兼容名称过长时显示效果等
    */
   setPanelWidth() {
-    const reg = /[0-9]+/g;
-    const resultPanelWidth = this.refResultPanel ?
-      getComputedStyle(this.refResultPanel).width.match(reg)[0] : 220;
+    const resultPanelWidth = getWidthStyle(this.refResultPanel, 220);
     this.resultPanelWidth = parseInt(resultPanelWidth, 0);
   }
 

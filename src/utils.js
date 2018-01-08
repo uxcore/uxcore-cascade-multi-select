@@ -93,3 +93,14 @@ export const getCascadeSelected = (data, values) => {
   recursion(ret);
   return ret;
 };
+
+export const getWidthStyle = (dom, defaultWidth) => {
+  const reg = /[0-9]+/g;
+  if (dom) {
+    const width = getComputedStyle(dom).width;
+    if (width) {
+      return width.match(reg)[0];
+    }
+  }
+  return defaultWidth;
+};
