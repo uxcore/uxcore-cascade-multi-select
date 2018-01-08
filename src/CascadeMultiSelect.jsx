@@ -13,9 +13,9 @@ import Button from 'uxcore-button';
 import CascadeMultiPanel from './CascadeMultiPanel';
 import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
-import { getDisabledValueLabel } from './utils';
+import { getDisabledValueLabel, getWidthStyle } from './utils';
 
-const makeOptionsChecked = (value, options) => {
+const makeOptionsChecked = (value = [], options) => {
   // 没有value则需要设置check为false
   const valueStr = value.map(i => `${i}`);
   for (let i = 0, l = options.length; i < l; i++) {
@@ -193,12 +193,8 @@ class CascadeMultiSelect extends React.Component {
   setPanelWidth() {
     const { cascadeSize } = this.props;
     const style = {};
-    const reg = /[0-9]+/g;
-    const width = this.refUls ?
-      getComputedStyle(this.refUls).width.match(reg)[0] :
-      150;
-    const resultPanelWidth = this.refResultPanel ?
-      getComputedStyle(this.refResultPanel).width.match(reg)[0] : 220;
+    const width = getWidthStyle(this.refUls, 150);
+    const resultPanelWidth = getWidthStyle(this.refResultPanel, 220)
     style.width = 0;
     for (let i = 0; i < cascadeSize; i += 1) {
       style.width += parseInt(width, 0);
