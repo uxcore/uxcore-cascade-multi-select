@@ -16,20 +16,19 @@ import i18n from './locale';
 import { getDisabledValueLabel } from './utils';
 
 const makeOptionsChecked = (value, options) => {
-  if (value && value.length) {
-    const valueStr = value.map(i => `${i}`);
-    for (let i = 0, l = options.length; i < l; i++) {
-      const item = options[i];
-      const containIdx = valueStr.indexOf(`${item.value}`);
-      if (containIdx > -1) {
-        item.checked = true;
-        valueStr.splice(containIdx, 1);
-      } else {
-        item.checked = false;
-      }
-      if (item.children && item.children.length && valueStr.length > 0) {
-        makeOptionsChecked(valueStr, item.children);
-      }
+  // 没有value则需要设置check为false
+  const valueStr = value.map(i => `${i}`);
+  for (let i = 0, l = options.length; i < l; i++) {
+    const item = options[i];
+    const containIdx = valueStr.indexOf(`${item.value}`);
+    if (containIdx > -1) {
+      item.checked = true;
+      valueStr.splice(containIdx, 1);
+    } else {
+      item.checked = false;
+    }
+    if (item.children && item.children.length) {
+      makeOptionsChecked(valueStr, item.children);
     }
   }
 };
