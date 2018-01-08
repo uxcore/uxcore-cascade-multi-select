@@ -85,7 +85,8 @@ class CascadeMultiSelect extends React.Component {
     if (!this.hasChanged) {
       return;
     }
-    const { displayValue, value, result } = this.state;
+    const { value, result } = this.state;
+    const displayValue = this.getInputValue(value, this.props.options);
     const { valueList, labelList, leafList, cascadeSelected } = result;
     this.data.displayValue = displayValue;
     this.data.value = value;
