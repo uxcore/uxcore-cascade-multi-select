@@ -1,0 +1,1733 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/CascadeMultiSelect.jsx</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">src/</a> CascadeMultiSelect.jsx
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">94.07% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>222/236</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">76.34% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>71/93</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.64% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>39/44</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.67% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>199/208</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">756×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">237×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">36×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">281×</span>
+<span class="cline-any cline-yes">281×</span>
+<span class="cline-any cline-yes">258×</span>
+<span class="cline-any cline-yes">441×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">414×</span>
+<span class="cline-any cline-yes">252×</span>
+<span class="cline-any cline-yes">252×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">254×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">81×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+var _extends = Object.assign || function (target) { for (var i = 1; i &lt; arguments.length; i++) { var source = arguments[i]; for (var key in source) { <span class="missing-if-branch" title="else path not taken" >E</span>if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+&nbsp;
+var _react = require('react');
+&nbsp;
+var _react2 = _interopRequireDefault(_react);
+&nbsp;
+var _propTypes = require('prop-types');
+&nbsp;
+var _propTypes2 = _interopRequireDefault(_propTypes);
+&nbsp;
+var _classnames4 = require('classnames');
+&nbsp;
+var _classnames5 = _interopRequireDefault(_classnames4);
+&nbsp;
+var _uxcoreDropdown = require('uxcore-dropdown');
+&nbsp;
+var _uxcoreDropdown2 = _interopRequireDefault(_uxcoreDropdown);
+&nbsp;
+var _uxcoreButton = require('uxcore-button');
+&nbsp;
+var _uxcoreButton2 = _interopRequireDefault(_uxcoreButton);
+&nbsp;
+var _CascadeMultiPanel = require('./CascadeMultiPanel');
+&nbsp;
+var _CascadeMultiPanel2 = _interopRequireDefault(_CascadeMultiPanel);
+&nbsp;
+var _CascadeMultiModal = require('./CascadeMultiModal');
+&nbsp;
+var _CascadeMultiModal2 = _interopRequireDefault(_CascadeMultiModal);
+&nbsp;
+var _locale = require('./locale');
+&nbsp;
+var _locale2 = _interopRequireDefault(_locale);
+&nbsp;
+var _utils = require('./utils');
+&nbsp;
+function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? <span class="branch-0 cbranch-no" title="branch not covered" >obj </span>: { 'default': obj }; }
+&nbsp;
+function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i &lt; keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); <span class="missing-if-branch" title="if path not taken" >I</span>if (value &amp;&amp; value.configurable &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >obj[key] === undefined)</span> { <span class="cstat-no" title="statement not covered" >Object.defineProperty(obj, key, value); </span>} } return obj; }
+&nbsp;
+function _defineProperty(obj, key, value) { <span class="missing-if-branch" title="if path not taken" >I</span>if (key in obj) { <span class="cstat-no" title="statement not covered" >Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); </span>} else { obj[key] = value; } return obj; }
+&nbsp;
+function _classCallCheck(instance, Constructor) { <span class="missing-if-branch" title="if path not taken" >I</span>if (!(instance instanceof Constructor)) { <span class="cstat-no" title="statement not covered" >throw new TypeError("Cannot call a class as a function"); </span>} }
+&nbsp;
+function _possibleConstructorReturn(self, call) { <span class="missing-if-branch" title="if path not taken" >I</span>if (!self) { <span class="cstat-no" title="statement not covered" >throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); </span>} return call &amp;&amp; (<span class="branch-1 cbranch-no" title="branch not covered" >typeof call === "object" </span>|| <span class="branch-2 cbranch-no" title="branch not covered" >typeof call === "function")</span> ? <span class="branch-0 cbranch-no" title="branch not covered" >call </span>: self; }
+&nbsp;
+function _inherits(subClass, superClass) { <span class="missing-if-branch" title="if path not taken" >I</span>if (typeof superClass !== "function" &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >superClass !== null)</span> { <span class="cstat-no" title="statement not covered" >throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); </span>} subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); <span class="missing-if-branch" title="else path not taken" >E</span>if (superClass) Object.setPrototypeOf ? <span class="branch-0 cbranch-no" title="branch not covered" >Object.setPrototypeOf(subClass, superClass) </span>: _defaults(subClass, superClass); } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * CascadeMultiSelect Component for uxcore
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author guyunxiang
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright 2015-2017, Uxcore Team, Alinw.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * All rights reserved.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+&nbsp;
+&nbsp;
+var makeOptionsChecked = function makeOptionsChecked() {
+  var value = arguments.length &gt; 0 &amp;&amp; arguments[0] !== undefined ? arguments[0] : <span class="branch-1 cbranch-no" title="branch not covered" >[];</span>
+  var options = arguments[1];
+&nbsp;
+  // 没有value则需要设置check为false
+  var valueStr = value.map(function (i) {
+    return '' + i;
+  });
+  for (var i = 0, l = options.length; i &lt; l; i++) {
+    var item = options[i];
+    var containIdx = valueStr.indexOf('' + item.value);
+    if (containIdx &gt; -1) {
+      item.checked = true;
+      valueStr.splice(containIdx, 1);
+    } else {
+      item.checked = false;
+    }
+    if (item.children &amp;&amp; item.children.length) {
+      makeOptionsChecked(valueStr, item.children);
+    }
+  }
+};
+&nbsp;
+var CascadeMultiSelect = function (_React$Component) {
+  _inherits(CascadeMultiSelect, _React$Component);
+&nbsp;
+  function CascadeMultiSelect(props) {
+    _classCallCheck(this, CascadeMultiSelect);
+&nbsp;
+    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+&nbsp;
+    _this.state = {
+      value: props.value,
+      defaultValue: props.defaultValue,
+      displayValue: '',
+      allowClear: props.allowClear,
+      disabled: props.disabled,
+      showSubMenu: false,
+      result: {}
+    };
+    _this.separator = ' , ';
+    _this.data = {
+      value: props.value || <span class="branch-1 cbranch-no" title="branch not covered" >props.defaultValue,</span>
+      options: props.options,
+      displayValue: '',
+      result: {}
+    };
+    _this.hasChanged = false;
+    return _this;
+  }
+&nbsp;
+  CascadeMultiSelect.prototype.componentWillMount = function componentWillMount() {
+    this.onOk = this.onOk.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleStopPropagation = this.handleStopPropagation.bind(this);
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.componentDidMount = function componentDidMount() {
+    var _props = this.props,
+        value = _props.value,
+        defaultValue = _props.defaultValue,
+        options = _props.options;
+&nbsp;
+    var displayValue = this.getInputValue(value, options);
+    this.data.displayValue = displayValue;
+    this.data.value = value;
+    this.setInputValue(value || <span class="branch-1 cbranch-no" title="branch not covered" >defaultValue,</span> options);
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
+    var value = nextProps.value,
+        options = nextProps.options;
+&nbsp;
+    var displayValue = this.getInputValue(value, options);
+    this.data.displayValue = displayValue;
+    this.data.value = value;
+    this.setInputValue(value, options);
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.onOk = function onOk() {
+    var _this2 = this;
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this.hasChanged) {
+<span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+    var _state = this.state,
+        value = _state.value,
+        result = _state.result;
+&nbsp;
+    var displayValue = this.getInputValue(value, this.props.options);
+    var valueList = result.valueList,
+        labelList = result.labelList,
+        leafList = result.leafList,
+        cascadeSelected = result.cascadeSelected;
+&nbsp;
+    this.data.displayValue = displayValue;
+    this.data.value = value;
+    this.data.result = result;
+    this.setState({
+      displayValue: displayValue,
+      value: value
+    }, function () {
+      _this2.props.onOk(valueList, labelList, leafList, cascadeSelected);
+    });
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.onCancel = <span class="fstat-no" title="function not covered" >function onCancel() {</span>
+<span class="cstat-no" title="statement not covered" >    var _this3 = this;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    var _data = this.data,</span>
+        value = _data.value,
+        options = _data.options,
+        result = _data.result;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.setState({</span>
+      displayValue: this.getInputValue(value, options),
+      value: value,
+      result: result
+    }, <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >      _this3.props.onCancel();</span>
+    });
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.onCleanSelect = function onCleanSelect() {
+    var _this4 = this;
+&nbsp;
+    var _props2 = this.props,
+        isCleanDisabledLabel = _props2.isCleanDisabledLabel,
+        options = _props2.options;
+&nbsp;
+    var prevValue = this.state.value;
+    var displayValue = '';
+    var value = [];
+    var labelList = [];
+    var leafList = [];
+    var result = {};
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (!isCleanDisabledLabel) {
+      var data = (0, _utils.getDisabledValueLabel)(options, prevValue);
+      leafList = data.leafNodes;
+      data.disabledNodes.forEach(<span class="fstat-no" title="function not covered" >function (item) {</span>
+<span class="cstat-no" title="statement not covered" >        value.push(item.value);</span>
+<span class="cstat-no" title="statement not covered" >        labelList.push(item.label);</span>
+      });
+      result.labelList = labelList;
+      result.valueList = value;
+      result.leafList = leafList;
+      displayValue = this.getInputValue(value, options);
+    }
+    this.data.displayValue = displayValue;
+    this.data.value = value;
+    this.setState({
+      value: value,
+      displayValue: displayValue,
+      result: result
+    }, function () {
+      _this4.props.onOk(value, labelList, leafList);
+      _this4.props.onSelect(value, labelList, leafList);
+    });
+    this.hasChanged = true;
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.onDropDownVisibleChange = function onDropDownVisibleChange(visible) {
+    var disabled = this.props.disabled;
+&nbsp;
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (!disabled) {
+      this.setState({ showSubMenu: visible });
+    }
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!visible) {
+<span class="cstat-no" title="statement not covered" >      this.onCancel();</span>
+    }
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.getInputValue = function getInputValue(value, dataList) {
+    if (this.props.beforeRender) {
+      makeOptionsChecked(value, dataList);
+      return this.props.beforeRender(value, dataList);
+    }
+&nbsp;
+    var arr = [];
+    if (value &amp;&amp; value.length) {
+      for (var i = 0; i &lt; value.length; i += 1) {
+        arr.push(this.getValueLabel(dataList, value[i]));
+      }
+    }
+    return arr.join(this.separator);
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.getValueLabel = function getValueLabel(dataList, key) {
+    var back = '';
+    if (dataList &amp;&amp; dataList.length) {
+      for (var i = 0; i &lt; dataList.length; i += 1) {
+        if (dataList[i].value === key) {
+          return dataList[i].children &amp;&amp; dataList[i].children.length ? dataList[i].label + ' (' + (0, _locale2['default'])(this.props.locale).all + ')' : dataList[i].label;
+        }
+        if (dataList[i].children) {
+          var res = this.getValueLabel(dataList[i].children, key);
+          back = res || back;
+        }
+      }
+    }
+    return back;
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.setInputValue = function setInputValue(value, dataList) {
+    var displayValue = this.getInputValue(value, dataList);
+    this.setState({ displayValue: displayValue, value: value });
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.setPanelWidth = function setPanelWidth() {
+    var cascadeSize = this.props.cascadeSize;
+&nbsp;
+    var style = {};
+    var width = (0, _utils.getWidthStyle)(this.refUls, 150);
+    var resultPanelWidth = (0, _utils.getWidthStyle)(this.refResultPanel, 220);
+    style.width = 0;
+    for (var i = 0; i &lt; cascadeSize; i += 1) {
+      style.width += parseInt(width, 0);
+    }
+    style.width += parseInt(resultPanelWidth, 0) + 2;
+    this.resultPanelWidth = parseInt(resultPanelWidth, 0);
+    return style;
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.handleSelect = function handleSelect(valueList, labelList, leafList, cascadeSelected) {
+    var _this5 = this;
+&nbsp;
+    var options = this.props.options;
+&nbsp;
+    this.setState({
+      displayValue: this.getInputValue(valueList, options),
+      value: valueList,
+      result: {
+        valueList: valueList,
+        labelList: labelList,
+        leafList: leafList,
+        cascadeSelected: cascadeSelected
+      }
+    }, function () {
+      _this5.props.onSelect(valueList, labelList, leafList, cascadeSelected);
+    });
+    this.hasChanged = true;
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.handleItemClick = function handleItemClick() {
+    var _props3;
+&nbsp;
+    (_props3 = this.props).onItemClick.apply(_props3, arguments);
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.handleStopPropagation = function handleStopPropagation(e) {
+    var tagName = e.target.tagName;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (tagName === 'DIV') {
+<span class="cstat-no" title="statement not covered" >      e.stopPropagation();</span>
+    }
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.renderInput = function renderInput() {
+    var _classnames;
+&nbsp;
+    var _props4 = this.props,
+        prefixCls = _props4.prefixCls,
+        placeholder = _props4.placeholder,
+        locale = _props4.locale,
+        readOnly = _props4.readOnly;
+    var disabled = this.state.disabled;
+    var displayValue = this.data.displayValue;
+&nbsp;
+    if (readOnly) {
+      return _react2['default'].createElement(
+        'span',
+        null,
+        displayValue
+      );
+    }
+    return _react2['default'].createElement(
+      'div',
+      null,
+      !displayValue.length ? _react2['default'].createElement(
+        'div',
+        { className: 'kuma-cascader-placeholder' },
+        placeholder || (0, _locale2['default'])(locale).placeholder
+      ) : _react2['default'].createElement(
+        'div',
+        { className: (0, _classnames5['default'])([prefixCls + '-text-result']) },
+        _react2['default'].createElement('input', {
+          className: (0, _classnames5['default'])((_classnames = {}, _defineProperty(_classnames, prefixCls + '-text-result-input', true), _defineProperty(_classnames, prefixCls + '-text-result-input-disabled', disabled), _classnames)),
+          value: displayValue,
+          onChange: <span class="fstat-no" title="function not covered" >function onChange() {</span>}
+        })
+      )
+    );
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.renderCloseIcon = function renderCloseIcon() {
+    var _this6 = this;
+&nbsp;
+    var disabled = this.state.disabled;
+&nbsp;
+    if (disabled) {
+      return null;
+    }
+    return _react2['default'].createElement(
+      'div',
+      { className: 'kuma-cascader-close-wrap' },
+      _react2['default'].createElement('i', {
+        className: 'kuma-icon kuma-icon-error',
+        onClick: function onClick(e) {
+          _this6.onCleanSelect();
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      })
+    );
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.renderContent = function renderContent() {
+    var _classnames2, _classnames3;
+&nbsp;
+    var _props5 = this.props,
+        className = _props5.className,
+        prefixCls = _props5.prefixCls;
+    var _state2 = this.state,
+        displayValue = _state2.displayValue,
+        allowClear = _state2.allowClear,
+        disabled = _state2.disabled,
+        showSubMenu = _state2.showSubMenu;
+&nbsp;
+    var prefixCls2 = 'kuma-cascader';
+    return _react2['default'].createElement(
+      'div',
+      {
+        className: (0, _classnames5['default'])((_classnames2 = {}, _defineProperty(_classnames2, className, true), _defineProperty(_classnames2, prefixCls + '-input', !disabled), _defineProperty(_classnames2, prefixCls2 + '-wrapper', true), _defineProperty(_classnames2, prefixCls2 + '-disabled', disabled), _defineProperty(_classnames2, prefixCls2 + '-clearable', !disabled &amp;&amp; allowClear &amp;&amp; displayValue.length &gt; 0), _classnames2))
+      },
+      _react2['default'].createElement(
+        'div',
+        { className: prefixCls2 + '-text' },
+        _react2['default'].createElement(
+          'div',
+          { className: prefixCls2 + '-trigger' },
+          this.renderInput()
+        )
+      ),
+      _react2['default'].createElement(
+        'div',
+        {
+          className: (0, _classnames5['default'])((_classnames3 = {}, _defineProperty(_classnames3, prefixCls2 + '-arrow', true), _defineProperty(_classnames3, prefixCls2 + '-arrow-reverse', showSubMenu), _classnames3))
+        },
+        _react2['default'].createElement('i', { className: 'kuma-icon kuma-icon-triangle-down' })
+      ),
+      this.renderCloseIcon()
+    );
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.renderCascadeMultiPanel = function renderCascadeMultiPanel() {
+    var _this7 = this;
+&nbsp;
+    var _props6 = this.props,
+        dropdownClassName = _props6.dropdownClassName,
+        prefixCls = _props6.prefixCls;
+    var value = this.state.value;
+&nbsp;
+    return _react2['default'].createElement(
+      'div',
+      { className: (0, _classnames5['default'])(prefixCls + '-select-panel-content') },
+      _react2['default'].createElement(
+        'div',
+        { className: prefixCls + '-select-panel-wrap' },
+        _react2['default'].createElement(_CascadeMultiPanel2['default'], _extends({}, this.props, {
+          className: dropdownClassName,
+          value: value,
+          ref: function ref(r) {
+            _this7.CascadeMulti = r;
+          },
+          onSelect: this.handleSelect,
+          onItemClick: this.handleItemClick,
+          mode: 'mix'
+        })),
+        this.renderFooter()
+      )
+    );
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.renderFooter = function renderFooter() {
+    var _props7 = this.props,
+        prefixCls = _props7.prefixCls,
+        locale = _props7.locale;
+&nbsp;
+    return _react2['default'].createElement(
+      'div',
+      {
+        className: (0, _classnames5['default'])(prefixCls + '-select-footer'),
+        style: this.setPanelWidth(),
+        onClick: this.handleStopPropagation
+      },
+      _react2['default'].createElement(
+        _uxcoreButton2['default'],
+        {
+          onClick: this.onOk
+        },
+        (0, _locale2['default'])(locale).ok
+      )
+    );
+  };
+&nbsp;
+  CascadeMultiSelect.prototype.render = function render() {
+    var _this8 = this;
+&nbsp;
+    var _props8 = this.props,
+        disabled = _props8.disabled,
+        getPopupContainer = _props8.getPopupContainer,
+        readOnly = _props8.readOnly;
+&nbsp;
+    if (readOnly) {
+      return this.renderInput();
+    }
+    if (disabled) {
+      return this.renderContent();
+    }
+    var CascadeMultiComponent = this.renderCascadeMultiPanel();
+    return _react2['default'].createElement(
+      _uxcoreDropdown2['default'],
+      {
+        overlay: CascadeMultiComponent,
+        trigger: ['click'],
+        minOverlayWidthMatchTrigger: false,
+        onVisibleChange: function onVisibleChange(visible) {
+          _this8.onDropDownVisibleChange(visible);
+        },
+        getPopupContainer: getPopupContainer
+      },
+      this.renderContent()
+    );
+  };
+&nbsp;
+  return CascadeMultiSelect;
+}(_react2['default'].Component);
+&nbsp;
+CascadeMultiSelect.defaultProps = {
+  className: '',
+  prefixCls: 'kuma-cascade-multi',
+  config: [],
+  options: [],
+  cascadeSize: 3,
+  value: [],
+  notFoundContent: '',
+  allowClear: true,
+  locale: 'zh-cn',
+  onSelect: function onSelect() {},
+  onItemClick: function onItemClick() {},
+&nbsp;
+  placeholder: '',
+  disabled: false,
+  defaultValue: [],
+  dropdownClassName: '',
+  onOk: function onOk() {},
+  onCancel: <span class="fstat-no" title="function not covered" >function onCancel() {</span>},
+  getPopupContainer: null,
+&nbsp;
+  beforeRender: null,
+  readOnly: false,
+  keyCouldDuplicated: false,
+  isCleanDisabledLabel: false
+};
+&nbsp;
+CascadeMultiSelect.propTypes = {
+  className: _propTypes2['default'].string,
+  prefixCls: _propTypes2['default'].string,
+  config: _propTypes2['default'].array,
+  options: _propTypes2['default'].array,
+  cascadeSize: _propTypes2['default'].number,
+  value: _propTypes2['default'].array,
+  notFoundContent: _propTypes2['default'].string,
+  allowClear: _propTypes2['default'].bool,
+  locale: _propTypes2['default'].string,
+  onSelect: _propTypes2['default'].func,
+  onItemClick: _propTypes2['default'].func,
+&nbsp;
+  placeholder: _propTypes2['default'].string,
+  disabled: _propTypes2['default'].bool,
+  defaultValue: _propTypes2['default'].array,
+  dropdownClassName: _propTypes2['default'].string,
+  onOk: _propTypes2['default'].func,
+  onCancel: _propTypes2['default'].func,
+  getPopupContainer: _propTypes2['default'].func,
+&nbsp;
+  beforeRender: _propTypes2['default'].func,
+  readOnly: _propTypes2['default'].bool,
+  keyCouldDuplicated: _propTypes2['default'].bool,
+  isCleanDisabledLabel: _propTypes2['default'].bool
+};
+&nbsp;
+CascadeMultiSelect.displayName = 'CascadeMultiSelect';
+&nbsp;
+CascadeMultiSelect.CascadeMultiPanel = _CascadeMultiPanel2['default'];
+CascadeMultiSelect.CascadeMultiModal = _CascadeMultiModal2['default'];
+&nbsp;
+module.exports = CascadeMultiSelect;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Jan 08 2018 18:45:03 GMT+0800 (CST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
