@@ -1,5 +1,9 @@
 # history
 
+## 0.7.1
+
+* `FEATURE`: props.config add showSearch property
+
 ## 0.7.0
 
 * `ADD`: isCleanDisabledLabel prop
