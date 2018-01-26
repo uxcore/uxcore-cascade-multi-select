@@ -77,22 +77,22 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | prefixCls | 默认的类名前缀 | String | `false`| "kuma-cascade-multi" |
 | className | 自定义类名 | String | `false` | "" |
 | dropdownClassName | dropdown 部分的定制类名 | String | `false` | "" |
-| config | 配置项 | Array | `false` | [] |
-| options | 横向级联的数据 | Array | `true` | [] |
-| value | 可由外部控制的值 | Array | `false` | [] |
-| defaultValue | 初始默认的值 | Array | `false` | [] |
+| config | 每一级的特殊配置项，可参考[下方案例](#props.config) | Array | `false` | [] |
+| options | 横向级联的数据，可参考[下方案例](#props.options) | Array | `true` | [] |
+| value | 可由外部控制的值，可参考[下方案例](#props.value) | Array | `false` | [] |
+| defaultValue | 初始默认的值，格式同 value | Array | `false` | [] |
 | cascadeSize | 级联层级数 | number | `false` | 3 |
-| placeholder | input占位符 | string | `false` | 'Please Select' 或 '请选择' |
+| placeholder | placeholder | string | `false` | 'Please Select' 或 '请选择' |
 | notFoundContent | 没有子项级联数据时显示内容 | String | `false` | 'No Data' 或 '没有数据' |
 | allowClear | 是否允许清空 | bool | `false` | true |
-| disabled | 禁用模式，只能看到结果，不可展开面板 | bool | `false` | false |
+| disabled | 禁用模式，只能看到被禁掉的输入框 | bool | `false` | false |
+| readOnly | 只读模式，只能看到纯文本 | bool | `false` | false |
 | locale | 'zh-cn' or 'en-us' | String | `false` | 'zh-cn' |
 | onSelect | 选中选项的回调函数 | function | `false` | (valueList, labelList, leafList, cascadeSelected) => {} |
 | onItemClick | 点击选项事件，返回选项信息 | function | `false` | (item) => {} |
 | onOk | 点击确认按钮回调函数 | function | `false` | (valueList, labelList, leafList, cascadeSelected) => {} |
 | onCancel | 取消选择时回调函数，通常不点确定，直接隐藏下拉框也会触发这个函数 | function | `false` | () => {} |
 | beforeRender | 处理在input中预显示的内容，具体用法参考下方的案例 | function | null | (value, options) => {} |
-| readOnly | 只读模式，只能看到结果，不可展开面板 | bool | `false` | false |
 | keyCouldDuplicated | 是否允许除了第一级和最后一级以外的 id 重复 | bool | `false` | false |
 | isCleanDisabledLabel | 是否清除已禁用选项 | bool | `false` | false
 
@@ -100,16 +100,19 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 
 ** 示例 **
 ```javascript
-// 三级横向级联多选
 const config = [{
-  // 可以为空
-}, {
-  // 设置第二级不可选
   checkable: false,
+  showSearch: true, // 显示过滤项，默认为 false
 }, {
+  checkable: false, // 设置第二级不可选
+}, {
+  checkable: false,
 }]
 ```
-> 不传 config 时，checkable: true
+config 为一个数组，每一项的配置如下：
+
+* checkable: (boolean) 该级是否可选，默认为 true
+* showSearch: (boolean) 该级是否展示过滤搜索框，默认为 false
 
 ### props.options
 

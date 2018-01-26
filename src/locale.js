@@ -13,6 +13,7 @@ const locale = {
     title: '级联选择',
     ok: '确定',
     cancel: '取消',
+    filter: '请输入关键词过滤',
   },
   'en-us': {
     noData: '',
@@ -28,6 +29,7 @@ const locale = {
     title: 'Cascade Multi Select',
     ok: 'Ok',
     cancel: 'Cancel',
+    filter: 'Please input keywords to filter',
   },
 };
 

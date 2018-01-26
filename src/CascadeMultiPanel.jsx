@@ -1,6 +1,6 @@
 /**
  * CascadeMultiSelect Component for uxcore
- * @author guyunxiang
+ * @author changming<changming.zy@alibaba-inc.com>
  *
  * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
@@ -106,7 +106,9 @@ class CascadeMulti extends React.Component {
           valueList.push(item.value);
           labelList.push(item.label);
         });
-        this.props.onSelect(valueList, labelList, leafList, getCascadeSelected(this.state.dataList, valueList));
+        this.props.onSelect(
+          valueList, labelList, leafList, getCascadeSelected(this.state.dataList, valueList)
+        );
       }
     });
   }
@@ -369,7 +371,9 @@ class CascadeMulti extends React.Component {
           const item = list[i];
           item.halfChecked = false;
           item.rootNum = rootNum === -1 ? i : rootNum;
-          item.$id = this.props.keyCouldDuplicated ? `${item.rootNum}/${item.value}` : `${item.value}`; // 如果每一级的 value 有可能会重复时，则使用 rootNum + value 作为 id
+          item.$id = this.props.keyCouldDuplicated ?
+            `${item.rootNum}/${item.value}` :
+            `${item.value}`; // 如果每一级的 value 有可能会重复时，则使用 rootNum + value 作为 id
           if (!isChildrenCheck) {
             // 当isCleanDisabledLabel=false,被选中且disabled节点需处理父级的halfChecked
             if ((!isCleanDisabledLabel && item.disabled) && item.checked) {
@@ -410,7 +414,7 @@ class CascadeMulti extends React.Component {
    */
   renderUlList(level) {
     const t = this;
-    const { prefixCls, notFoundContent, locale } = this.props;
+    const { prefixCls, notFoundContent, config, locale } = this.props;
     const { dataList, selectArray } = this.state;
     if (!dataList.length) {
       return (
@@ -434,20 +438,37 @@ class CascadeMulti extends React.Component {
     const listArray = level ? childrenList : dataList;
     const noDataText = notFoundContent || i18n(locale).noData;
     return (
-      <ul
-        key={level}
-        className={classnames({
-          'use-svg': true,
-          [`${prefixCls}-content`]: true,
-        })}
-        ref={(r) => { this.refUls = r; }}
-      >
+      <div key={level} className={`${prefixCls}-content`}>
         {
-          selectArray[level - 1] && !listArray.length ?
-            <span className={classnames([`${prefixCls}-list-noData`])}>{noDataText}</span> :
-            t.renderListItems(listArray, level)
+          config[level] && config[level].showSearch ?
+            <div style={{ margin: '-5px 5px 5px' }}>
+              <input
+                className="kuma-input kuma-input-small-size"
+                placeholder={i18n(locale).filter}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  const keywords = this.keywords || [];
+                  keywords[level] = val;
+                  clearTimeout(this.showSearchKeywordsTiming);
+                  this.showSearchKeywordsTiming = setTimeout(() => {
+                    this.setState({ showSearchKeywords: keywords });
+                  }, 200);
+                }}
+              />
+            </div>
+            : null
         }
-      </ul>
+        <ul
+          className="use-svg"
+          ref={(r) => { this.refUls = r; }}
+        >
+          {
+            selectArray[level - 1] && !listArray.length ?
+              <span className={classnames([`${prefixCls}-list-noData`])}>{noDataText}</span> :
+              t.renderListItems(listArray, level)
+          }
+        </ul>
+      </div>
     );
   }
 
@@ -465,6 +486,12 @@ class CascadeMulti extends React.Component {
       if (mode === 'independent' && !selectArray[level]) {
         selectArray[level] = item.$id;
       }
+
+      const { showSearchKeywords } = this.state;
+      if (showSearchKeywords && item.label && item.label.indexOf(showSearchKeywords) === -1) {
+        return;
+      }
+
       arr.push(
         <li
           key={item.$id}
@@ -497,7 +524,7 @@ class CascadeMulti extends React.Component {
                   }
                 }}
               /> :
-              null
+                null
             }
             {item.label}
           </label>
@@ -615,7 +642,8 @@ class CascadeMulti extends React.Component {
                     </span>
                   }
                   {
-                    level < cascadeSize - 1 && item.checked && item.children && item.children.length ?
+                    level < cascadeSize - 1 &&
+                      item.checked && item.children && item.children.length ?
                       <span className="tree-node-ul-li-all">
                         {i18n(this.props.locale).haveAll}
                       </span> :
@@ -712,7 +740,7 @@ CascadeMulti.defaultProps = {
   notFoundContent: '',
   allowClear: true,
   locale: 'zh-cn',
-  onSelect: () => {},
+  onSelect: () => { },
   onItemClick: () => { },
   mode: 'independent',
   keyCouldDuplicated: false,

@@ -1,6 +1,6 @@
 /**
  * CascadeMultiSelect Component for uxcore
- * @author guyunxiang
+ * @author changming<changming.zy@alibaba-inc.com>
  *
  * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
@@ -194,7 +194,7 @@ class CascadeMultiSelect extends React.Component {
     const { cascadeSize } = this.props;
     const style = {};
     const width = getWidthStyle(this.refUls, 150);
-    const resultPanelWidth = getWidthStyle(this.refResultPanel, 220)
+    const resultPanelWidth = getWidthStyle(this.refResultPanel, 220);
     style.width = 0;
     for (let i = 0; i < cascadeSize; i += 1) {
       style.width += parseInt(width, 0);

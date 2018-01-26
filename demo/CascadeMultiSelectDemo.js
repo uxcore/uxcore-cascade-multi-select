@@ -94,6 +94,8 @@ class Demo extends React.Component {
           />
         </div>
 
+        <hr />
+
         <div style={{ margin: 15 }}>
           <h3>动态</h3>
         </div>
@@ -117,6 +119,8 @@ class Demo extends React.Component {
           </button>
         </div>
 
+        <hr />
+
         <div style={{ margin: 15 }}>
           <h3>隐藏清空</h3>
         </div>
@@ -131,16 +135,54 @@ class Demo extends React.Component {
           />
         </div>
 
+        <hr />
+
+        <div style={{ margin: 15 }}>
+          <h3>启用搜索</h3>
+        </div>
+        <div style={{ position: 'relative', margin: 15 }}>
+          <CascadeMultiSelect
+            config={[
+              {
+                showSearch: true
+              },
+              {
+                checkable: true
+              },
+              {
+                checkable: true
+              }
+            ]}
+            options={options}
+            allowClear={false}
+            value={this.state.demo2}
+            onOk={(valueList) => {
+              this.setState({ demo2: valueList });
+            }}
+          />
+        </div>
+
+        <hr />
+
         <div style={{ marginLeft: 20 }}>
           <h3>禁用 (不可展开面板)</h3>
         </div>
         <div style={{ position: 'relative', margin: 15 }}>
+          <h4>disabled</h4>
           <CascadeMultiSelect
             options={options}
             value={this.state.demo3}
             disabled
           />
+          <h4>readOnly</h4>
+          <CascadeMultiSelect
+            options={options}
+            value={this.state.demo3}
+            readOnly
+          />
         </div>
+
+        <hr />
 
         <div style={{ marginLeft: 20 }}>
           <h3>禁选前两级 (设置前两级 checkable: false)</h3>
@@ -161,6 +203,8 @@ class Demo extends React.Component {
             }}
           />
         </div>
+
+        <hr />
 
         <div style={{ marginLeft: 20 }}>
           <h3>数据异步 （手动异步数据）</h3>
@@ -208,6 +252,9 @@ class Demo extends React.Component {
             keyCouldDuplicated
           />
         </div>
+
+        <hr />
+
         <div style={{ marginLeft: 20 }}>
           <h3>不定级（四级）</h3>
         </div>
@@ -222,6 +269,8 @@ class Demo extends React.Component {
             }}
           />
         </div>
+
+        <hr />
 
         <div style={{ marginLeft: 20 }}>
           <h3>单选 (通过禁用所有级 + Props.onItemClick 实现)</h3>
@@ -250,6 +299,9 @@ class Demo extends React.Component {
             }}
           />
         </div>
+
+        <hr />
+
         <div style={{ marginLeft: 20 }}>
           <h3>只使用面板</h3>
         </div>
@@ -268,6 +320,9 @@ class Demo extends React.Component {
             isCleanDisabledLabel
           />
         </div>
+
+        <hr />
+
         <div style={{ marginLeft: 20 }}>
           <h3>弹框模式</h3>
         </div>

@@ -33,25 +33,25 @@
   ],
   "devDependencies": {
     "console-polyfill": "^0.2.2",
-    "enzyme": "^3.0.0",
-    "enzyme-adapter-react-15": "^1.0.0",
-    "es5-shim": "^4.5.8",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
+    "es5-shim": "^4.5.10",
     "expect.js": "~0.3.1",
-    "kuma-base": "1.x",
+    "kuma-base": "^1.10.1",
     "react": "15.x",
     "react-dom": "15.x",
     "react-test-renderer": "15.x",
     "uxcore-cascade-select": "^0.3.3",
-    "uxcore-kuma": "*",
-    "uxcore-tools": "0.2.x"
+    "uxcore-kuma": "^12.0.0",
+    "uxcore-tools": "^0.2.49"
   },
   "dependencies": {
     "classnames": "^2.1.2",
     "lodash": "^4.17.4",
     "object-assign": "^4.0.0",
     "prop-types": "15.x",
-    "uxcore-button": "^0.4.7",
-    "uxcore-dialog": "^0.7.0",
+    "uxcore-button": "^0.4.16",
+    "uxcore-dialog": "^0.7.7",
     "uxcore-dropdown": "^0.4.1"
   },
   "contributors": [],
