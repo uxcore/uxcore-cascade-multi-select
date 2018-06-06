@@ -37,7 +37,6 @@ class CascadeMultiSelect extends React.Component {
 
   constructor(props) {
     super(props);
-    // console.log(2, props);
     this.state = {
       value: props.value,
       defaultValue: props.defaultValue,
@@ -66,7 +65,6 @@ class CascadeMultiSelect extends React.Component {
   }
 
   componentDidMount() {
-    // console.log(112, this.data.size);
     const { value, defaultValue, options } = this.props;
     const displayValue = this.getInputValue(value, options);
     this.data.displayValue = displayValue;
@@ -296,7 +294,6 @@ class CascadeMultiSelect extends React.Component {
           [`${prefixCls2}-clearable`]: !disabled && allowClear && displayValue.length > 0,
         })}
       >
-        {/* <div className={`${prefixCls2}-text`}> */}
         <div
           className={classnames({
             [`${prefixCls2}-text`]: true,
@@ -392,7 +389,7 @@ CascadeMultiSelect.defaultProps = {
   value: [],
   notFoundContent: '',
   allowClear: true,
-  size: '',
+  size: 'large',
   locale: 'zh-cn',
   onSelect: () => {},
   onItemClick: () => {},
@@ -424,7 +421,7 @@ CascadeMultiSelect.propTypes = {
   onSelect: PropTypes.func,
   onItemClick: PropTypes.func,
 
-  size: PropTypes.string,
+  size: PropTypes.oneOf(['large', 'middle', 'small']),
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   defaultValue: PropTypes.array,
