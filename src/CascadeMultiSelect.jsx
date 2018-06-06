@@ -389,11 +389,11 @@ CascadeMultiSelect.defaultProps = {
   value: [],
   notFoundContent: '',
   allowClear: true,
-  size: 'large',
   locale: 'zh-cn',
   onSelect: () => {},
   onItemClick: () => {},
 
+  size: 'large',
   placeholder: '',
   disabled: false,
   defaultValue: [],
