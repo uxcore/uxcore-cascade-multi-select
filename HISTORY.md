@@ -1,5 +1,9 @@
 # history
 
+## 0.7.2
+
+* `ADD`: add props.size
+
 ## 0.7.1
 
 * `FEATURE`: props.config add showSearch property
