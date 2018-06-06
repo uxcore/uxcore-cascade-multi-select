@@ -39,6 +39,8 @@ const {
   CascadeMultiModal,
 } = CascadeMultiSelect;
 
+const size = '';
+
 class Demo extends React.Component {
 
   constructor(props) {
@@ -56,6 +58,7 @@ class Demo extends React.Component {
       demo10: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
       asyncOptions6: options,
       dynamicData,
+      size,
     };
   }
 
@@ -97,6 +100,51 @@ class Demo extends React.Component {
         <hr />
 
         <div style={{ margin: 15 }}>
+          <h3>尺寸 large</h3>
+        </div>
+        <div style={{ margin: 15, width: 200 }}>
+          <CascadeMultiSelect
+            className={'ucms-input'}
+            dropdownClassName={'ucms-drop'}
+            isCleanDisabledLabel={false}
+            options={options}
+            size={'large'}
+          />
+        </div>
+
+        <hr />
+
+        <div style={{ margin: 15 }}>
+          <h3>尺寸 middle</h3>
+        </div>
+        <div style={{ margin: 15, width: 200 }}>
+          <CascadeMultiSelect
+            className={'ucms-input'}
+            dropdownClassName={'ucms-drop'}
+            isCleanDisabledLabel={false}
+            options={options}
+            size={'middle'}
+          />
+        </div>
+
+        <hr />
+
+        <div style={{ margin: 15 }}>
+          <h3>尺寸 small</h3>
+        </div>
+        <div style={{ margin: 15, width: 200 }}>
+          <CascadeMultiSelect
+            className={'ucms-input'}
+            dropdownClassName={'ucms-drop'}
+            isCleanDisabledLabel={false}
+            options={options}
+            size={'small'}
+          />
+        </div>
+
+        <hr />
+
+        <div style={{ margin: 15 }}>
           <h3>动态</h3>
         </div>
         <div style={{ margin: 15, width: 200 }}>
@@ -105,6 +153,7 @@ class Demo extends React.Component {
             onOk={(...params) => console.log('onOk', params)}
             onChange={(...params) => console.log('onChange', params)}
             cascadeSize={4}
+            size={'middle'}
           />
           <br/>
           <button
@@ -129,6 +178,7 @@ class Demo extends React.Component {
             options={options}
             allowClear={false}
             value={this.state.demo2}
+            size={'small'}
             onOk={(valueList) => {
               this.setState({ demo2: valueList });
             }}
@@ -156,6 +206,7 @@ class Demo extends React.Component {
             options={options}
             allowClear={false}
             value={this.state.demo2}
+            size={'small'}
             onOk={(valueList) => {
               this.setState({ demo2: valueList });
             }}
@@ -172,6 +223,7 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             options={options}
             value={this.state.demo3}
+            size={'small'}
             disabled
           />
           <h4>readOnly</h4>
@@ -198,6 +250,7 @@ class Demo extends React.Component {
             }
             options={options}
             value={this.state.demo1}
+            size={'small'}
             onOk={(valueList) => {
               this.setState({ demo1: valueList });
             }}
@@ -238,6 +291,7 @@ class Demo extends React.Component {
           <CascadeMultiSelect
             options={this.state.asyncOptions6}
             value={this.state.demo6}
+            size={'small'}
             onItemClick={(item) => {
               if (item.value === 'xihu') {
                 this.setState({
@@ -263,6 +317,7 @@ class Demo extends React.Component {
             options={options3}
             value={this.state.demo7}
             cascadeSize={4}
+            size={'small'}
             onOk={(valueList) => {
               console.log(valueList);
               this.setState({ demo7: valueList });
@@ -289,6 +344,7 @@ class Demo extends React.Component {
             options={options3}
             value={this.state.demo8}
             cascadeSize={4}
+            size={'small'}
             onItemClick={(item, level) => {
               console.log(level, item);
               if (level === 4) {
@@ -309,6 +365,7 @@ class Demo extends React.Component {
           <CascadeMultiPanel
             options={options2}
             value={this.state.demo9}
+            size={'small'}
             onSelect={(valueList, labelList, leafList) => {
               console.log(leafList);
               this.setState({
@@ -332,6 +389,7 @@ class Demo extends React.Component {
             options={options2}
             isCleanDisabledLabel={false}
             value={this.state.demo10}
+            size={'small'}
             onOk={(valueList, labelList, leafList) => {
               console.log(valueList, labelList, leafList);
               this.setState({ demo10: valueList });

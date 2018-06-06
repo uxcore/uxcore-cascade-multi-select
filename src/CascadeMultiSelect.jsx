@@ -52,6 +52,7 @@ class CascadeMultiSelect extends React.Component {
       options: props.options,
       displayValue: '',
       result: {},
+      size: props.size,
     };
     this.hasChanged = false;
   }
@@ -279,7 +280,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderContent() {
-    const { className, prefixCls } = this.props;
+    const { className, prefixCls, size } = this.props;
     const { displayValue, allowClear, disabled, showSubMenu } = this.state;
     const prefixCls2 = 'kuma-cascader';
     return (
@@ -287,12 +288,18 @@ class CascadeMultiSelect extends React.Component {
         className={classnames({
           [className]: true,
           [`${prefixCls}-input`]: !disabled,
+          [`${prefixCls}-${size}`]: !!size,
           [`${prefixCls2}-wrapper`]: true,
           [`${prefixCls2}-disabled`]: disabled,
           [`${prefixCls2}-clearable`]: !disabled && allowClear && displayValue.length > 0,
         })}
       >
-        <div className={`${prefixCls2}-text`}>
+        <div
+          className={classnames({
+            [`${prefixCls2}-text`]: true,
+            [`${prefixCls}-${size}`]: !!size,
+          })}
+        >
           <div className={`${prefixCls2}-trigger`}>
             {this.renderInput()}
           </div>
@@ -386,6 +393,7 @@ CascadeMultiSelect.defaultProps = {
   onSelect: () => {},
   onItemClick: () => {},
 
+  size: 'large',
   placeholder: '',
   disabled: false,
   defaultValue: [],
@@ -413,6 +421,7 @@ CascadeMultiSelect.propTypes = {
   onSelect: PropTypes.func,
   onItemClick: PropTypes.func,
 
+  size: PropTypes.oneOf(['large', 'middle', 'small']),
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   defaultValue: PropTypes.array,
