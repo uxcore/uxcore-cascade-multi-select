@@ -8,5 +8,5 @@
 
 const ReactDOM = require('react-dom');
 const React = require('react');
-const Demo = require('./CascadeMultiSelectDemo');
+const Demo = require('./DemoForReact16');
 ReactDOM.render(<Demo />, document.getElementById('UXCoreDemo'));
