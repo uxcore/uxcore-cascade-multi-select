@@ -1,5 +1,9 @@
 # history
 
+## 0.8.0
+
+* `UPDATE`: remove deprecated lifecycle methods in react 16
+
 ## 0.7.2
 
 * `ADD`: add props.size
