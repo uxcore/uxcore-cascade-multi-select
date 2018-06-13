@@ -216,6 +216,20 @@
     overflow: hidden;
     clear: both;
   }
+  .@{notificationPrefixCls}-select-footer-description {
+
+    min-height: 52px;
+    padding: 10px 20px;
+    text-align: left;
+  
+    border-width: 0 0 1px 0;
+    border-style: solid;
+  
+    border-color: @_border;
+    background-color: #ffffff;
+  
+    line-height: 20px;
+  }
   .@{notificationPrefixCls}-select-panel-wrap {
     border-radius: @popup-border-radius;
     box-shadow: @box-shadow-1;
@@ -265,8 +279,6 @@
 .@{notificationPrefixCls}-select-footer {
   float: left;
 
-  height: 52px;
-
   text-align: center;
 
   border-width: 0 1px 1px 1px;
@@ -276,6 +288,7 @@
   background-color: #ffffff;
 
   line-height: 52px;
+  height: auto;
 }
 
 .@{notificationPrefixCls} {

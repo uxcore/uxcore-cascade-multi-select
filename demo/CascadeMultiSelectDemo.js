@@ -11,6 +11,7 @@ import {
   options,
   options2,
   options3,
+  optionsWithDescription
 } from './const';
 
 const dynamicData = [
@@ -138,6 +139,21 @@ class Demo extends React.Component {
             dropdownClassName={'ucms-drop'}
             isCleanDisabledLabel={false}
             options={options}
+            size={'small'}
+          />
+        </div>
+
+        <hr />
+
+        <div style={{ margin: 15 }}>
+          <h3>显示description</h3>
+        </div>
+        <div style={{ margin: 15, width: 200 }}>
+          <CascadeMultiSelect
+            className={'ucms-input'}
+            dropdownClassName={'ucms-drop'}
+            isCleanDisabledLabel={false}
+            options={optionsWithDescription}
             size={'small'}
           />
         </div>

@@ -51,7 +51,15 @@ class CascadeMulti extends React.Component {
         children: data.children,
       }, level + 1, selectArray);
     }
-    this.setState({ selectArray });
+    this.setState({ selectArray }, () => {
+      if (data.description) {
+        this.props.updateDescription({
+          description: data.description,
+          value: data.value,
+          label: data.label,
+        });
+      }
+    });
   }
 
   /**
@@ -762,6 +770,7 @@ CascadeMulti.propTypes = {
   mode: PropTypes.oneOf(['independent', 'mix']),
   keyCouldDuplicated: PropTypes.bool,
   isCleanDisabledLabel: PropTypes.bool,
+  updateDescription: PropTypes.func,
 };
 
 CascadeMulti.displayName = 'CascadeMulti';

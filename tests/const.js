@@ -71,3 +71,40 @@ export const options = [
     }],
   },
 ];
+
+export const optionsWithDescription = [
+  {
+    value: 'zhejiang',
+    label: '浙江',
+    description: '这是浙江',
+    children: [{
+      value: 'hangzhou',
+      label: '杭州',
+      description: '这是杭州',
+      children: [{
+        value: 'xihu',
+        label: '西湖',
+        description: '这是西湖',
+        disabled: true,
+      }, {
+        value: 'bingjiang',
+        label: '滨江',
+        description: '这是滨江',
+      }],
+    }],
+  }, {
+    value: 'jiangsu',
+    label: '江苏',
+    description: '这是江苏',
+    children: [{
+      value: 'nanjing',
+      label: '南京',
+      description: '这是南京',
+      children: [{
+        value: 'zhonghuamen',
+        label: '中华门',
+        description: '这是中华门',
+      }],
+    }],
+  }
+];

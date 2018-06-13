@@ -45,6 +45,11 @@ class CascadeMultiSelect extends React.Component {
       disabled: props.disabled,
       showSubMenu: false,
       result: {},
+      description: {
+        description: '',
+        value: null,
+        label: '',
+      },
     };
     this.separator = ' , ';
     this.data = {
@@ -62,6 +67,7 @@ class CascadeMultiSelect extends React.Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleStopPropagation = this.handleStopPropagation.bind(this);
+    this.updateDescription = this.updateDescription.bind(this);
   }
 
   componentDidMount() {
@@ -233,6 +239,12 @@ class CascadeMultiSelect extends React.Component {
     }
   }
 
+  updateDescription(description) {
+    if (description.value !== this.state.description.value) {
+      this.setState({ description });
+    }
+  }
+
   renderInput() {
     const { prefixCls, placeholder, locale, readOnly } = this.props;
     const { disabled } = this.state;
@@ -330,10 +342,26 @@ class CascadeMultiSelect extends React.Component {
             ref={(r) => { this.CascadeMulti = r; }}
             onSelect={this.handleSelect}
             onItemClick={this.handleItemClick}
+            updateDescription={this.updateDescription}
             mode="mix"
           />
           {this.renderFooter()}
         </div>
+      </div>
+    );
+  }
+
+  renderDescription() {
+    const { prefixCls } = this.props;
+    const { description } = this.state;
+    if (!description.value) {
+      return null;
+    }
+    return (
+      <div
+        className={classnames(`${prefixCls}-select-footer-description`)}
+      >
+      {`${description.label}: ${description.description}`}
       </div>
     );
   }
@@ -346,6 +374,7 @@ class CascadeMultiSelect extends React.Component {
         style={this.setPanelWidth()}
         onClick={this.handleStopPropagation}
       >
+        {this.renderDescription()}
         <Button
           onClick={this.onOk}
         >
