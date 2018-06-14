@@ -1,7 +1,7 @@
 import expect from 'expect.js';
 import React from 'react';
 import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15';
+import Adapter from 'enzyme-adapter-react-16';
 import deepcopy from 'lodash/cloneDeep';
 import CascadeMultiModal from '../src/CascadeMultiModal';
 import { options } from './const';
