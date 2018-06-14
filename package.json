@@ -39,7 +39,7 @@
   "react": "16.x",
   "react-dom": "16.x",
   "react-test-renderer": "16.x",
-  "uxcore-tools": "*",
+  "uxcore-tools": "^0.3.0",
   "uxcore-cascade-select": "*",
   "uxcore-kuma": "*",
   "babel-polyfill": "6.x",
