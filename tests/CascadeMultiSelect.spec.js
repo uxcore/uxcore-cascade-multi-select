@@ -4,7 +4,7 @@ import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import deepcopy from 'lodash/cloneDeep';
 import CascadeMultiSelect from '../src';
-import { options } from './const';
+import { options, optionsWithDescription } from './const';
 const { mount, shallow } = Enzyme;
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -159,5 +159,25 @@ describe('CascadeMultiSelect', () => {
     const overlay = mount(wrapper.find('Dropdown').props().overlay);
     overlay.find('.kuma-cascade-multi-result-clean').simulate('click');    
     expect(wrapper.state('value')).to.eql([]);
+  });
+  
+  it('test description', () => {
+    const wrapper = mount(
+      <CascadeMultiSelect
+        isCleanDisabledLabel={false}
+        options={deepcopy(optionsWithDescription)}
+      />
+    );
+
+    wrapper.find('.kuma-cascader-wrapper').simulate('click');
+    const overlay = mount(wrapper.find('Dropdown').props().overlay);
+    overlay.find('.kuma-cascade-multi-content').at(0)
+    .find('.kuma-cascade-multi-list-item').at(0).simulate('click');
+    console.log(wrapper.state('description'));
+    expect(wrapper.state('description')).to.eql({
+      description: '这是浙江',
+      value: 'zhejiang',
+      label: '浙江'
+    });    
   });
 });
