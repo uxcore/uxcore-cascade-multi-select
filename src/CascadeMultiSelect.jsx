@@ -34,35 +34,65 @@ const makeOptionsChecked = (value = [], options) => {
 };
 
 class CascadeMultiSelect extends React.Component {
+  static separator = ' , ';
+
+  static getDerivedStateFromProps(props, state) {
+    const { value } = props;
+    if (value === state.lastPropValue) {
+      return null;
+    }
+    const displayValue = CascadeMultiSelect.getInputValue(props, value);
+    return { displayValue, value, lastPropValue: value };
+  }
+
+  static getInputValue(props, value) {
+    const { options, beforeRender, locale } = props;
+    if (beforeRender) {
+      makeOptionsChecked(value, options);
+      return beforeRender(value, options);
+    }
+
+    const arr = [];
+    if (value && value.length) {
+      for (let i = 0; i < value.length; i += 1) {
+        arr.push(CascadeMultiSelect.getValueLabel(options, value[i], locale));
+      }
+    }
+    return arr.join(CascadeMultiSelect.separator);
+  }
+
+  static getValueLabel(dataList, key, locale) {
+    let back = '';
+    if (dataList && dataList.length) {
+      for (let i = 0; i < dataList.length; i += 1) {
+        if (dataList[i].value === key) {
+          return dataList[i].children && dataList[i].children.length ?
+            `${dataList[i].label} (${i18n(locale).all})` :
+            dataList[i].label;
+        }
+        if (dataList[i].children) {
+          const res = CascadeMultiSelect.getValueLabel(dataList[i].children, key, locale);
+          back = res || back;
+        }
+      }
+    }
+    return back;
+  }
 
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value,
-      defaultValue: props.defaultValue,
-      displayValue: '',
-      allowClear: props.allowClear,
-      disabled: props.disabled,
-      showSubMenu: false,
-      result: {},
       description: {
         description: '',
         value: null,
         label: '',
       },
-    };
-    this.separator = ' , ';
-    this.data = {
       value: props.value || props.defaultValue,
-      options: props.options,
       displayValue: '',
+      showSubMenu: false,
       result: {},
-      size: props.size,
     };
     this.hasChanged = false;
-  }
-
-  componentWillMount() {
     this.onOk = this.onOk.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
@@ -71,20 +101,8 @@ class CascadeMultiSelect extends React.Component {
   }
 
   componentDidMount() {
-    const { value, defaultValue, options } = this.props;
-    const displayValue = this.getInputValue(value, options);
-    this.data.displayValue = displayValue;
-    this.data.value = value;
-    this.setInputValue(value || defaultValue, options);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // bugfix: 当 props.value 首先传递进组件之后再传递 options 数据并没有回填
-    const { value, options } = nextProps;
-    const displayValue = this.getInputValue(value, options);
-    this.data.displayValue = displayValue;
-    this.data.value = value;
-    this.setInputValue(value, options);
+    const { value, defaultValue } = this.props;
+    this.setInputValue(value || defaultValue);
   }
 
   onOk() {
@@ -92,11 +110,8 @@ class CascadeMultiSelect extends React.Component {
       return;
     }
     const { value, result } = this.state;
-    const displayValue = this.getInputValue(value, this.props.options);
+    const displayValue = CascadeMultiSelect.getInputValue(this.props, value);
     const { valueList, labelList, leafList, cascadeSelected } = result;
-    this.data.displayValue = displayValue;
-    this.data.value = value;
-    this.data.result = result;
     this.setState({
       displayValue,
       value,
@@ -106,9 +121,9 @@ class CascadeMultiSelect extends React.Component {
   }
 
   onCancel() {
-    const { value, options, result } = this.data;
+    const { value, result } = this.state;
     this.setState({
-      displayValue: this.getInputValue(value, options),
+      displayValue: CascadeMultiSelect.getInputValue(this.props, value),
       value,
       result,
     }, () => {
@@ -134,10 +149,8 @@ class CascadeMultiSelect extends React.Component {
       result.labelList = labelList;
       result.valueList = value;
       result.leafList = leafList;
-      displayValue = this.getInputValue(value, options);
+      displayValue = CascadeMultiSelect.getInputValue(this.props, value);
     }
-    this.data.displayValue = displayValue;
-    this.data.value = value;
     this.setState({
       value,
       displayValue,
@@ -159,21 +172,6 @@ class CascadeMultiSelect extends React.Component {
     }
   }
 
-  getInputValue(value, dataList) {
-    if (this.props.beforeRender) {
-      makeOptionsChecked(value, dataList);
-      return this.props.beforeRender(value, dataList);
-    }
-
-    const arr = [];
-    if (value && value.length) {
-      for (let i = 0; i < value.length; i += 1) {
-        arr.push(this.getValueLabel(dataList, value[i]));
-      }
-    }
-    return arr.join(this.separator);
-  }
-
   getValueLabel(dataList, key) {
     let back = '';
     if (dataList && dataList.length) {
@@ -192,8 +190,8 @@ class CascadeMultiSelect extends React.Component {
     return back;
   }
 
-  setInputValue(value, dataList) {
-    const displayValue = this.getInputValue(value, dataList);
+  setInputValue(value) {
+    const displayValue = CascadeMultiSelect.getInputValue(this.props, value);
     this.setState({ displayValue, value });
   }
 
@@ -212,9 +210,8 @@ class CascadeMultiSelect extends React.Component {
   }
 
   handleSelect(valueList, labelList, leafList, cascadeSelected) {
-    const { options } = this.props;
     this.setState({
-      displayValue: this.getInputValue(valueList, options),
+      displayValue: CascadeMultiSelect.getInputValue(this.props),
       value: valueList,
       result: {
         valueList,
@@ -246,9 +243,8 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderInput() {
-    const { prefixCls, placeholder, locale, readOnly } = this.props;
-    const { disabled } = this.state;
-    const { displayValue } = this.data;
+    const { prefixCls, placeholder, locale, readOnly, disabled } = this.props;
+    const { displayValue } = this.state;
     if (readOnly) {
       return <span>{displayValue}</span>;
     }
@@ -275,7 +271,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderCloseIcon() {
-    const { disabled } = this.state;
+    const { disabled } = this.props;
     if (disabled) { return null; }
     return (
       <div className={'kuma-cascader-close-wrap'}>
@@ -292,8 +288,8 @@ class CascadeMultiSelect extends React.Component {
   }
 
   renderContent() {
-    const { className, prefixCls, size } = this.props;
-    const { displayValue, allowClear, disabled, showSubMenu } = this.state;
+    const { className, prefixCls, size, allowClear, disabled } = this.props;
+    const { displayValue, showSubMenu } = this.state;
     const prefixCls2 = 'kuma-cascader';
     return (
       <div

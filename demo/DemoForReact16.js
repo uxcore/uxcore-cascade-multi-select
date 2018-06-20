@@ -7,11 +7,6 @@
  */
 import React from 'react';
 import CascadeMultiSelect from '../src';
-import {
-  options,
-  options2,
-  options3,
-} from './const';
 
 const dynamicData = [
   {
@@ -31,27 +26,11 @@ const dynamicData = [
   },
 ];
 
-const {
-  CascadeMultiPanel,
-  CascadeMultiModal,
-} = CascadeMultiSelect;
-
 class Demo extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      demo1: ['shanghai'],
-      demo2: [],
-      demo3: ['xihu'],
-      demo4: ['bingjiang', 'ningbo', 'jiangsu'],
-      demo5: ['bingjiang', 'ningbo', 'anhui', 'shandong'],
-      demo6: ['xihu', 'bingjiang', 'shandong'],
-      demo7: [],
-      demo8: [],
-      demo9: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
-      demo10: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
-      asyncOptions6: options,
       dynamicData,
     };
   }
@@ -70,8 +49,9 @@ class Demo extends React.Component {
             cascadeSize={4}
             onItemClick={(s, level) => {
               if (level === 3) {
-                this.state.dynamicData[0].children[0].children[0].children = [{ value: 5, label: 'five' }];
-                this.setState({ dynamicData: this.state.dynamicData }, () => {
+                const newData = this.state.dynamicData.concat([]);
+                newData[0].children[0].children[0].children = [{ value: 5, label: 'five' }];
+                this.setState({ dynamicData: newData }, () => {
                   // console.log(this.state.dynamicData);
                 });
               }
