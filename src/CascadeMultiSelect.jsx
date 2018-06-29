@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Dropdown from 'uxcore-dropdown';
 import Button from 'uxcore-button';
+import { polyfill } from 'react-lifecycles-compat';
 import CascadeMultiPanel from './CascadeMultiPanel';
 import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
@@ -436,5 +437,7 @@ CascadeMultiSelect.displayName = 'CascadeMultiSelect';
 
 CascadeMultiSelect.CascadeMultiPanel = CascadeMultiPanel;
 CascadeMultiSelect.CascadeMultiModal = CascadeMultiModal;
+
+polyfill(CascadeMultiSelect);
 
 module.exports = CascadeMultiSelect;

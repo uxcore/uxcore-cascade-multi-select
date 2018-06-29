@@ -9,6 +9,7 @@ import React from 'react';
 import classnames from 'classnames';
 import deepcopy from 'lodash/cloneDeep';
 import PropTypes from 'prop-types';
+import { polyfill } from 'react-lifecycles-compat';
 import i18n from './locale';
 import { getDisabledValueLabel, getCascadeSelected, getWidthStyle } from './utils';
 
@@ -812,5 +813,6 @@ CascadeMulti.propTypes = {
 };
 
 CascadeMulti.displayName = 'CascadeMulti';
+polyfill(CascadeMulti);
 
 module.exports = CascadeMulti;

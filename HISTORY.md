@@ -1,5 +1,9 @@
 # history
 
+## 0.8.1
+
+* `FIX`: add react 16 polyfill
+
 ## 0.8.0
 
 * `UPDATE`: remove deprecated lifecycle methods in react 16
