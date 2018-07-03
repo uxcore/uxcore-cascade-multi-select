@@ -1,5 +1,9 @@
 # history
 
+## 0.8.1
+
+* `UPDATE`: update uxcore-dialog and uxcore-dropdown
+
 ## 0.8.0
 
 * `FIX`: add react 16 polyfill
