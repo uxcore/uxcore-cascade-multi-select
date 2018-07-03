@@ -140,7 +140,7 @@ export const options2 = [{
     {
       label: '222',
       value: 2001,
-      "disabled": true,
+      disabled: true,
       children: [
         { "disabled": true, "label": "d2", "value": 287375 }
       ]

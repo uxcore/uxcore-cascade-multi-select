@@ -94,7 +94,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | onCancel | 取消选择时回调函数，通常不点确定，直接隐藏下拉框也会触发这个函数 | function | `false` | () => {} |
 | beforeRender | 处理在input中预显示的内容，具体用法参考下方的案例 | function | `false` | (value, options) => {} |
 | keyCouldDuplicated | 是否允许除了第一级和最后一级以外的 id 重复 | bool | `false` | false |
-| isCleanDisabledLabel | 是否清除已禁用选项 | bool | `false` | false
+| isCleanDisabledLabel | 已禁用选项是否可被清除 | bool | `false` | false
 
 ### props.config
 

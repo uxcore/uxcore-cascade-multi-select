@@ -32,13 +32,13 @@ describe('CascadeMultiModal', () => {
       .at(0).simulate('click');
     expect(wrapper.state('value')).to.eql([]);
   });
-  
+ 
   it('test onOk', () => {
     class Demo extends React.Component {
       constructor(props) {
         super(props);
         this.state = {
-          value: []
+          value: [],
         };
       }
 
@@ -58,7 +58,7 @@ describe('CascadeMultiModal', () => {
     }
     const wrapper = mount(<Demo />);
     wrapper.find('button').simulate('click');
-    const overlay = mount(wrapper.find('Dialog').props().children);
+    const overlay = mount(wrapper.find('Dialog').at(0).props().children);
     overlay.find('.kuma-cascade-multi-content').at(0)
       .find('.kuma-cascade-multi-list-item').at(1)
       .find('s').simulate('click');
