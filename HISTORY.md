@@ -1,5 +1,9 @@
 # history
 
+## 0.8.2
+
+* `FIX`: getDerivedStateFromProps will occur a re-display problem when props.value not change.
+
 ## 0.8.1
 
 * `UPDATE`: update uxcore-dialog and uxcore-dropdown
