@@ -260,9 +260,13 @@ class CascadeMulti extends React.Component {
         value: data.value,
         label: data.label,
         children: data.children,
+        description: data.description,
       }, level + 1, selectArray);
     }
-    this.setState({ selectArray });
+    this.setState({
+      selectArray,
+      displayDesc: data.description ? `${data.label}: ${data.description}` : null,
+    });
   }
 
   /**
@@ -745,6 +749,22 @@ class CascadeMulti extends React.Component {
     return arr;
   }
 
+  renderDescription() {
+    const descStyle = {
+      height: '50px',
+      overflow: 'hidden',
+      padding: '10px 15px',
+      borderTop: '1px solid #ddd',
+      clear: 'both',
+    };
+    const { displayDesc } = this.state;
+    return displayDesc ? (
+      <div style={descStyle}>
+        {displayDesc}
+      </div>
+    ) : null;
+  }
+
   render() {
     const { className, prefixCls, cascadeSize, mode } = this.props;
     const arr = [];
@@ -762,10 +782,11 @@ class CascadeMulti extends React.Component {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        style={{ minWidth }}
+        style={{ width: minWidth }}
       >
         {arr}
         {this.renderResult()}
+        {this.renderDescription()}
       </div>
     );
 
