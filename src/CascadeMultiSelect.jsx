@@ -16,6 +16,8 @@ import CascadeMultiModal from './CascadeMultiModal';
 import i18n from './locale';
 import { getDisabledValueLabel, getWidthStyle } from './utils';
 
+const CASCADER_SELECT_PREFIXCLS = 'kuma-cascader';
+
 const makeOptionsChecked = (value = [], options) => {
   // 没有value则需要设置check为false
   const valueStr = value.map(i => `${i}`);
@@ -238,7 +240,7 @@ class CascadeMultiSelect extends React.Component {
       <div>
         {
           !displayValue.length ?
-            <div className="kuma-cascader-placeholder">
+            <div className={`${CASCADER_SELECT_PREFIXCLS}-placeholder`}>
               {placeholder || i18n(locale).placeholder}
             </div> :
             <div className={classnames([`${prefixCls}-text-result`])}>
@@ -260,7 +262,7 @@ class CascadeMultiSelect extends React.Component {
     const { disabled } = this.props;
     if (disabled) { return null; }
     return (
-      <div className={'kuma-cascader-close-wrap'}>
+      <div className={`${CASCADER_SELECT_PREFIXCLS}-close-wrap`}>
         <i
           className="kuma-icon kuma-icon-error"
           onClick={(e) => {
@@ -276,7 +278,7 @@ class CascadeMultiSelect extends React.Component {
   renderContent() {
     const { className, prefixCls, size, allowClear, disabled } = this.props;
     const { displayValue, showSubMenu } = this.state;
-    const prefixCls2 = 'kuma-cascader';
+    
     return (
       <div
         className={classnames({
