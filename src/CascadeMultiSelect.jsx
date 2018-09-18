@@ -285,25 +285,25 @@ class CascadeMultiSelect extends React.Component {
           [className]: true,
           [`${prefixCls}-input`]: !disabled,
           [`${prefixCls}-${size}`]: !!size,
-          [`${prefixCls2}-wrapper`]: true,
-          [`${prefixCls2}-disabled`]: disabled,
-          [`${prefixCls2}-clearable`]: !disabled && allowClear && displayValue.length > 0,
+          [`${CASCADER_SELECT_PREFIXCLS}-wrapper`]: true,
+          [`${CASCADER_SELECT_PREFIXCLS}-disabled`]: disabled,
+          [`${CASCADER_SELECT_PREFIXCLS}-clearable`]: !disabled && allowClear && displayValue.length > 0,
         })}
       >
         <div
           className={classnames({
-            [`${prefixCls2}-text`]: true,
+            [`${CASCADER_SELECT_PREFIXCLS}-text`]: true,
             [`${prefixCls}-${size}`]: !!size,
           })}
         >
-          <div className={`${prefixCls2}-trigger`}>
+          <div className={`${CASCADER_SELECT_PREFIXCLS}-trigger`}>
             {this.renderInput()}
           </div>
         </div>
         <div
           className={classnames({
-            [`${prefixCls2}-arrow`]: true,
-            [`${prefixCls2}-arrow-reverse`]: showSubMenu,
+            [`${CASCADER_SELECT_PREFIXCLS}-arrow`]: true,
+            [`${CASCADER_SELECT_PREFIXCLS}-arrow-reverse`]: showSubMenu,
           })}
         >
           <i className="kuma-icon kuma-icon-triangle-down" />

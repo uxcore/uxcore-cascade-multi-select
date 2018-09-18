@@ -1,5 +1,9 @@
 # history
 
+## 0.8.5
+
+`FIX` remove undefined vars
+
 ## 0.8.4
 
 `CHANGED` support js style export
