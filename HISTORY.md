@@ -1,5 +1,9 @@
 # history
 
+## 0.8.4
+
+`CHANGED` support js style export
+
 ## 0.8.3
 
 * `ADD`: add description feature.
