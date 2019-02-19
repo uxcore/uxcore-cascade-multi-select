@@ -1,5 +1,9 @@
 # history
 
+## 0.8.6
+
+`FIX` large size height
+
 ## 0.8.5
 
 `FIX` remove undefined vars
