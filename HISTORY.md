@@ -1,5 +1,9 @@
 # history
 
+## 0.8.7
+
+`FIX` class name
+
 ## 0.8.6
 
 `FIX` large size height
