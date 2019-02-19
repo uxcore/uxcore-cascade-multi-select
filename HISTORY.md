@@ -1,5 +1,30 @@
 # history
 
+## 0.8.5
+
+`FIX` remove undefined vars
+
+## 0.8.4
+
+`CHANGED` support js style export
+
+## 0.8.3
+
+* `ADD`: add description feature.
+
+## 0.8.2
+
+* `FIX`: getDerivedStateFromProps will occur a re-display problem when props.value not change.
+
+## 0.8.1
+
+* `UPDATE`: update uxcore-dialog and uxcore-dropdown
+
+## 0.8.0
+
+* `FIX`: add react 16 polyfill
+* `UPDATE`: remove deprecated lifecycle methods in react 16
+
 ## 0.7.2
 
 * `ADD`: add props.size

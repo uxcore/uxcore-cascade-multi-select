@@ -5,13 +5,13 @@
  * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
-@notificationPrefixCls: kuma-cascade-multi;
+@__cascadeMultiSelectPrefixCls: kuma-cascade-multi;
 @backgroundColor: @bg-disabled-color;
 @_border: rgba(31,56,88,0.20);
 @_border-light: #e8e8e8;
 @_text-0: #76889A;
 
-.@{notificationPrefixCls} {
+.@{__cascadeMultiSelectPrefixCls} {
   float: left;
   overflow: hidden;
 
@@ -23,7 +23,7 @@
   border: 1px solid @_border;
   background-color: #ffffff;
 
-  .@{notificationPrefixCls}-content {
+  .@{__cascadeMultiSelectPrefixCls}-content {
     float: left;
     overflow-y: auto;
 
@@ -37,7 +37,7 @@
       border-left: 0;
     }
 
-    .@{notificationPrefixCls}-list-item {
+    .@{__cascadeMultiSelectPrefixCls}-list-item {
       overflow: hidden;
 
       height: 28px;
@@ -57,13 +57,13 @@
         margin-right: 5px;
       }
 
-      .@{notificationPrefixCls}-item-label {
+      .@{__cascadeMultiSelectPrefixCls}-item-label {
         span {
           vertical-align: middle;
         }
       }
 
-      .@{notificationPrefixCls}-item-disabled {
+      .@{__cascadeMultiSelectPrefixCls}-item-disabled {
         cursor: not-allowed;
         * {
           cursor: not-allowed;
@@ -71,11 +71,11 @@
       }
     }
 
-    .@{notificationPrefixCls}-list-item-active {
+    .@{__cascadeMultiSelectPrefixCls}-list-item-active {
       background-color: @bg-disabled-color;
     }
 
-    .@{notificationPrefixCls}-list-noData {
+    .@{__cascadeMultiSelectPrefixCls}-list-noData {
       display: block;
 
       margin-top: 7px;
@@ -83,7 +83,7 @@
     }
   }
 
-  .@{notificationPrefixCls}-result {
+  .@{__cascadeMultiSelectPrefixCls}-result {
     float: left;
 
     width: 220px;
@@ -93,13 +93,13 @@
     border-left: 1px solid @_border-light;
     background-color: #fff;
 
-    .@{notificationPrefixCls}-result-title {
+    .@{__cascadeMultiSelectPrefixCls}-result-title {
       margin: 20px 15px 10px 15px;
       padding: 0;
 
       color: @_text-0;
 
-      .@{notificationPrefixCls}-result-clean {
+      .@{__cascadeMultiSelectPrefixCls}-result-clean {
         float: right;
 
         margin-right: 6px;
@@ -110,7 +110,7 @@
       }
     }
 
-    .@{notificationPrefixCls}-result-tree {
+    .@{__cascadeMultiSelectPrefixCls}-result-tree {
       overflow-x: hidden;
       overflow-y: auto;
 
@@ -196,27 +196,20 @@
   }
 }
 
-/**
- * CascadeMultiSelect Component Style for uxcore
- * @author guyunxiang
- *
- * Copyright 2015-2017, Uxcore Team, Alinw.
- * All rights reserved.
- */
-.@{notificationPrefixCls}-select-panel-content {
+.@{__cascadeMultiSelectPrefixCls}-select-panel-content {
   position: relative;
   box-shadow: @box-shadow-1;
   border-radius: @popup-border-radius;
-  .@{notificationPrefixCls} {
+  .@{__cascadeMultiSelectPrefixCls} {
     border-radius: @popup-border-radius @popup-border-radius 0 0;
     overflow: hidden;
   }
-  .@{notificationPrefixCls}-select-footer {
+  .@{__cascadeMultiSelectPrefixCls}-select-footer {
     border-radius: 0 0 @popup-border-radius @popup-border-radius;
     overflow: hidden;
     clear: both;
   }
-  .@{notificationPrefixCls}-select-panel-wrap {
+  .@{__cascadeMultiSelectPrefixCls}-select-panel-wrap {
     border-radius: @popup-border-radius;
     box-shadow: @box-shadow-1;
     zoom: 1;
@@ -224,7 +217,7 @@
   }
 }
 
-.@{notificationPrefixCls}-input {
+.@{__cascadeMultiSelectPrefixCls}-input {
   background-color: #fff;
   &::-ms-clear {
     display: none;
@@ -234,16 +227,17 @@
 .@{notificationPrefixCls}-large {
   height: 36px;
 }
-.@{notificationPrefixCls}-middle {
+
+.@{__cascadeMultiSelectPrefixCls}-middle {
   min-height: 32px;
   line-height: 32px;
 }
-.@{notificationPrefixCls}-small {
+.@{__cascadeMultiSelectPrefixCls}-small {
   min-height: 28px;
   line-height: 28px;
 }
 
-.@{notificationPrefixCls}-text-result {
+.@{__cascadeMultiSelectPrefixCls}-text-result {
   overflow-x: hidden;
 
   margin-right: 30px;
@@ -262,7 +256,7 @@
   }
 }
 
-.@{notificationPrefixCls}-select-footer {
+.@{__cascadeMultiSelectPrefixCls}-select-footer {
   float: left;
 
   height: 52px;
@@ -278,7 +272,7 @@
   line-height: 52px;
 }
 
-.@{notificationPrefixCls} {
+.@{__cascadeMultiSelectPrefixCls} {
   &.ucms-panel {
     border-radius: @popup-border-radius;
   }
@@ -292,8 +286,8 @@
  * Copyright 2015-2017, Uxcore Team, Alinw.
  * All rights reserved.
  */
-.@{notificationPrefixCls}-model {
-  .@{notificationPrefixCls} {
+.@{__cascadeMultiSelectPrefixCls}-model {
+  .@{__cascadeMultiSelectPrefixCls} {
     border-left: none;
     border-right: none;
   }
@@ -313,11 +307,11 @@
         border-radius: 2px;
         background-color: #f0f0f0;
         &:hover {
-          // .@{notificationPrefixCls}-model-result-ul-list-remove {
+          // .@{__cascadeMultiSelectPrefixCls}-model-result-ul-list-remove {
           //   -ms-transform: scale(1);
           //   transform: scale(1);
           // }
-          // .@{notificationPrefixCls}-model-result-ul-list-content {
+          // .@{__cascadeMultiSelectPrefixCls}-model-result-ul-list-content {
           //   margin-right: 10px;
           //   margin-left: -10px;
           // }

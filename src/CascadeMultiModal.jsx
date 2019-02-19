@@ -30,10 +30,7 @@ class CascadeMultiModal extends React.Component {
       options: props.options,
       result: {},
     };
-  }
-
-  componentWillMount() {
-    const { value, options } = this.props;
+    const { value, options } = props;
     this.initResult(value, options);
   }
 

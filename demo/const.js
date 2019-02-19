@@ -5,6 +5,7 @@ export const options = [
     children: [{
       value: 'hangzhou',
       label: '杭州',
+      description: '美丽富饶的新一线城市',
       children: [{
         value: 'xihu',
         label: '西湖',
@@ -140,7 +141,7 @@ export const options2 = [{
     {
       label: '222',
       value: 2001,
-      "disabled": true,
+      disabled: true,
       children: [
         { "disabled": true, "label": "d2", "value": 287375 }
       ]

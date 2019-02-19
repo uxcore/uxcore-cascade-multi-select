@@ -374,7 +374,6 @@ class Demo extends React.Component {
             }}
             className={'ucms-panel'}
             keyCouldDuplicated
-            isCleanDisabledLabel
           />
         </div>
 
@@ -387,7 +386,7 @@ class Demo extends React.Component {
           <CascadeMultiModal
             className={'ucms-modal'}
             options={options2}
-            isCleanDisabledLabel={false}
+            isCleanDisabledLabel
             value={this.state.demo10}
             size={'small'}
             onOk={(valueList, labelList, leafList) => {
