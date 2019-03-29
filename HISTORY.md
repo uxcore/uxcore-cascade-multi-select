@@ -1,5 +1,9 @@
 # history
 
+## 0.8.8
+
+`FIX` value will change after every checked.
+
 ## 0.8.7
 
 `FIX` class name
