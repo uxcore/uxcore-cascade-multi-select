@@ -1,5 +1,9 @@
 # history
 
+## 0.8.9
+
+`FIX` the text in input should be shown when options fetched after data.
+
 ## 0.8.8
 
 `FIX` value will change after every checked.
