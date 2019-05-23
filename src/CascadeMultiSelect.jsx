@@ -49,14 +49,13 @@ class CascadeMultiSelect extends React.Component {
   static getDerivedStateFromProps(props, state) {
     const { value: propValue } = props;
     const { value: stateValue, prevPropValue } = state;
-    let { displayValue } = state;
     let value;
     if (!valueEqual(propValue, prevPropValue)) {
       value = propValue;
-      displayValue = CascadeMultiSelect.getInputValue(props, value);
     } else {
       value = stateValue;
     }
+    const displayValue = CascadeMultiSelect.getInputValue(props, value);
     return { value, prevPropValue: propValue, displayValue };
   }
 

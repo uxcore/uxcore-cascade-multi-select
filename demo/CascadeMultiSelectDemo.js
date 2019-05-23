@@ -58,6 +58,7 @@ class Demo extends React.Component {
       demo10: ['bingjiang', 'ningbo', 'anhui', 'shandong', 'jiangsu', 'longname-0'],
       asyncOptions6: options,
       dynamicData,
+      dynamicOptions: [],
       size,
     };
   }
@@ -149,17 +150,18 @@ class Demo extends React.Component {
         </div>
         <div style={{ margin: 15, width: 200 }}>
           <CascadeMultiSelect
-            options={this.state.dynamicData}
+            options={this.state.dynamicOptions}
             onOk={(...params) => console.log('onOk', params)}
             onChange={(...params) => console.log('onChange', params)}
             cascadeSize={4}
             size={'middle'}
+            value={[4]}
           />
           <br/>
           <button
             onClick={() => {
-              this.state.dynamicData[0].children[0].children[0].children = [{ value: 5, label: 'five' }];
-              this.setState({ dynamicData: this.state.dynamicData }, () => {
+              // this.state.dynamicData[0].children[0].children[0].children = [{ value: 5, label: 'five' }];
+              this.setState({ dynamicOptions: dynamicData }, () => {
                 // console.log(this.state.dynamicData);
               });
             }}
