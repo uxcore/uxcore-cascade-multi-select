@@ -446,6 +446,7 @@ CascadeMultiSelect.defaultProps = {
   readOnly: false,
   keyCouldDuplicated: false,
   isCleanDisabledLabel: false,
+  labelWithPath: false,
 };
 
 CascadeMultiSelect.propTypes = {
@@ -474,6 +475,7 @@ CascadeMultiSelect.propTypes = {
   readOnly: PropTypes.bool,
   keyCouldDuplicated: PropTypes.bool,
   isCleanDisabledLabel: PropTypes.bool,
+  labelWithPath: PropTypes.bool,
 };
 
 CascadeMultiSelect.displayName = 'CascadeMultiSelect';
