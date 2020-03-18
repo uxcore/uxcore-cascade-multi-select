@@ -95,6 +95,7 @@ Yes please! See the [CONTRIBUTING](https://github.com/uxcore/uxcore/blob/master/
 | beforeRender | 处理在input中预显示的内容，具体用法参考下方的案例 | function | `false` | (value, options) => {} |
 | keyCouldDuplicated | 是否允许除了第一级和最后一级以外的 id 重复 | bool | `false` | false |
 | isCleanDisabledLabel | 已禁用选项是否可被清除 | bool | `false` | false
+| labelWithPath | 是否启用已选Label按层级方式显示 | bool | `false` | false
 
 ### props.config
 
