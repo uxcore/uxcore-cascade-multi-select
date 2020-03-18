@@ -60,7 +60,7 @@ class CascadeMultiSelect extends React.Component {
   }
 
   static getInputValue(props, value) {
-    const { options, beforeRender, locale } = props;
+    const { options, beforeRender, locale, labelWithPath } = props;
     if (beforeRender) {
       makeOptionsChecked(value, options);
       return beforeRender(value, options);
@@ -69,7 +69,10 @@ class CascadeMultiSelect extends React.Component {
     const arr = [];
     if (value && value.length) {
       for (let i = 0; i < value.length; i += 1) {
-        arr.push(CascadeMultiSelect.getValueLabel(options, value[i], locale));
+        arr.push(labelWithPath
+          ? CascadeMultiSelect.getValueLabelWithPath(options, value[i], locale)
+          : CascadeMultiSelect.getValueLabel(options, value[i], locale)
+        );
       }
     }
     return arr.join(CascadeMultiSelect.separator);
@@ -86,6 +89,26 @@ class CascadeMultiSelect extends React.Component {
         }
         if (dataList[i].children) {
           const res = CascadeMultiSelect.getValueLabel(dataList[i].children, key, locale);
+          back = res || back;
+        }
+      }
+    }
+    return back;
+  }
+
+  static getValueLabelWithPath(dataList, key, locale, path = []) {
+    let back = '';
+    if (dataList && dataList.length) {
+      for (let i = 0; i < dataList.length; i += 1) {
+        if (dataList[i].value === key) {
+          const prefix = path.length > 0 ? path.map(item => item.label).join('/') + '/' : '';
+          return dataList[i].children && dataList[i].children.length
+            ? `${prefix}${dataList[i].label} (${i18n(locale).all})`
+            : `${prefix}${dataList[i].label}`;
+        }
+        if (dataList[i].children) {
+          const newPath = [ ...path, dataList[i]];
+          const res = CascadeMultiSelect.getValueLabelWithPath(dataList[i].children, key, locale, newPath);
           back = res || back;
         }
       }
