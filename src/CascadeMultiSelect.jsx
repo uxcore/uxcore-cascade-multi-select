@@ -319,9 +319,11 @@ class CascadeMultiSelect extends React.Component {
 
   renderContent() {
     const {
-      className, prefixCls, size, allowClear, disabled
+      className, prefixCls, size: theSize, jsxsize, allowClear, disabled
     } = this.props;
     const { displayValue, showSubMenu } = this.state;
+
+    const size = jsxsize || theSize;
 
     return (
       <div
@@ -434,6 +436,7 @@ CascadeMultiSelect.defaultProps = {
   onItemClick: () => { },
 
   size: 'large',
+  jsxsize: '',
   placeholder: '',
   disabled: false,
   defaultValue: [],
@@ -463,6 +466,7 @@ CascadeMultiSelect.propTypes = {
   onItemClick: PropTypes.func,
 
   size: PropTypes.oneOf(['large', 'middle', 'small']),
+  jsxsize: PropTypes.oneOf(['large', 'middle', 'small']),
   placeholder: PropTypes.string,
   disabled: PropTypes.bool,
   defaultValue: PropTypes.array,
